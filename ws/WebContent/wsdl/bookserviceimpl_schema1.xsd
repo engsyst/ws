@@ -1,0 +1,90 @@
+<xs:schema xmlns:ns1="http://order.nure.ua/entity/book/"
+	xmlns:tns="http://service.server.order.nure.ua/" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="unqualified"
+	targetNamespace="http://service.server.order.nure.ua/">
+	<xs:import namespace="http://order.nure.ua/entity/book/"
+		schemaLocation="bookserviceimpl_schema3.xsd" />
+	<!-- <xs:import namespace="http://order.nure.ua/entity/"
+		schemaLocation="bookserviceimpl_schema4.xsd" /> -->
+	<xs:element name="addBook" type="tns:addBook" />
+	<xs:element name="addBookResponse" type="tns:addBookResponse" />
+	<xs:element name="deleteBook" type="tns:deleteBook" />
+	<xs:element name="deleteBookResponse" type="tns:deleteBookResponse" />
+	<xs:element name="getBook" type="tns:getBook" />
+	<xs:element name="getBookResponse" type="tns:getBookResponse" />
+	<xs:element name="listBooks" type="tns:listBooks" />
+	<xs:element name="listBooksResponse" type="tns:listBooksResponse" />
+	<xs:element name="updateBook" type="tns:updateBook" />
+	<xs:element name="updateBookCount" type="tns:updateBookCount" />
+	<xs:element name="updateBookCountResponse" type="tns:updateBookCountResponse" />
+	<xs:element name="updateBookResponse" type="tns:updateBookResponse" />
+	<xs:complexType name="updateBook">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="book" type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="updateBookResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="return" type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="listBooks">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="pattern" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="listBooksResponse">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="return"
+				type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="updateBookCount">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" />
+			<xs:element name="count" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="updateBookCountResponse">
+		<xs:sequence>
+			<xs:element name="return" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="addBook">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="book" type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="addBookResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="return" type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getBook">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getBookResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="return" type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deleteBook">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deleteBookResponse">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="return" type="ns1:Book" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DAOException" type="tns:DAOException" />
+	<xs:complexType name="DAOException">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

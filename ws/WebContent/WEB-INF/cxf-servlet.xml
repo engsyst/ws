@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:soap="http://cxf.apache.org/bindings/soap"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+		http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd 
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+	<jaxws:endpoint xmlns:tns="http://service.server.order.nure.ua/"
+		id="bookservice" 
+		implementor="ua.nure.order.server.service.BookServiceImpl"
+		wsdlLocation="wsdl/bookserviceimpl.wsdl" 
+		endpointName="tns:BookServicePort"
+		serviceName="tns:BookService" address="/BookService">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+	</jaxws:endpoint>
+	<jaxrs:server address="/books" 
+		name="bookService" 
+		serviceClass="ua.nure.order.server.service.BookServiceImpl" 
+		id="books">
+	</jaxrs:server>
+</beans>

@@ -1,0 +1,35 @@
+<xs:schema xmlns:ns1="http://order.nure.ua/entity/" 
+	xmlns:tns="http://order.nure.ua/entity/book/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified"
+	targetNamespace="http://order.nure.ua/entity/book/" 
+	version="1.0">
+
+	<xs:import namespace="http://order.nure.ua/entity/"
+		schemaLocation="bookserviceimpl_schema4.xsd" />
+
+	<xs:complexType name="Book">
+		<xs:complexContent>
+			<xs:extension base="ns1:Entity">
+				<xs:sequence>
+					<xs:element name="title" type="xs:string" />
+					<xs:element maxOccurs="unbounded" name="author" type="xs:string" />
+					<xs:element minOccurs="0" name="isbn" type="xs:string" />
+					<xs:element name="price" type="xs:double" />
+					<xs:element default="none" name="category" type="tns:Category" />
+					<xs:element default="0" name="count" type="xs:int" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="Category">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Fantasy" />
+			<xs:enumeration value="Action" />
+			<xs:enumeration value="Love novel" />
+			<xs:enumeration value="none" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

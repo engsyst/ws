@@ -1,0 +1,46 @@
+<xs:schema xmlns:ns1="http://order.nure.ua/entity/book/"
+	xmlns:ns2="http://order.nure.ua/entity/" 
+	xmlns:tns="http://order.nure.ua/entity/order/"
+	elementFormDefault="qualified"
+	targetNamespace="http://order.nure.ua/entity/order/" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	version="1.0">
+
+	<xs:import namespace="http://order.nure.ua/entity/book/"
+		schemaLocation="bookserviceimpl_schema3.xsd" />
+
+	<xs:import namespace="http://order.nure.ua/entity/"
+		schemaLocation="bookserviceimpl_schema4.xsd" />
+
+	<xs:element name="orders">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="order"
+					nillable="true" type="tns:Order" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Order">
+		<xs:complexContent>
+			<xs:extension base="ns2:Entity">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="orderItem"
+						nillable="true" type="tns:OrderItem" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="OrderItem">
+		<xs:complexContent>
+			<xs:extension base="ns2:Entity">
+				<xs:sequence>
+					<xs:element name="count" type="xs:int" />
+					<xs:element name="book" type="ns1:Book" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>
