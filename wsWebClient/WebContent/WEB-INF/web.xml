@@ -43,13 +43,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>BuyBook</display-name>
-    <servlet-name>BuyBook</servlet-name>
-    <servlet-class>ua.nure.order.server.BuyBook</servlet-class>
+    <display-name>AddToCard</display-name>
+    <servlet-name>AddToCard</servlet-name>
+    <servlet-class>ua.nure.order.server.AddToCard</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BuyBook</servlet-name>
-    <url-pattern>/BuyBook</url-pattern>
+    <servlet-name>AddToCard</servlet-name>
+    <url-pattern>/AddToCard</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

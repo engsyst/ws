@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.nure.order.entity.Book;
-import ua.nure.order.server.api.book.BookService;
-import ua.nure.order.server.service.BookServiceDAOImpl;
+import ua.nure.order.entity.book.Book;
+import ua.nure.order.server.service.BookService;
+import ua.nure.order.server.service.BookServiceClient;
 
 /**
  * Servlet implementation class ViewBook
  */
 public class ViewBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static BookService bookService = new BookServiceDAOImpl();
+	private static BookService bookService = new BookServiceClient().getBookServicePort();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,8 +46,4 @@ public class ViewBook extends HttpServlet {
 		rd.forward(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
 }

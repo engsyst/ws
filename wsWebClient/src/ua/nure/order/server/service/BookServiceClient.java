@@ -17,7 +17,7 @@ import javax.xml.ws.Service;
 @WebServiceClient(name = "BookService", 
                   wsdlLocation = "http://localhost:8080/ws/services/BookService?wsdl",
                   targetNamespace = "http://service.server.order.nure.ua/") 
-public class BookService_Service extends Service {
+public class BookServiceClient extends Service {
 
     public final static URL WSDL_LOCATION;
 
@@ -28,43 +28,43 @@ public class BookService_Service extends Service {
         try {
             url = new URL("http://localhost:8080/ws/services/BookService?wsdl");
         } catch (MalformedURLException e) {
-            java.util.logging.Logger.getLogger(BookService_Service.class.getName())
+            java.util.logging.Logger.getLogger(BookServiceClient.class.getName())
                 .log(java.util.logging.Level.INFO, 
                      "Can not initialize the default wsdl from {0}", "http://localhost:8080/ws/services/BookService?wsdl");
         }
         WSDL_LOCATION = url;
     }
 
-    public BookService_Service(URL wsdlLocation) {
+    public BookServiceClient(URL wsdlLocation) {
         super(wsdlLocation, SERVICE);
     }
 
-    public BookService_Service(URL wsdlLocation, QName serviceName) {
+    public BookServiceClient(URL wsdlLocation, QName serviceName) {
         super(wsdlLocation, serviceName);
     }
 
-    public BookService_Service() {
+    public BookServiceClient() {
         super(WSDL_LOCATION, SERVICE);
     }
     
     //This constructor requires JAX-WS API 2.2. You will need to endorse the 2.2
     //API jar or re-run wsdl2java with "-frontend jaxws21" to generate JAX-WS 2.1
     //compliant code instead.
-    public BookService_Service(WebServiceFeature ... features) {
+    public BookServiceClient(WebServiceFeature ... features) {
         super(WSDL_LOCATION, SERVICE, features);
     }
 
     //This constructor requires JAX-WS API 2.2. You will need to endorse the 2.2
     //API jar or re-run wsdl2java with "-frontend jaxws21" to generate JAX-WS 2.1
     //compliant code instead.
-    public BookService_Service(URL wsdlLocation, WebServiceFeature ... features) {
+    public BookServiceClient(URL wsdlLocation, WebServiceFeature ... features) {
         super(wsdlLocation, SERVICE, features);
     }
 
     //This constructor requires JAX-WS API 2.2. You will need to endorse the 2.2
     //API jar or re-run wsdl2java with "-frontend jaxws21" to generate JAX-WS 2.1
     //compliant code instead.
-    public BookService_Service(URL wsdlLocation, QName serviceName, WebServiceFeature ... features) {
+    public BookServiceClient(URL wsdlLocation, QName serviceName, WebServiceFeature ... features) {
         super(wsdlLocation, serviceName, features);
     }    
 

@@ -32,7 +32,7 @@ public final class BookService_BookServicePort_Client {
     }
 
     public static void main(String args[]) throws java.lang.Exception {
-        URL wsdlURL = BookService_Service.WSDL_LOCATION;
+        URL wsdlURL = BookServiceClient.WSDL_LOCATION;
         if (args.length > 0 && args[0] != null && !"".equals(args[0])) { 
             File wsdlFile = new File(args[0]);
             try {
@@ -46,7 +46,7 @@ public final class BookService_BookServicePort_Client {
             }
         }
       
-        BookService_Service ss = new BookService_Service(wsdlURL, SERVICE_NAME);
+        BookServiceClient ss = new BookServiceClient(wsdlURL, SERVICE_NAME);
         BookService port = ss.getBookServicePort();  
         
         {

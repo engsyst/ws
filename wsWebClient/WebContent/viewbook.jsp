@@ -17,10 +17,10 @@
 		<li>${book.price}</li>
 		<li>${book.count}</li>
 	</ul>
-	<form action="BuyBook" method="post">
+	<form action="AddToCard" method="post">
 		<input type="hidden" name="id" value="${book.id}"/>
 		<input type="number" min="1" max="${book.count}" name="count"/>
-		<input type="submit" value="Добавить"/>
+		<input type="submit" value="В корзину"/>
 	</form>
 	<c:if test="${not empty error}">
 		<ul>

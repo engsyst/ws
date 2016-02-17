@@ -11,20 +11,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/jspf/menu.jspf" %>
-	<table>
-		<tbody>
-			<tr>
-				<td><p>Введите имя книги</p>
-					<form action="SearchBook" method="post">
-						<input type="search" name="title" /> <input type="submit" />
-					</form></td>
-				<td><p>Введите автора книги</p>
-					<form action="SearchBook" method="post">
-						<input type="search" name="author" /> <input type="submit" />
-					</form></td>
-		</tbody>
-	</table>
-	<form></form>
+<%@ include file="/WEB-INF/jspf/search.jspf" %>
 
 	<hr/>
 	<table id="main-container">
