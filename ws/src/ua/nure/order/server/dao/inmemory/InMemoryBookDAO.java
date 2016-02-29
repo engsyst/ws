@@ -1,4 +1,4 @@
-package ua.nure.order.server.dao;
+package ua.nure.order.server.dao.inmemory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,20 +9,22 @@ import java.util.regex.Pattern;
 
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.entity.book.Category;
+import ua.nure.order.server.dao.BookDAO;
+import ua.nure.order.server.dao.DAOException;
 
-public class BookDAOInMemory implements BookDAO {
+public class InMemoryBookDAO implements BookDAO {
 	private static HashMap<Integer, Book> books = new HashMap<Integer, Book>();
 	private static int bookIndex;
 	
-	private static BookDAOInMemory dao;
+	private static InMemoryBookDAO dao;
 	
-	private BookDAOInMemory() {
+	private InMemoryBookDAO() {
 		initBooks();
 	}
 	
-	public static synchronized BookDAOInMemory getInstance() {
+	public static synchronized InMemoryBookDAO getInstance() {
 		if (dao == null)
-			dao = new BookDAOInMemory();
+			dao = new InMemoryBookDAO();
 		return dao;
 	}
 
