@@ -1,0 +1,9 @@
+<%@ page pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<div class="topMenu">
+	<p class="menu">
+		<a href="SearchBook">Книги</a> | <a href="listcard.jsp">Корзина</a> (${fn:length(sessionScope.card.orders)})
+	</p>
+</div>
+<hr />

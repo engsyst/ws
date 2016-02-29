@@ -18,8 +18,8 @@ import javax.ws.rs.core.MediaType;
 
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
-import ua.nure.order.server.dao.BookDAOInMemory;
 import ua.nure.order.server.dao.DAOException;
+import ua.nure.order.server.dao.inmemory.InMemoryBookDAO;
 
 @ApplicationPath(value="/books")
 @WebService(targetNamespace = "http://service.server.order.nure.ua/", 
@@ -31,7 +31,7 @@ public class BookServiceImpl extends Application implements BookService {
 	public BookServiceImpl() {
 	}
 	
-	private static BookDAO bookDao = BookDAOInMemory.getInstance();
+	private static BookDAO bookDao = InMemoryBookDAO.getInstance();
 
 	@GET
 	@Path(value="/{id}")
