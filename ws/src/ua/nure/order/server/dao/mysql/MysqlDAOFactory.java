@@ -1,6 +1,7 @@
-package ua.nure.order.server.dao.derby;
+package ua.nure.order.server.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,11 +16,11 @@ import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.DAOFactory;
 
-public class DerbyDAOFactory extends DAOFactory {
-	private static final Logger log = Logger.getLogger(DerbyDAOFactory.class);
+public class MysqlDAOFactory extends DAOFactory {
+	private static final Logger log = Logger.getLogger(MysqlDAOFactory.class);
 
-	private static String DRIVER = "";
-	private static String DB_URL = "";
+	private static String DRIVER = "com.mysql.jdbc.Driver";
+	private static String DB_URL = "jdbc:mysql://localhost:3306/ws?user=root&password=root";
 	
 	public static String getDriver() {
 		return DRIVER;
@@ -37,7 +38,7 @@ public class DerbyDAOFactory extends DAOFactory {
 		DB_URL = dB_URL;
 	}
 
-	public DerbyDAOFactory() {
+	public MysqlDAOFactory() {
 	}
 
 	/**
@@ -53,7 +54,7 @@ public class DerbyDAOFactory extends DAOFactory {
 			Context initContext = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
 			
-			DataSource ds = (DataSource)envContext.lookup("jdbc/sqlserver");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/mysqlserver");
 			con = ds.getConnection();
 			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			con.setAutoCommit(false);
@@ -64,20 +65,20 @@ public class DerbyDAOFactory extends DAOFactory {
 		return con;
 	}
 
-//	protected static Connection getConnection()
-//			throws SQLException {
-//		Connection con = null;
-//		try {
-//			con = DriverManager.getConnection(DB_URL);
-//			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-//			con.setAutoCommit(false);
-//		} catch (SQLException e) {
-//			log.error("Can not get connection.", e);
-//			throw e;
-//		}
-//		return con;
-//
-//	}
+	protected static Connection getDBConnection()
+			throws SQLException {
+		Connection con = null;
+		try {
+			con = DriverManager.getConnection(DB_URL);
+			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+			con.setAutoCommit(false);
+		} catch (SQLException e) {
+			log.error("Can not get connection.", e);
+			throw e;
+		}
+		return con;
+
+	}
 
 	public static void roolback(Connection con) throws DAOException {
 		if (con != null) {
@@ -135,6 +136,6 @@ public class DerbyDAOFactory extends DAOFactory {
 
 	@Override
 	public BookDAO getBookDAO() {
-		return DerbyBookDAO.getInstance();
+		return MysqlBookDAO.getInstance();
 	}
 }

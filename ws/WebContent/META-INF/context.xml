@@ -34,7 +34,7 @@ One of the following: (see javadoc)
 NONE  READ_COMMITTED  READ_UNCOMMITTED  REPEATABLE_READ SERIALIZABLE
 (default - driver default)
 =============================================================-->
-  <Resource name="jdbc/ws"
+  <Resource name="jdbc/derby"
   			auth="Container" 
   			type="javax.sql.DataSource"
 			maxActive="100" maxIdle="30" maxWait="10000"
@@ -43,5 +43,14 @@ NONE  READ_COMMITTED  READ_UNCOMMITTED  REPEATABLE_READ SERIALIZABLE
 			defaultAutoCommit="false"
 			defaultTransactionIsolation="READ_COMMITTED"
 			url="jdbc:derby://localhost:1527/ws;create=true"/>
+  <Resource name="jdbc/mysqlserver"
+  			auth="Container" 
+  			type="javax.sql.DataSource"
+			maxActive="100" maxIdle="30" maxWait="10000"
+			username="root" password="root" 
+			driverClassName="com.mysql.jdbc.Driver"
+			defaultAutoCommit="false"
+			defaultTransactionIsolation="READ_COMMITTED"
+			url="jdbc:mysql://localhost:3306/ws"/>
 			
 </Context>
