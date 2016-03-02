@@ -3,6 +3,7 @@ package ua.nure.order.server.dao.derby;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -77,6 +78,13 @@ public class DerbyBookDAO implements BookDAO {
 
 	@Override
 	public Book findById(Integer id) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<String> listAuthors() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

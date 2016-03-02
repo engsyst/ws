@@ -1,7 +1,6 @@
 package ua.nure.order.server.dao;
 
 import java.util.Collection;
-import java.util.List;
 
 import ua.nure.order.entity.book.Book;
 
@@ -23,14 +22,6 @@ public interface BookDAO {
 	 * @throws DAOException 
 	 */
 	public Book deleteBook(int id) throws DAOException;
-	
-	/**
-	 * Get all authors
-	 * 
-	 * @return
-	 * @throws DAOException 
-	 */
-	public List<String> listAuthors() throws DAOException;
 	
 	/**
 	 * Add a book to order

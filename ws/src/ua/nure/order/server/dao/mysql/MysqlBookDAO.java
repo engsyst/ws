@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import ua.nure.order.entity.book.Book;
-import ua.nure.order.entity.book.Category;
 import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 
@@ -47,6 +46,7 @@ public class MysqlBookDAO implements BookDAO {
 			bookId = addBook(con, item);
 			con.commit();
 		} catch (SQLException e) {
+			MysqlDAOFactory.roolback(con);
 			log.error("Can not add book", e);
 			throw new DAOException("Can not add book", e);
 		} finally {
@@ -68,16 +68,49 @@ public class MysqlBookDAO implements BookDAO {
 			ResultSet rs = st.getGeneratedKeys();
 			if (rs.next()) {
 				bookId = rs.getInt(1);
-			}
-			if (bookId == 0) {
+			} else {
 				throw new SQLException("addBook: No data inserted");
 			}
-			addNotExistedAuthors(con, item.getAuthor(), bookId);
+			//////////
+			List<Integer> aIds = addAuthors(con, item.getAuthor());
+			String q = Querys.SQL_ADD_BOOK_AUTHORS + makePairValues(aIds, bookId);
+			st = con.prepareStatement(q, 
+					PreparedStatement.RETURN_GENERATED_KEYS);
+			count = st.executeUpdate();
+			
 		} finally {
 			st.close();
 		}
 		return bookId;
 		
+	}
+	
+	<T, R> String makePairValues(List<T> fst, R sec) {
+		StringBuilder sb = new StringBuilder();
+		String start, middle, end;
+		T temp = fst.get(0);
+		if (temp instanceof String) {
+			start = "('";
+			middle = "',";
+		} else {
+			start = "(";
+			middle = ",";
+		}
+		if (!(sec instanceof String)) {
+			end = "),";
+		} else {
+			middle = middle + "'";
+			end = "'),";
+		}
+		for (T t : fst) {
+			sb.append(start);
+			sb.append(t);
+			sb.append(middle);
+			sb.append(sec);
+			sb.append(end);
+		}
+		sb.replace(sb.length() - 1, sb.length(), ";");
+		return sb.toString();
 	}
 	
 	void mapBook(PreparedStatement st, Book item) throws SQLException {
@@ -98,7 +131,7 @@ public class MysqlBookDAO implements BookDAO {
 			sb.append(a);
 			sb.append("' or ");
 		}
-		sb.delete(sb.lastIndexOf("'"), sb.length());
+		sb.delete(sb.lastIndexOf("'")+1, sb.length());
 		sb.append(";");
 		String getQuery = Querys.SQL_GET_AUTHORS + sb.toString();
 		
@@ -118,10 +151,14 @@ public class MysqlBookDAO implements BookDAO {
 		
 	}
 	
-	List<Integer> addNotExistedAuthors(Connection con, List<String> authors, int bookId) throws SQLException {
+	List<Integer> addAuthors(Connection con, List<String> authors) throws SQLException {
+		assert authors.isEmpty() : "Empty authors";
 		List<String> auth = new ArrayList<>(authors);
 		List<Integer> res = getExistedAuthors(con, auth);
-		String addQuery = Querys.SQL_ADD_AUTHOR + makeAuthorsValues(auth, bookId);
+		if (auth.isEmpty()) {
+			return res;
+		}
+		String addQuery = Querys.SQL_ADD_AUTHOR + makeAuthorsValues(auth);
 		PreparedStatement st = null;
 		try {
 			st = con.prepareStatement(addQuery, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -129,23 +166,29 @@ public class MysqlBookDAO implements BookDAO {
 			if (count == 0) {
 				throw new SQLException("addAuthors: No data inserted");
 			}
+			ResultSet rs = st.getGeneratedKeys();
+			while (rs.next()) {
+				res.add(rs.getInt(1));
+			}
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
 		return res;
 	}
 	
-	String makeAuthorsValues(List<String> authors, int bookId) {
+	String makeAuthorsValues(List<String> authors) {
 		StringBuilder sb = new StringBuilder();
 		for (String a : authors) {
 			sb.append("('");
 			sb.append(a);
-			sb.append("),");
+			sb.append("'),");
 		}
 		sb.replace(sb.length() - 1, sb.length(), ";");
 		return sb.toString();
 	}
 
+	
+	
 	@Override
 	public Book deleteBook(int id) throws DAOException {
 		// TODO Auto-generated method stub
@@ -179,6 +222,12 @@ public class MysqlBookDAO implements BookDAO {
 	@Override
 	public Book findById(Integer id) throws DAOException {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> listAuthors() throws DAOException {
+		
 		return null;
 	}
 

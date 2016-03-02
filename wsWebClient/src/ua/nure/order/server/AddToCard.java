@@ -1,7 +1,7 @@
 package ua.nure.order.server;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +15,7 @@ import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.service.BookService;
 import ua.nure.order.server.service.BookServiceClient;
 import ua.nure.order.server.service.DAOException_Exception;
-import ua.nure.order.shared.Validator;
+import ua.nure.order.shared.CountValidator;
 
 /**
  * Servlet implementation class BayBook
@@ -37,7 +37,7 @@ public class AddToCard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		HashSet<String> err = new HashSet<String>(Validator.validateBay(request.getParameter("count")).values());
+		Map<String, String> err = new CountValidator().validate(request.getParameter("count"));
 		HttpSession session = request.getSession();
 		String sid = request.getParameter("id");
 		String page = "ViewBook?id=" + sid;

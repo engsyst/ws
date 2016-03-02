@@ -29,7 +29,7 @@ public class SearchBook extends HttpServlet {
 			books = bookService.listBooks(null);
 		}
 		request.setAttribute("books", books);
-		RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/list.jsp");
 		rd.forward(request, response);
 	}
 }

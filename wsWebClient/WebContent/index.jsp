@@ -9,6 +9,7 @@
 	<hr/>
 	<ul>
 		<li><a href="SearchBook">List of books</a></li>
+		<li><a href="login.jsp">Login</a></li>
 	</ul>
 </body>
 </html>

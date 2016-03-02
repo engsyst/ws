@@ -59,15 +59,8 @@ DROP TABLE IF EXISTS `author` ;
 CREATE TABLE IF NOT EXISTS `author` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
-  `book_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_author_book_idx` (`book_id` ASC),
-  INDEX `authir_idx` (`title` ASC),
-  CONSTRAINT `fk_author_book`
-    FOREIGN KEY (`book_id`)
-    REFERENCES `book` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `authir_idx` (`title` ASC))
 ENGINE = InnoDB;
 
 
@@ -79,9 +72,10 @@ DROP TABLE IF EXISTS `user` ;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(65) NOT NULL,
   `role` ENUM('client','admin') NOT NULL DEFAULT 'client',
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  INDEX `login_idx` (`login` ASC))
 ENGINE = InnoDB;
 
 
@@ -130,22 +124,49 @@ CREATE TABLE IF NOT EXISTS `book_has_order` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `author_has_book`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `author_has_book` ;
+
+CREATE TABLE IF NOT EXISTS `author_has_book` (
+  `author_id` INT NOT NULL,
+  `book_id` INT NOT NULL,
+  PRIMARY KEY (`author_id`, `book_id`),
+  INDEX `fk_author_has_book_book1_idx` (`book_id` ASC),
+  INDEX `fk_author_has_book_author1_idx` (`author_id` ASC),
+  CONSTRAINT `fk_author_has_book_author1`
+    FOREIGN KEY (`author_id`)
+    REFERENCES `author` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_author_has_book_book1`
+    FOREIGN KEY (`book_id`)
+    REFERENCES `book` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 USE `ws`;
 
 DELIMITER $$
 
 USE `ws`$$
-DROP TRIGGER IF EXISTS `order_AFTER_INSERT` $$
+DROP TRIGGER IF EXISTS `book_has_order_AFTER_INSERT` $$
 USE `ws`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `ws`.`order_AFTER_INSERT` AFTER INSERT ON `order` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `ws`.`book_has_order_AFTER_INSERT` AFTER INSERT ON `book_has_order` FOR EACH ROW
     begin
 		SET @bid = book_id;
 		SET @oid = order_id;
-        
+        SET @new_count = (select count from book where id = book_id) - count;
 		SET @new_price = (select price from book where id = book_id);
+        if (@new_count < 0) then 
+			SIGNAL sqlstate '45001' set message_text = "Not enouth books!";
+        end if;
         UPDATE book_has_order SET price = @new_price WHERE book_id = @bid and order_id = @oid;
-/*		SET NEW.price = @new_price; */
-	end$$
+        UPDATE book SET count = @new_count;
+	end;$$
 
 
 DELIMITER ;
