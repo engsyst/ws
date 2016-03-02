@@ -8,6 +8,8 @@
 
 package ua.nure.order.entity;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -43,7 +45,7 @@ import ua.nure.order.entity.order.OrderItem;
     Order.class,
     OrderItem.class
 })
-public class Entity {
+public class Entity implements Serializable {
 
     @XmlAttribute(name = "id")
     protected Integer id;
@@ -97,4 +99,12 @@ public class Entity {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Entity [id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
+	}
 }

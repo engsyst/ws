@@ -1,4 +1,4 @@
-package ua.nure.order.shared;
+package ua.nure.order.server.shared;
 
 import java.util.Map;
 

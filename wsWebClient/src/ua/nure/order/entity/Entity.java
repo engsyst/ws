@@ -41,7 +41,16 @@ public class Entity implements Serializable {
     @XmlAttribute(name = "id")
     protected Integer id;
     
-    /**
+    public Entity() {
+		super();
+	}
+
+	public Entity(Integer id) {
+		super();
+		this.id = id;
+	}
+
+	/**
      * Gets the value of the id property.
      * 
      * @return
@@ -74,4 +83,30 @@ public class Entity implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, JAXBToStringStyle.MULTI_LINE_STYLE);
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Entity))
+			return false;
+		Entity other = (Entity) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+    
 }
