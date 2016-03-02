@@ -1,7 +1,5 @@
 package ua.nure.order.server.dao.mysql;
 
-import java.util.List;
-
 public interface Querys {
 	static final String SQL_ADD_BOOK = "INSERT INTO `ws`.`book` "
 			+ "(`title`, `isbn`, `price`, `count`, `category_id`) "

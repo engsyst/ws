@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -137,7 +138,7 @@ public class InMemoryBookDAO implements BookDAO {
 	}
 
 	@Override
-	public List<String> listAuthors() throws DAOException {
+	public Map<Integer, String> listAuthors() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
