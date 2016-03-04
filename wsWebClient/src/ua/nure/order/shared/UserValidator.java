@@ -12,7 +12,6 @@ public class UserValidator<T extends User> implements Validator<T> {
 	public static String errLoginMsg = "[a-zA-Z0-9\\-_.]{4,20}";
 	public static String errPassMsg = ".{4,20}";
 
-	@Override
 	public Map<String, String> validate(T obj) {
 		Map<String, String> errors = new HashMap<>();
 		if (obj == null || obj.getLogin() == null || obj.getLogin().trim().length() < 4 || !obj.getLogin().matches(loginPattern)) {

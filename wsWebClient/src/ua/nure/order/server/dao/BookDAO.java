@@ -1,6 +1,7 @@
 package ua.nure.order.server.dao;
 
 import java.util.Collection;
+import java.util.Map;
 
 import ua.nure.order.entity.book.Book;
 
@@ -52,8 +53,12 @@ public interface BookDAO {
 	 * 
 	 * @return All books in order
 	 */
-	public Collection<Book> listBooks();
+	public Collection<Book> listBooks(String pattern);
 
 	public Book findById(Integer id) throws DAOException;
+
+	Map<Integer, String> listAuthors() throws DAOException;
+
+	public Book getBook(int id);
 
 }

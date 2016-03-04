@@ -1,6 +1,7 @@
 package ua.nure.order.server.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -11,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.DAOFactory;
 import ua.nure.order.server.dao.UserDao;
@@ -18,23 +20,23 @@ import ua.nure.order.server.dao.UserDao;
 public class MysqlDAOFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(MysqlDAOFactory.class);
 
-	private static String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static String DB_URL = "jdbc:sqlserver://localhost:1433; database=FitnessUA; user=sa; password=admin;";
+	private static String DRIVER = "com.mysql.jdbc.Driver";
+	private static String DB_URL = "jdbc:mysql://localhost:3306/ws?user=root&password=root";
 	
 	public static String getDriver() {
 		return DRIVER;
 	}
 
-	public static void setDriver(String dRIVER) {
-		DRIVER = dRIVER;
+	public static void setDriver(String driver) {
+		DRIVER = driver;
 	}
 
 	public static String getDbUrl() {
 		return DB_URL;
 	}
 
-	public static void setDbUrl(String dB_URL) {
-		DB_URL = dB_URL;
+	public static void setDbUrl(String db_url) {
+		DB_URL = db_url;
 	}
 
 	public MysqlDAOFactory() {
@@ -64,20 +66,19 @@ public class MysqlDAOFactory extends DAOFactory {
 		return con;
 	}
 
-//	protected static Connection getConnection()
-//			throws SQLException {
-//		Connection con = null;
-//		try {
-//			con = DriverManager.getConnection(DB_URL);
-//			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-//			con.setAutoCommit(false);
-//		} catch (SQLException e) {
-//			log.error("Can not get connection.", e);
-//			throw e;
-//		}
-//		return con;
-//
-//	}
+	protected static Connection getDBConnection()
+			throws SQLException {
+		Connection con = null;
+		try {
+			con = DriverManager.getConnection(DB_URL);
+			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+			con.setAutoCommit(false);
+		} catch (SQLException e) {
+			log.error("Can not get connection.", e);
+			throw e;
+		}
+		return con;
+	}
 
 	public static void roolback(Connection con) throws DAOException {
 		if (con != null) {
@@ -136,5 +137,10 @@ public class MysqlDAOFactory extends DAOFactory {
 	@Override
 	public UserDao getUserDAO() {
 		return MysqlUserDAO.getInstance();
+	}
+
+	@Override
+	public BookDAO getBookDAO() {
+		return MysqlBookDAO.getInstance();
 	}
 }

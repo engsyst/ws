@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.nure.order.entity.book.Book;
-import ua.nure.order.server.service.BookService;
-import ua.nure.order.server.service.BookServiceClient;
+import ua.nure.order.server.dao.BookDAO;
+import ua.nure.order.server.dao.UserDao;
 
 /**
  * Servlet implementation class ViewBook
  */
 public class ViewBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static BookService bookService = new BookServiceClient().getBookServicePort();
+	private static BookDAO bookService = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,6 +36,7 @@ public class ViewBook extends HttpServlet {
 		Book book = null;
 		if (id != null)
 			try {
+				bookService = (BookDAO) getServletContext().getAttribute("BookDao");
 				book = bookService.getBook(Integer.parseInt(id));
 			} catch (Exception e) {
 				System.err.println("Book with id = " + id + " not found");

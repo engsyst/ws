@@ -26,7 +26,7 @@ import ua.nure.order.shared.UserValidator;
 		urlPatterns = { "/login" }, 
 		initParams = { 
 				@WebInitParam(name = "loginPattern", value = "[a-zA-Z0-9\\-_.]{4,20}"), 
-				@WebInitParam(name = "passPattern", value = "[]"),
+				@WebInitParam(name = "passPattern", value = ""),
 				@WebInitParam(name = "errLoginMsg", value = "Login must be more then 4 symbols"), 
 				@WebInitParam(name = "errPassMsg", value = "Pass must be more then 4 symbols"),
 		})
@@ -70,7 +70,7 @@ public class Login extends HttpServlet {
 			response.sendRedirect("login.jsp");
 			return;
 		}
-		String pass = request.getParameter("pass");
+		String pass = request.getParameter("password");
 		User user = new User(login, pass);
 		User u;
 		Map<String, String> errors = new UserValidator<User>().validate(user);
@@ -91,6 +91,6 @@ public class Login extends HttpServlet {
 		}
 		session.removeAttribute("errors");
 		session.setAttribute("user", u);
-		response.sendRedirect("SearchBook");
+		response.sendRedirect("list");
 	}
 }

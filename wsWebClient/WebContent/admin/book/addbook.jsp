@@ -8,12 +8,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Add book</title>
+<%@ include file="../../jspf/headtag.jspf" %>
 </head>
 <body>
-	<%@ include file="/WEB-INF/jspf/menu.jspf"%>
-	<%@ include file="/WEB-INF/jspf/search.jspf"%>
+	<%@ include file="../../jspf/menu.jspf"%>
 	<jsp:useBean id="book" class="ua.nure.order.entity.book.Book" scope="session"/>
 	<jsp:setProperty property="*" name="book"/>
 	<div>
@@ -73,5 +72,6 @@
 		</div>
 	</div>
 
+<%@ include file="../../jspf/bootstrap.jspf" %>
 </body>
 </html>

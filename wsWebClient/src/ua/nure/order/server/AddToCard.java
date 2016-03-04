@@ -9,12 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.Card;
 import ua.nure.order.server.dao.CardImpl;
 import ua.nure.order.server.dao.DAOException;
-import ua.nure.order.server.service.BookService;
-import ua.nure.order.server.service.BookServiceClient;
-import ua.nure.order.server.service.DAOException_Exception;
 import ua.nure.order.shared.CountValidator;
 
 /**
@@ -22,7 +20,7 @@ import ua.nure.order.shared.CountValidator;
  */
 public class AddToCard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static BookService bookService = new BookServiceClient().getBookServicePort();
+	private static BookDAO bookService = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -54,10 +52,8 @@ public class AddToCard extends HttpServlet {
 				page = "SearchBook";
 			} catch (NumberFormatException e) {
 				request.setAttribute("error", "Не верное количество книг");
-			} catch (DAOException_Exception e) {
-				request.setAttribute("error", "Не достаточно книг в наличии");
 			} catch (DAOException e) {
-				request.setAttribute("error", "Ошибка сервера. Повторите запрос позже.");
+				request.setAttribute("error", "Не достаточно книг в наличии");
 			}
 		}
 		session.setAttribute("card", card);

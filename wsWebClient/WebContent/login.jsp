@@ -5,23 +5,60 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login</title>
+<%@ include file="jspf/headtag.jspf" %>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/menu.jspf" %>
-<%@ include file="/WEB-INF/jspf/search.jspf" %>
-	<h1>Login</h1>
-	<div><form action="login" method="post">
-		<table>
-			<tr><td colspan="2"><c:out value="${errors['login'] }"/></td></tr>
-			<tr><td>Login:</td><td><input type="text" name="login" value="${user.login } "/></td></tr>
-			<tr><td colspan="2"><c:out value="${errors['pass'] }"/></td></tr>
-			<tr><td>Password:</td><td><input type="password" name="pass" value="${user.pass }" /></td></tr>
-			<tr><td></td><td><input type="submit" value="Login"/></td></tr>
-		</table>
-	</form></div>
+<%@ include file="jspf/menu.jspf" %>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-4"></div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<header>
+								<h1 class="center-text">Login</h1>
+							</header>
+							<form method="post" action="login">
+								<div class="form-group ">
+									<label class="control-label requiredField" for="login">
+										Имя <span class="asteriskField"> * </span>
+									</label> <input type="text" class="form-control" id="login" name="login"
+										placeholder="login" type="text" />
+								</div>
+								<div class="form-group ">
+									<label class="control-label requiredField" for="password">
+										Пароль <span class="asteriskField"> * </span>
+									</label> <input type="password" class="form-control" id="password" name="pass"
+										placeholder="пароль" type="text" />
+								</div>
+<!-- 								<div class="form-group ">
+									<div class="checkbox">
+										<label class="checkbox"> <input name="remember"
+											type="checkbox" value="Запомнить меня" /> Запомнить меня
+										</label>
+									</div>
+								</div>
+ -->								<div class="form-group">
+									<div>
+										<button class="btn btn-primary " name="submit" type="submit">
+											Войти</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4"></div>
+		</div>
+	</div>
+
+
+	<%@ include file="jspf/bootstrap.jspf" %>
 </body>
 </html>

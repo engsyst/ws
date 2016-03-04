@@ -14,6 +14,7 @@ public abstract class DAOFactory {
 	// implement these methods.
 	public abstract UserDao getUserDAO();
 
+	public abstract BookDAO getBookDAO();
 
 	public static DAOFactory getDAOFactory(int whichFactory) {
 

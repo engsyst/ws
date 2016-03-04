@@ -32,6 +32,7 @@ public class InitListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event)  { 
     	ServletContext ctx = event.getServletContext();
     	ctx.setAttribute("UserDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getUserDAO());
+    	ctx.setAttribute("BookDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getBookDAO());
     }
 	
 }

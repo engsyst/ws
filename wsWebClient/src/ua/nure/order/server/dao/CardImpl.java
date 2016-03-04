@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ua.nure.order.entity.OrderItem;
+import ua.nure.order.entity.book.Author;
 import ua.nure.order.entity.book.Book;
 
 @SuppressWarnings("serial")
@@ -119,8 +120,8 @@ public class CardImpl implements Card, Serializable {
 		sb.append(".*");
 		Pattern p = Pattern.compile(sb.toString(), Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
 		for (OrderItem o : orders.values()) {
-			for (String a : o.getBook().getAuthor()) {
-				Matcher m = p.matcher(a);
+			for (Author a : o.getBook().getAuthor()) {
+				Matcher m = p.matcher(a.getTitle());
 				if (m.matches()) {
 					found.add(o);
 				}
