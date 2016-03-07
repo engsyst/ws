@@ -1,8 +1,11 @@
 package ua.nure.order.client;
 
 import java.util.Hashtable;
+import java.util.Set;
 
-public class Cart<T> extends Hashtable<T, Integer> {
+import ua.nure.order.entity.Product;
+
+public class Cart<T extends Product> extends Hashtable<T, Integer> implements Priceable {
 
 	/**
 	 * Adds one more product to the cart. If there are items in the cart, it
@@ -75,6 +78,21 @@ public class Cart<T> extends Hashtable<T, Integer> {
 		} else {
 			return add(item, -count);
 		}
+	}
+	
+	public double getPrice() {
+		double total = 0.;
+		for(T e : keySet())
+			total += e.getPrice() * get(e);
+		return total;
+	}
+	
+	public T getItem(Integer id) {
+		for (T e : keySet()) {
+			if (e.getId().equals(id)) 
+				return e;
+		}
+		return null;
 	}
 
 }

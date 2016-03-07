@@ -53,6 +53,12 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 
 					<table class="table table-bordered table-striped">
+						<col/>
+						<col class="tab-title-col" />
+						<col class="tab-author-col" />
+						<col class="tab-price-col" />
+						<col class="tab-count-col" />
+						<col class="tab-form-col" />
 						<thead class="text-center">
 							<tr>
 								<th>#</th>
@@ -94,13 +100,23 @@
 									<td>${book.price}</td>
 									<td>${book.count}</td>
 									<td>
-										<form action="addtocart" method="post">
-											<input type="number" name="count" value="${cart.get(book) }" size="3">
-											<button type="submit" name="updatecart" 
+										<form action="updatecart" method="post">
+										<div class="form-group">
+											<span class="col-xs-6">
+												<input type="number" name="count" value="${cart.get(book) }" 
+													class="form-control">
+											</span>
+											<button type="submit" name="update" 
 												title="Обновить корзину"
 												class="btn btn-success" value="${book.id }">
 												<i class="glyphicon glyphicon-shopping-cart"></i>
 											</button>
+											<button type="submit" name="remove" 
+												title="Удалить из корзины"
+												class="btn btn-danger" value="${book.id }">
+												<i class="glyphicon glyphicon-remove"></i>
+											</button>
+										</div>
  										</form>
 									</td>
 								</tr>
@@ -109,11 +125,18 @@
 					</table>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+					<p><span>Всего: </span><span>${sessionScope.cart.getPrice() }</span></p>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 					<form action="" method="post">
                    <div class="form-group">
-                        <button type="submit" name="buy" value="Оформить заказ" class="btn btn-primary"></button>
+                        <button type="submit" name="buy" class="btn btn-primary btn-block">Оформить заказ</button>
                     </div>
 					</form>
 				</div>

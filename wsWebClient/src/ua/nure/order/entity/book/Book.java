@@ -18,7 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.cxf.xjc.runtime.JAXBToStringStyle;
 
+import ua.nure.order.client.Priceable;
 import ua.nure.order.entity.Entity;
+import ua.nure.order.entity.Product;
 
 
 /**
@@ -66,7 +68,7 @@ import ua.nure.order.entity.Entity;
     "category",
     "count"
 })
-public class Book extends Entity {
+public class Book extends Product {
 
     @XmlElement(required = true)
     protected String title;

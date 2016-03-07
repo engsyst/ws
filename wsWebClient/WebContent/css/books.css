@@ -2,6 +2,19 @@
 .main-content {
 	margin-top: 80px;'
 }
+
+.tab-title-col .tab-author-col {
+	text-align: left;
+}
+
+.tab-price-col .count-col {
+	width: 50px;
+}
+
+.tab-form-col {
+	width: 200px;
+}
+
 .topMenu {
 	top: 0;
 	width: 100%;
