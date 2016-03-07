@@ -66,9 +66,7 @@ import ua.nure.order.entity.Entity;
     "category",
     "count"
 })
-public class Book
-    extends Entity
-{
+public class Book extends Entity {
 
     @XmlElement(required = true)
     protected String title;
@@ -248,5 +246,29 @@ public class Book
 		return ToStringBuilder.reflectionToString(this, JAXBToStringStyle.MULTI_LINE_STYLE);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Book))
+			return false;
+		Book other = (Book) obj;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
 
 }

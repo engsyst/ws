@@ -1,7 +1,10 @@
 package ua.nure.order.server.dao.mysql;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import ua.nure.order.entity.book.Author;
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.entity.book.Category;
 import ua.nure.order.server.dao.BookDAO;
@@ -15,9 +18,17 @@ public class TestDB {
 		bdao.addBook(item);
 	}
 	public static void main(String[] args) throws DAOException {
-//		testAddBook(new Book("Название", 
-//				Arrays.asList(new String[] {"Данте Алигьери", "Алигьери"}),
-//				"ISBN-01234-0133", 125.0, Category.NONE, 3));
+//		System.out.println(bdao.listBooks(null));
+		
+		for (int i = 2; i < 22; i++) {
+			Author author = new Author("author" + i);
+			List<Author> authors = new ArrayList<>();
+			authors.add(author);
+			testAddBook(new Book("Название" + i, 
+					authors, "ISBN-01234-0133", 10.0 + i, Category.NONE, 5));
+			authors.clear();
+			
+		}
 //		testAddBook(new Book("Вопрос о воде и земле", 
 //				Arrays.asList(new String[] {"Данте Алигьери"}),
 //				"ISBN-01234-0133", 125.0, Category.NONE, 3));

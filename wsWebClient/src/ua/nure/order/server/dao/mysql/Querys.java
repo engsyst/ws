@@ -5,10 +5,12 @@ public interface Querys {
 			+ "(`title`, `isbn`, `price`, `count`, `category_id`) "
 			+ "VALUES (?, ?, ?, ?, ?);";
 	
-	static final String SQL_FIND_BOOK = "INSERT INTO `ws`.`book` "
-			+ "(`title`, `isbn`, `price`, `count`, `category_id`) "
-			+ "VALUES (?, ?, ?, ?, ?);";
-	
+	static final String SQL_FIND_BOOKS = "SELECT `id`, `title`, `authors`, "
+			+ "`isbn`, `price`, `count`, `category` FROM `books` ";
+	static final String SQL_FIND_BOOK_BY_ID = "SELECT `id`, `title`, `authors`, "
+			+ "`isbn`, `price`, `count`, `category` FROM `books` WHERE ID = ?";
+	static final String SQL_FIND_BOOKS_COUNT = "SELECT count(*) FROM `books` ";
+	static final String SQL_UPDATE_BOOKS_COUNT = "SELECT count(*) FROM `books` ";
 	
 	/**
 	 *  use makeAuthorsValues(List<String> authors, int bookId)
@@ -29,6 +31,7 @@ public interface Querys {
 	
 	static final String SQL_LIST_AUTHORS = "SELECT id, title FROM author";
 	
-	static final String SQL_GET_USER = "SELECT id, login, password, role FROM user WHERE login = ?"; 
+	static final String SQL_GET_USER = "SELECT id, login, password, role FROM user WHERE login = ?";
+
 	
 }

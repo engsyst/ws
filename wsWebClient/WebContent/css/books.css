@@ -1,4 +1,7 @@
 @CHARSET "UTF-8";
+.main-content {
+	margin-top: 80px;'
+}
 .topMenu {
 	top: 0;
 	width: 100%;

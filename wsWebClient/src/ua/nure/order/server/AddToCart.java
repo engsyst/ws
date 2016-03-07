@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ua.nure.order.client.Cart;
+import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.Card;
 import ua.nure.order.server.dao.CardImpl;
@@ -18,15 +20,20 @@ import ua.nure.order.shared.CountValidator;
 /**
  * Servlet implementation class BayBook
  */
-public class AddToCard extends HttpServlet {
+public class AddToCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static BookDAO bookService = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AddToCard() {
+	public AddToCart() {
 		super();
+	}
+
+	@Override
+	public void init() {
+		bookService = (BookDAO) getServletContext().getAttribute("BookDao");
 	}
 
 	/**
@@ -37,27 +44,27 @@ public class AddToCard extends HttpServlet {
 			throws ServletException, IOException {
 		Map<String, String> err = new CountValidator().validate(request.getParameter("count"));
 		HttpSession session = request.getSession();
-		String sid = request.getParameter("id");
-		String page = "ViewBook?id=" + sid;
-		Card card = (Card) session.getAttribute("card");
-		if (card == null)
-			card = new CardImpl();
-		if (err.size() == 0) {
+		String sid = request.getParameter("tocart");
+		Cart<Book> cart = (Cart<Book>) session.getAttribute("cart");
+		if (cart == null)
+			cart = new Cart<Book>();
+		try {
+			int count;
 			try {
-				int count = Integer.parseInt(request.getParameter("count"));
-				int id = Integer.parseInt(sid);
-				bookService.updateBookCount(id, count);
-				card.addBook(bookService.getBook(id), count);
-				request.setAttribute("error", "Вы купили книгу");
-				page = "SearchBook";
-			} catch (NumberFormatException e) {
-				request.setAttribute("error", "Не верное количество книг");
-			} catch (DAOException e) {
-				request.setAttribute("error", "Не достаточно книг в наличии");
+				count = Integer.parseInt(request.getParameter("count"));
+			} catch (Exception e) {
+				count = 1;
 			}
+			int id = Integer.parseInt(sid);
+			cart.add(bookService.getBook(id), 1);
+			request.setAttribute("info", "Вы купили книгу");
+		} catch (NumberFormatException e) {
+			request.setAttribute("error", "Неверное количество книг");
+		} catch (DAOException e) {
+			request.setAttribute("error", "Не достаточно книг в наличии");
 		}
-		session.setAttribute("card", card);
-		response.sendRedirect(page);
+		session.setAttribute("cart", cart);
+		response.sendRedirect("list.jsp");
 		return;
 //		request.setAttribute("errors", err);
 //		RequestDispatcher rd = request.getRequestDispatcher("ViewBook");

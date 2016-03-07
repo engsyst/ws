@@ -39,9 +39,7 @@ import ua.nure.order.entity.Entity;
 @XmlType(name = "Order", propOrder = {
     "orderItem"
 })
-public class Order
-    extends Entity
-{
+public class Order extends Entity {
 
     protected List<OrderItem> orderItem;
 
@@ -73,5 +71,30 @@ public class Order
         }
         return this.orderItem;
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((orderItem == null) ? 0 : orderItem.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Order))
+			return false;
+		Order other = (Order) obj;
+		if (orderItem == null) {
+			if (other.orderItem != null)
+				return false;
+		} else if (!orderItem.equals(other.orderItem))
+			return false;
+		return true;
+	}
 
 }

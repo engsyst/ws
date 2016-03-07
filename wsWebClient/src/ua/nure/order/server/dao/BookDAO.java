@@ -1,11 +1,14 @@
 package ua.nure.order.server.dao;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
+import ua.nure.order.client.Paginable;
+import ua.nure.order.client.SQLCountWrapper;
 import ua.nure.order.entity.book.Book;
 
-public interface BookDAO {
+public interface BookDAO extends Paginable<Book> {
 	/**
 	 * Add a book to order
 	 * 
@@ -52,13 +55,18 @@ public interface BookDAO {
 	/**
 	 * 
 	 * @return All books in order
+	 * @throws DAOException 
 	 */
-	public Collection<Book> listBooks(String pattern);
+	public List<Book> listBooks(String pattern) throws DAOException;
 
+	@Override
+	public List<Book> list(String pattern, String orderColumn, boolean ascending, int start, int count,
+			SQLCountWrapper total) throws DAOException;
+	
 	public Book findById(Integer id) throws DAOException;
 
 	Map<Integer, String> listAuthors() throws DAOException;
 
-	public Book getBook(int id);
+	public Book getBook(int id) throws DAOException;
 
 }

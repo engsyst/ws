@@ -10,8 +10,12 @@ SELECT book.title, author.title, author_has_book.book_id, author_has_book.author
 
 SELECT * FROM books;
 
-SELECT DISTINCT book.*, author.* 
+SELECT book.*, author.*
 	FROM author_has_book, book, author 
 	WHERE author_has_book.author_id = author.id AND author_has_book.book_id = book.id
     ORDER BY 2;
-  /*where author_has_book.author_id = author.id and author_has_book.book_id = book.id */ 
+
+SELECT book.id, book.title, concatauthors(book.id) as `authors`, book.isbn, book.price, book.count, category.title as category
+  from book, category WHERE category.id = category_id;
+  
+SELECT `id`, `title`, `authors`, `isbn`, `price`, `count`, `category` FROM `books` ORDER BY title DESC LIMIT 0,6;
