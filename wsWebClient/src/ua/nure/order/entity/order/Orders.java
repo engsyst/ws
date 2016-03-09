@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "orders")
 public class Orders {
 
-    protected List<Order> order;
+    protected List<OrderOld> order;
 
     /**
      * Gets the value of the order property.
@@ -62,13 +62,13 @@ public class Orders {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Order }
+     * {@link OrderOld }
      * 
      * 
      */
-    public List<Order> getOrder() {
+    public List<OrderOld> getOrder() {
         if (order == null) {
-            order = new ArrayList<Order>();
+            order = new ArrayList<OrderOld>();
         }
         return this.order;
     }

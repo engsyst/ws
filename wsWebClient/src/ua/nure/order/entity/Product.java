@@ -1,6 +1,8 @@
 package ua.nure.order.entity;
 
-public abstract class Product extends Entity {
+import ua.nure.order.client.Priceable;
+
+public abstract class Product extends Entity implements Priceable {
 	private String title;
 	private double price;
 	public String getTitle() {
@@ -15,9 +17,7 @@ public abstract class Product extends Entity {
 		this.price = price;
 	}
 
-	public double getPrice() {
-		return price;
-	}
+	public abstract double getPrice();
 
 	public Product() {
 		super();

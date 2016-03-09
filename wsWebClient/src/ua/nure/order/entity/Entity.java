@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import ua.nure.order.entity.book.Author;
 import ua.nure.order.entity.book.Book;
-import ua.nure.order.entity.order.Order;
+import ua.nure.order.entity.order.OrderOld;
 import ua.nure.order.entity.order.OrderItem;
 
 
@@ -42,7 +42,7 @@ import ua.nure.order.entity.order.OrderItem;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Entity")
 @XmlSeeAlso({
-    Order.class,
+    OrderOld.class,
     OrderItem.class,
     Book.class,
     Author.class

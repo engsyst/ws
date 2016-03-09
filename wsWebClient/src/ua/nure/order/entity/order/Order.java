@@ -8,93 +8,45 @@
 
 package ua.nure.order.entity.order;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import ua.nure.order.entity.Entity;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import ua.nure.order.entity.Product;
 
 
-/**
- * <p>Java class for Order complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="Order">
- *   &lt;complexContent>
- *     &lt;extension base="{http://order.nure.ua/entity/}Entity">
- *       &lt;sequence>
- *         &lt;element name="orderItem" type="{http://order.nure.ua/entity/order/}OrderItem" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Order", propOrder = {
-    "orderItem"
-})
-public class Order extends Entity {
+public class Order<T extends Product> extends Product {
 
-    protected List<OrderItem> orderItem;
+	private static final long serialVersionUID = -2130624107521935696L;
+	protected Map<T, Integer> items;
+    
+	public Order() {
+		super();
+	}
 
-    /**
-     * Gets the value of the orderItem property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the orderItem property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getOrderItem().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link OrderItem }
-     * 
-     * 
-     */
-    public List<OrderItem> getOrderItem() {
-        if (orderItem == null) {
-            orderItem = new ArrayList<OrderItem>();
-        }
-        return this.orderItem;
-    }
+	public Order(Map<T, Integer> items) {
+		super();
+		this.items = items;
+	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((orderItem == null) ? 0 : orderItem.hashCode());
-		return result;
+	public Order(Integer id, Map<T, Integer> items) {
+		super(id);
+		this.items = items;
+	}
+	
+	public Map<T, Integer> getItems() {
+		return items;
+	}
+
+	public void setItems(Map<T, Integer> items) {
+		this.items = items;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof Order))
-			return false;
-		Order other = (Order) obj;
-		if (orderItem == null) {
-			if (other.orderItem != null)
-				return false;
-		} else if (!orderItem.equals(other.orderItem))
-			return false;
-		return true;
+	public double getPrice() {
+		double total = 0.;
+		for (Entry<T, Integer> e : items.entrySet()) {
+			total += e.getKey().getPrice();
+		}
+		return total;
 	}
-
 }

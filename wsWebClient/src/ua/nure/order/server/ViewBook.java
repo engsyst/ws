@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
-import ua.nure.order.server.dao.UserDao;
+import ua.nure.order.server.dao.UserDAO;
 
 /**
  * Servlet implementation class ViewBook

@@ -93,9 +93,6 @@
 												class="btn btn-success" value="${book.id }">
 												<i class="glyphicon glyphicon-shopping-cart"></i>
 											</button>
-<%-- 											
-											<button type="submit" name="tocart" id="${book.id }"  class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i></button>
- --%>										
  										</form>
 									</td>
 								</tr>

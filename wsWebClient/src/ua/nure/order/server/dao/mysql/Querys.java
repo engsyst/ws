@@ -33,5 +33,9 @@ public interface Querys {
 	
 	static final String SQL_GET_USER = "SELECT id, login, password, role FROM user WHERE login = ?";
 
+	static final String SQL_INSERT_ORDER = "INSERT INTO `order` (`no`, `user_id`) VALUES (?, ?);";
+
+	static final String SQL_INSERT_BOOK_HAS_ORDER = "INSERT INTO `book_has_order` "
+			+ "(`book_id`, `order_id`, `count`) VALUES (?, ?, ?);";
 	
 }

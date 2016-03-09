@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import ua.nure.order.entity.user.User;
 import ua.nure.order.server.dao.DAOException;
-import ua.nure.order.server.dao.UserDao;
+import ua.nure.order.server.dao.UserDAO;
 import ua.nure.order.shared.Hash;
 import ua.nure.order.shared.UserValidator;
 
@@ -32,7 +32,7 @@ import ua.nure.order.shared.UserValidator;
 		})
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserDao dao = null;
+	private UserDAO dao = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
     @Override
 	public void init() {
     	ServletContext ctx = getServletContext();
-    	dao = (UserDao) getServletContext().getAttribute("UserDao");
+    	dao = (UserDAO) getServletContext().getAttribute("UserDao");
     	String param = ctx.getInitParameter("loginPattern");
     	if (param != null)
     		UserValidator.loginPattern = param;

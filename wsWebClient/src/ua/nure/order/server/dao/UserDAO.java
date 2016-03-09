@@ -2,6 +2,6 @@ package ua.nure.order.server.dao;
 
 import ua.nure.order.entity.user.User;
 
-public interface UserDao {
+public interface UserDAO {
 	User getUser(String login) throws DAOException;
 }

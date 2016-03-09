@@ -9,14 +9,14 @@ import org.apache.log4j.Logger;
 
 import ua.nure.order.entity.user.User;
 import ua.nure.order.server.dao.DAOException;
-import ua.nure.order.server.dao.UserDao;
+import ua.nure.order.server.dao.UserDAO;
 
-public class MysqlUserDAO implements UserDao {
+public class MysqlUserDAO implements UserDAO {
 	private static final Logger log = Logger.getLogger(MysqlUserDAO.class);
 
 	private static MysqlUserDAO dao;
 
-	public static UserDao getInstance() {
+	public static UserDAO getInstance() {
 		if (dao == null)
 			dao = new MysqlUserDAO();
 		return dao;

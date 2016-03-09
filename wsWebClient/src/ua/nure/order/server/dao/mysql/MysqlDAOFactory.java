@@ -15,7 +15,8 @@ import org.apache.log4j.Logger;
 import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.DAOFactory;
-import ua.nure.order.server.dao.UserDao;
+import ua.nure.order.server.dao.OrderDAO;
+import ua.nure.order.server.dao.UserDAO;
 
 public class MysqlDAOFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(MysqlDAOFactory.class);
@@ -135,12 +136,18 @@ public class MysqlDAOFactory extends DAOFactory {
 	}
 
 	@Override
-	public UserDao getUserDAO() {
+	public UserDAO getUserDAO() {
 		return MysqlUserDAO.getInstance();
 	}
 
 	@Override
 	public BookDAO getBookDAO() {
 		return MysqlBookDAO.getInstance();
+	}
+
+	@Override
+	public OrderDAO getOrderDAO() {
+		// TODO Auto-generated method stub
+		return MysqlOrderDAO.getInstance();
 	}
 }

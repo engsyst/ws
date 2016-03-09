@@ -45,11 +45,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Order }
+     * Create an instance of {@link OrderOld }
      * 
      */
-    public Order createOrder() {
-        return new Order();
+    public OrderOld createOrder() {
+        return new OrderOld();
     }
 
     /**
