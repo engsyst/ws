@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 import ua.nure.order.entity.book.Book;
+import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
+import ua.nure.order.server.dao.DAOFactory;
 
 public class CartBookDAO implements Paginable<Book> {
 	
@@ -83,6 +85,12 @@ public class CartBookDAO implements Paginable<Book> {
 			comparator = title;
 			break;
 		}
+		if (cart == null) {
+			total.setCount(0);
+			return new ArrayList<Book>();
+		}
+		BookDAO bdao = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getBookDAO();
+		bdao.getBooksCount(cart.keySet());
 		Set<Book> b = cart.keySet();
 		ArrayList<Book> a = new ArrayList<>();
 		for (Book book : b) {

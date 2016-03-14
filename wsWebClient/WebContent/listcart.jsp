@@ -10,6 +10,9 @@
 <body>
 <%@ include file="jspf/menu.jspf" %>
 
+	<%-- <jsp:useBean id="cart" 
+		class="ua.nure.order.client.Cart<ua.nure.order.entity.book.Book>" 
+		type="ua.nure.order.client.Cart<ua.nure.order.entity.book.Book>" scope="session" /> --%>
 	<jsp:useBean id="cartDao" class="ua.nure.order.client.CartBookDAO" scope="page">
 		<jsp:setProperty property="cart" name="cartDao" value="${sessionScope.cart }"/>
 	</jsp:useBean>
@@ -22,7 +25,7 @@
 		<jsp:setProperty property="ascending" name="lcp" param="ascending" />
 	</c:if>
 	<c:if test="${!empty param.search }">
-		<jsp:setProperty property="sortField" name="lcp" value="field"/>
+		<jsp:setProperty property="sortField" name="lcp" param="field"/>
 	</c:if>
 	<c:if test="${!empty param.search }">
 		<jsp:setProperty property="search" name="lcp" param="search" />
@@ -33,21 +36,23 @@
 
 	<c:set var="books" value="${lcp.items }" scope="page" />
 
-
 	<div class="section main-content" >
+		<%@ include file="jspf/showmsg.jspf" %>
+	
 		<div class="container">
-
 		 	<c:choose>
 		 	<c:when test="${empty cart }">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-				 		<h1>No such books</h1>
+				 		<h1>Корзина пуста</h1>
 					</div>
 				</div>
 		 	</c:when>
 			<c:otherwise>
 			<div class="row">
-				<h3>Ваша корзина</h3>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+					<h1>Ваша корзина</h1>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
@@ -88,7 +93,8 @@
 						<tbody>
 							<c:set var="k" value="0" />
 							<c:forEach var="book" items="${books }">
-								<tr>
+								<%-- <tr ${cart.get(book) > book.count ? "class='row-warning' title='Не достаточно книг.'" :'' }> --%>
+								<tr class="${cart.get(book) > book.count ? 'row-warning' : '' }" title="В наличии: ${book.count }">
 									<c:set var="k" value="${k + 1}" />
 									<td><c:out value="${k}" /></td>
 									<td><a href="ViewBook?id=${book.id}">${book.title}</a></td>
@@ -97,14 +103,14 @@
 											${a.title}<br/>
 										</c:forEach>
 									</td>
-									<td>${book.price}</td>
-									<td>${book.count}</td>
+									<td>${book.price }</td>
+									<td>${cart.get(book) }</td>
 									<td>
 										<form action="updatecart" method="post">
 										<div class="form-group">
 											<span class="col-xs-6">
 												<input type="number" name="count" value="${cart.get(book) }" 
-													class="form-control">
+													class="form-control" min="0" max="${book.count }">
 											</span>
 											<button type="submit" name="update" 
 												title="Обновить корзину"

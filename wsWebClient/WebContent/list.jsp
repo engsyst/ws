@@ -22,11 +22,11 @@
 		<jsp:setProperty property="ascending" name="lbp" value="true"/>
 		<jsp:setProperty property="sortField" name="lbp" value="title"/>
 	</jsp:useBean>
-	<c:if test="${!empty param.search }">
 		<jsp:setProperty property="ascending" name="lbp" param="ascending" />
+		<jsp:setProperty property="sortField" name="lbp" param="field"/>
+	<c:if test="${!empty param.search }">
 	</c:if>
 	<c:if test="${!empty param.search }">
-		<jsp:setProperty property="sortField" name="lbp" value="field"/>
 	</c:if>
 	<c:if test="${!empty param.search }">
 		<jsp:setProperty property="search" name="lbp" param="search" />
@@ -56,21 +56,28 @@
 				<h3>Книги ${empty lbp.search ? '' : 'по запросу \"'.concat(lbp.search).concat('\"') }</h3>
 			</div>
 			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 					<table class="table table-bordered table-striped">
+						<colgroup class="col-position"/>
+						<colgroup class="col-title"/>
+						<colgroup class="col-title"/>
+						<colgroup class="col-count"/>
+						<colgroup class="col-price"/>
+						<colgroup class="col-action"/>
 						<thead class="text-center">
 							<tr>
 								<th>#</th>
-								<th>
-									<div class="btn-group drop${lbp.ascending ? 'down' : 'up' }">
+								<th><div class="block-inline">
+									<div class="block-inline text-center btn-group drop${lbp.ascending ? 'up' : 'down' }">
 										<a href="?ascending=${lbp.ascending ? false : true }&field=title">Название<b class="caret"></b></a>
 									</div>
+								</div>
 								</th>
-								<th>Авторы</th>
-								<th>Цена</th>
-								<th>Кол-во</th>
-								<th>В корзину</th>
+								<th><p class="text-center">Авторы</p></th>
+								<th><p class="text-center">Цена</p></th>
+								<th><p class="text-center">Кол-во</p></th>
+								<th><p class="text-center">В корзину</p></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -78,22 +85,22 @@
 							<c:forEach var="book" items="${books }">
 								<tr>
 									<c:set var="k" value="${k + 1}" />
-									<td><c:out value="${k}" /></td>
-									<td><a href="ViewBook?id=${book.id}">${book.title}</a></td>
-									<td>
+									<td><p class="text-center"><c:out value="${k}" /></p></td>
+									<td><p class="text-left"><a href="viewbook?id=${book.id}">${book.title}</a></p></td>
+									<td><p class="text-left">
 										<c:forEach var="a" items="${book.author}">
 											${a.title}<br/>
-										</c:forEach>
+										</c:forEach></p>
 									</td>
-									<td>${book.price}</td>
-									<td>${book.count}</td>
-									<td>
+									<td><p class="text-right">${book.price}</p></td>
+									<td><p class="text-right">${book.count}</p></td>
+									<td><span class="text-center">
 										<form action="addtocart" method="post">
 											<button type="submit" name="tocart" id="${book.id }" title="Добавить в корзину"
 												class="btn btn-success" value="${book.id }">
 												<i class="glyphicon glyphicon-shopping-cart"></i>
 											</button>
- 										</form>
+ 										</form></span>
 									</td>
 								</tr>
 							</c:forEach>			

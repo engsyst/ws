@@ -36,48 +36,38 @@ public class UpdateCart extends HttpServlet {
 		if (cart == null) {
 			cart = new Cart<>();
 			session.setAttribute("cart", cart);
-			session.setAttribute("error", "");
 			response.sendRedirect("listcart.jsp");
 		}
 		int id = 0;
 		String uId = request.getParameter("update");
 		String rId = request.getParameter("remove");
+		int count = 0;
 		if (uId != null && !uId.trim().equals("")) {
 			try {
 				id = Integer.parseInt(uId);
-			} catch (Exception e) {
-				throw new ServletException("Unknown parameter value update");
-			}
-			int count = 0;
-			try {
 				count = Integer.parseInt(request.getParameter("count"));
+				if (count <= 0) {
+					session.setAttribute("error", "Не допустимое количество товара");
+				} else {
+					cart.put(cart.getItem(id), count);
+					session.setAttribute("info", "Корзина обновлена");
+				}
 			} catch (Exception e) {
-				throw new ServletException("Unknown parameter value count");
+				throw new ServletException("Unknown product. Operation update. Id: " + uId);
 			}
-			if (count <= 0) {
-				cart.remove(cart.getItem(id));
-			} else {
-				cart.put(cart.getItem(id), count);
-			}
-			session.setAttribute("cart", cart);
-			response.sendRedirect("listcart.jsp");
 		}
 		if (rId != null && !rId.trim().equals("")) {
 			try {
 				id = Integer.parseInt(rId);
-			} catch (Exception e) {
-				throw new ServletException("Unknown parameter value update");
-			}
-			int count = 0;
-			try {
 				count = Integer.parseInt(request.getParameter("count"));
+				cart.remove(cart.getItem(id));
+				session.setAttribute("info", "Книга удалена из корзины");
 			} catch (Exception e) {
-				throw new ServletException("Unknown parameter value count");
+				throw new ServletException("Unknown product. Operation remove. Id: " + rId);
 			}
-			cart.remove(cart.getItem(id));
-			session.setAttribute("cart", cart);
-			response.sendRedirect("listcart.jsp");
 		}
+		session.setAttribute("cart", cart);
+		response.sendRedirect("listcart.jsp");
 	}
 
 }

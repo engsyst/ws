@@ -80,6 +80,7 @@ public class Cart<T extends Product> extends Hashtable<T, Integer> implements Pr
 		}
 	}
 	
+	@Override
 	public double getPrice() {
 		double total = 0.;
 		for(T e : keySet())

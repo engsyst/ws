@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="params" class="ua.nure.order.client.ReqParam" scope="page">
+	<jsp:setProperty property="params" name="params" value="${paramValues }"/>
+</jsp:useBean>
 
 <!-- 
 
@@ -19,34 +22,34 @@ Required attribute named "paging" in scope
 		--%>
 		<c:choose>
 		<c:when test="${paging.page == 0 }">
-			<li class="disabled"><a href="#"><i class="glyphicon glyphicon-backward"></i></a></li>
-			<li class="disabled"><a href="#"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
+			<li class="disabled"><a href="?${params.setParam('page', paging.page) }"><i class="glyphicon glyphicon-backward"></i></a></li>
+			<li class="disabled"><a href="?${params.setParam('page', paging.page) }"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
 		</c:when>
 		<c:otherwise>
-			<li><a href="?search=${paging.search }&page=${0 }"><i class="glyphicon glyphicon-backward"></i></a></li>
-			<li><a href="?search=${paging.search }&page=${paging.page - 1 }"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
+			<li><a href="?${params.setParam('page', 0) }"><i class="glyphicon glyphicon-backward"></i></a></li>
+			<li><a href="?${params.setParam('page', paging.page - 1) }"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
 		</c:otherwise>
 		</c:choose>
 		<c:set var="i" value="${paging.start }" />
 		<c:forEach begin="${paging.start }" end="${paging.end - 1 }" step="${1 }" >
 			<c:choose>
 			<c:when test="${paging.page == i }">
-				<li class="active"><a href="?search=${paging.search }&page=${i }">${i + 1 }</a></li>
+				<li class="active"><a href="?${params.setParam('page', i) }">${i + 1 }</a></li>
 			</c:when>
 			<c:otherwise>
-				<li><a href="?search=${paging.search }&page=${i }">${i + 1 }</a></li>
+				<li><a href="?${params.setParam('page', i) }">${i + 1 }</a></li>
 			</c:otherwise>
 			</c:choose>
 			<c:set var="i" value="${i + 1 }" />
 		</c:forEach>
 		<c:choose>
 		<c:when test="${paging.page >= paging.max - 1 }"> 
-			<li class="disabled"><a href="#"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
-			<li class="disabled"><a href="#"><i class="glyphicon glyphicon-forward"></i></a></li>
+			<li class="disabled"><a href="?${params.setParam('page', paging.page) }"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
+			<li class="disabled"><a href="?${params.setParam('page', paging.page) }"><i class="glyphicon glyphicon-forward"></i></a></li>
 		</c:when>
 		<c:otherwise>
-			<li><a href="?search=${paging.search }&page=${paging.page + 1 }"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
-			<li><a href="?search=${paging.search }&page=${paging.max - 1 }"><i class="glyphicon glyphicon-forward"></i></a></li>
+			<li><a href="?${params.setParam('page', paging.page + 1) }"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
+			<li><a href="?${params.setParam('page', paging.max - 1) }"><i class="glyphicon glyphicon-forward"></i></a></li>
 		</c:otherwise>
 		</c:choose>
 		</ul>

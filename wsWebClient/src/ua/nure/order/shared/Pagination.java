@@ -165,7 +165,7 @@ public class Pagination {
 		builder.append(ascending);
 		builder.append(", dao=");
 		builder.append(dao);
-		builder.append("]");
+		builder.append("]\n");
 		return builder.toString();
 	}
 	

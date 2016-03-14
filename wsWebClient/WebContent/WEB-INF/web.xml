@@ -3,9 +3,7 @@
   <display-name>wsWebClient</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>list.jsp</welcome-file>
   </welcome-file-list>
   <filter>
     <display-name>EncodingFilter</display-name>
@@ -39,7 +37,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ViewBook</servlet-name>
-    <url-pattern>/ViewBook</url-pattern>
+    <url-pattern>/viewbook</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -50,16 +48,6 @@
   <servlet-mapping>
     <servlet-name>AddToCard</servlet-name>
     <url-pattern>/addtocart</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ListCard</display-name>
-    <servlet-name>ListCard</servlet-name>
-    <servlet-class>ua.nure.order.server.ListCard</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ListCard</servlet-name>
-    <url-pattern>/ListCard</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

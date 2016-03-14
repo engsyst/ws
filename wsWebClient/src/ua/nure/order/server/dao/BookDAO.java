@@ -3,6 +3,7 @@ package ua.nure.order.server.dao;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ua.nure.order.client.Paginable;
 import ua.nure.order.client.SQLCountWrapper;
@@ -28,7 +29,7 @@ public interface BookDAO extends Paginable<Book> {
 	public Book deleteBook(int id) throws DAOException;
 	
 	/**
-	 * Add a book to order
+	 * Update count of the book
 	 * 
 	 * @param book
 	 * @return
@@ -37,7 +38,16 @@ public interface BookDAO extends Paginable<Book> {
 	public boolean updateBookCount(int id, int count) throws DAOException;
 	
 	/**
-	 * Find book with patter in the order
+	 * Get count of each book
+	 * 
+	 * @param book
+	 * @return
+	 * @throws DAOException 
+	 */
+	public boolean getBooksCount(Set<Book> books) throws DAOException;
+	
+	/**
+	 * Find book with pattern
 	 * 
 	 * @param name
 	 * @return

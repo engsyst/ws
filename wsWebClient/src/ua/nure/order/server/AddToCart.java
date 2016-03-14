@@ -22,7 +22,7 @@ import ua.nure.order.shared.CountValidator;
  */
 public class AddToCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static BookDAO bookService = null;
+	private BookDAO bookService = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -56,7 +56,7 @@ public class AddToCart extends HttpServlet {
 				count = 1;
 			}
 			int id = Integer.parseInt(sid);
-			cart.add(bookService.getBook(id), 1);
+			cart.add(bookService.getBook(id), count);
 			request.setAttribute("info", "Вы купили книгу");
 		} catch (NumberFormatException e) {
 			request.setAttribute("error", "Неверное количество книг");

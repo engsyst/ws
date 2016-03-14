@@ -37,5 +37,16 @@ public interface Querys {
 
 	static final String SQL_INSERT_BOOK_HAS_ORDER = "INSERT INTO `book_has_order` "
 			+ "(`book_id`, `order_id`, `count`) VALUES (?, ?, ?);";
+
+	static final String SQL_GET_BOOKS_COUNT = "SELECT `id`, `count` FROM `book` WHERE `id` IN ";
 	
+	static final String SQL_GET_FULL_ORDERS = "SELECT `user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum` FROM orders ";
+	
+	static final String SQL_GET_ORDER_BY_ID = "SELECT `id`,`status` FROM `order` WHERE `id` = ?";
+
+	static final String SQL_UPDATE_ORDER_STATUS = "UPDATE `order` SET `status` = ? WHERE `id` = ?";
+
+	static final String SQL_FIND_ORDERS_COUNT = "SELECT count(*) FROM `order` ";
+
+	static final String SQL_GET_ORDERS_ID = "SELECT DISTINCT `order_id` FROM `orders` ";
 }

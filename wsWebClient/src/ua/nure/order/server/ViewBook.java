@@ -17,7 +17,7 @@ import ua.nure.order.server.dao.UserDAO;
  */
 public class ViewBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static BookDAO bookService = null;
+	private BookDAO bookService = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -27,7 +27,12 @@ public class ViewBook extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
+    @Override
+	public void init() {
+    	bookService = (BookDAO) getServletContext().getAttribute("BookDao");
+    }
+    
+    /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,7 +41,6 @@ public class ViewBook extends HttpServlet {
 		Book book = null;
 		if (id != null)
 			try {
-				bookService = (BookDAO) getServletContext().getAttribute("BookDao");
 				book = bookService.getBook(Integer.parseInt(id));
 			} catch (Exception e) {
 				System.err.println("Book with id = " + id + " not found");

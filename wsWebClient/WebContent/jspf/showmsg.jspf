@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ 	<c:if test="${!empty sessionScope.error }">
+		<div class="container">
+			<div class="row">
+				<div class="alert alert-danger">
+				  <!-- Кнопка для закрытия сообщения, созданная с помощью элемента a -->
+					<a href="#" class="close" data-dismiss="alert">×</a>
+					${sessionScope.error }
+				</div>
+			</div>
+		</div>
+ 	</c:if>
+ 	<% request.getSession().removeAttribute("error"); %>
+ 	<c:if test="${!empty sessionScope.info }">
+		<div class="container">
+			<div class="row">
+				<div class="alert alert-success">
+				  <!-- Кнопка для закрытия сообщения, созданная с помощью элемента a -->
+					<a href="#" class="close" data-dismiss="alert">×</a>
+					${sessionScope.info }
+				</div>
+				<%-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+					<p>${sessionScope.info }</p>
+				</div> --%>
+			</div>
+		</div>
+ 	</c:if>
+ 	<% request.getSession().removeAttribute("info"); %>
+	<%-- ${session.removeAttribute("info") } --%>
+
