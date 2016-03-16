@@ -51,6 +51,26 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>Login</display-name>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>ua.nure.order.server.Login</servlet-class>
+    <init-param>
+      <description></description>
+      <param-name>loginPattern</param-name>
+      <param-value>.{1,20}</param-value>
+    </init-param>
+    <init-param>
+      <description></description>
+      <param-name>errLoginMsg</param-name>
+      <param-value>Login or password incorrect</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>ErrorHandler</display-name>
     <servlet-name>ErrorHandler</servlet-name>
     <servlet-class>ua.nure.order.server.ErrorHandler</servlet-class>

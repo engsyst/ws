@@ -47,7 +47,7 @@
 				<td><p class="text-right lead">${order.price}</p></td>
 				<td>
 				<c:if test="${order.status != util.get('rejected') && (order.status != util.get('completed')) }">
-					<form action="${context }/order/updateorderstatus" method="post">
+					<form action="updateorderstatus" method="post">
 					<span>
 						<button type="submit" name="${util.nextStatus(order.status) }" id="${order.id }" 
 							title="Принять" class="btn status-${util.nextStatus(order.status) }" 
@@ -56,7 +56,7 @@
 						</button>
 					</span>
 					<span>
-						<a href="${context }/order/orderdetal?id=${order.id }" 
+						<a href="orderdetal?id=${order.id }" 
 							class="btn status-rejected" data-toggle="modal" data-target="#myModal" >
 							<i class="glyphicon ${util.statusIconName(util.get('rejected')) }"></i>
 						</a>

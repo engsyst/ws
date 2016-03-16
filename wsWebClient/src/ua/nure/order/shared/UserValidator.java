@@ -7,10 +7,10 @@ import ua.nure.order.entity.user.User;
 
 public class UserValidator<T extends User> implements Validator<T> {
 
-	public static String loginPattern = "[a-zA-Z0-9\\-_.]{4,20}";
-	public static String passPattern = ".{4,20}";
-	public static String errLoginMsg = "[a-zA-Z0-9\\-_.]{4,20}";
-	public static String errPassMsg = ".{4,20}";
+	public String loginPattern = "";
+	public String passPattern = "";
+	public String errLoginMsg = "";
+	public String errPassMsg = "";
 
 	public Map<String, String> validate(T obj) {
 		Map<String, String> errors = new HashMap<>();

@@ -56,19 +56,19 @@ public class AddUser extends HttpServlet {
     	String param = ctx.getInitParameter("loginPattern");
     	log.trace("loginPattern --> " + param);
     	if (param != null)
-    		UserValidator.loginPattern = param;
+    		validator.loginPattern = param;
     	param = ctx.getInitParameter("passPattern");
     	log.trace("passPattern --> " + param);
     	if (param != null)
-    		UserValidator.passPattern = param;
+    		validator.passPattern = param;
     	param = ctx.getInitParameter("errLoginMsg");
     	log.trace("errLoginMsg --> " + param);
     	if (param != null)
-    		UserValidator.errLoginMsg = param;
+    		validator.errLoginMsg = param;
     	param = ctx.getInitParameter("errPassMsg");
     	log.trace("errPassMsg --> " + param);
     	if (param != null)
-    		UserValidator.errPassMsg = param;
+    		validator.errPassMsg = param;
     	log.trace("Login init finish");
     }
 

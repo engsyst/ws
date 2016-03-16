@@ -2,8 +2,10 @@ package ua.nure.order.server;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Enumeration;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -27,17 +29,16 @@ import ua.nure.order.shared.Util;
 /**
  * Servlet implementation class Login
  */
-@WebServlet(
+/*@WebServlet(
 		urlPatterns = { "/login" }, 
 		initParams = { 
-				@WebInitParam(name = "loginPattern", value = "[a-zA-Z0-9\\-_.]{4,20}"), 
-				@WebInitParam(name = "passPattern", value = ""),
-				@WebInitParam(name = "errLoginMsg", value = "Login must be more then 4 symbols"), 
-				@WebInitParam(name = "errPassMsg", value = "Pass must be more then 4 symbols"),
-		})
+				@WebInitParam(name = "loginPattern", value = ".{1,20}"), 
+				@WebInitParam(name = "errLoginMsg", value = "Login or password incorrect"), 
+		})*/
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(Login.class);
+	private static UserValidator<User> validator = new UserValidator<>();
 	private UserDAO dao = null;
        
     /**
@@ -53,22 +54,23 @@ public class Login extends HttpServlet {
     	log.trace("Login init start");
     	ServletContext ctx = getServletContext();
     	dao = (UserDAO) getServletContext().getAttribute("UserDao");
-    	String param = ctx.getInitParameter("loginPattern");
-    	log.trace("loginPattern --> " + param);
+    	ServletConfig conf = getServletConfig();
+    	String param = conf.getInitParameter("loginPattern");
+    	log.debug("loginPattern --> " + param);
     	if (param != null)
-    		UserValidator.loginPattern = param;
+    		validator.loginPattern = param;
     	param = ctx.getInitParameter("passPattern");
-    	log.trace("passPattern --> " + param);
+    	log.debug("passPattern --> " + param);
     	if (param != null)
-    		UserValidator.passPattern = param;
+    		validator.passPattern = param;
     	param = ctx.getInitParameter("errLoginMsg");
-    	log.trace("errLoginMsg --> " + param);
+    	log.debug("errLoginMsg --> " + param);
     	if (param != null)
-    		UserValidator.errLoginMsg = param;
+    		validator.errLoginMsg = param;
     	param = ctx.getInitParameter("errPassMsg");
-    	log.trace("errPassMsg --> " + param);
+    	log.debug("errPassMsg --> " + param);
     	if (param != null)
-    		UserValidator.errPassMsg = param;
+    		validator.errPassMsg = param;
     	log.trace("Login init finish");
     }
 
@@ -79,41 +81,56 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 		log.trace("doPost start");
 		HttpSession session = request.getSession();
-		String login = request.getParameter("login");
+		String login = Util.getOrElse(request.getParameter("login"), "").trim();
 		log.debug("login --> " + login);
-		
-		if (login == null || login.trim().length() == 0) {
-			response.sendRedirect("login.jsp");
-			return;
-		}
-		String pass = request.getParameter("password");
+
+		String pass = Util.getOrElse(request.getParameter("password"), "");
 		// TODO remove in PRODUCTION
 		log.debug("password --> " + pass);
-		User user = new User(login, Util.getOrElse(pass, ""));
-		Map<String, String> errors = new UserValidator<User>().validate(user);
-		try {
-			user = dao.getUser(login.trim());
-			String hash = Hash.encode(pass);
-			if (!user.getPass().equals(hash)) {
-				log.debug("password incorrect --> " + hash + " | " + user.getPass());
-				user.setPass(null);
-				throw new DAOException("Invalid password");
-			}
-		} catch (DAOException e) {
-			log.debug("DAOException", e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new ServletException(e.getMessage());
+		
+		User user = new User(login, pass);
+		Map<String, String> errors = validator.validate(user);
+		if (!errors.isEmpty()) {
+			goBack(request, response, user, errors);
+			return;
 		}
+		try {
+			User u = dao.getUser(login.trim());
+			if (u == null) {
+				errors.put("login", "Login or password incorrect");
+				goBack(request, response, user, errors);
+				return;
+			}
+			String hash = Hash.encode(pass);
+			if (!hash.equals(u.getPass())) {
+				log.debug("password incorrect --> " + hash + " | " + u.getPass());
+				u.setPass(null);
+				goBack(request, response, user, errors);
+				return;
+			}
+			user = u;
+		} catch (Exception e) {
+			log.debug("DAOException", e);
+			throw new ServletException(e.getMessage());
+		} 
 		session.removeAttribute("errors");
 		session.setAttribute("user", user);
 		log.debug("Set session attribute user --> " + user);
 		if (user.getRole().equals(Role.client)) {
-			String referer = request.getHeader("Referer");
 			log.debug("Redirect to --> list.jsp");
 			response.sendRedirect("list.jsp");
 		} else {
 			log.debug("Redirect to --> orders.jsp");
-			response.sendRedirect("orders.jsp");
+			response.sendRedirect("order/orders.jsp");
 		}
+	}
+	
+	private void goBack(HttpServletRequest request, HttpServletResponse response, User user, Map<String, String> errors)
+			throws IOException {
+		HttpSession session = request.getSession();
+		session.setAttribute("user", user);
+		session.setAttribute("errors", errors);
+		log.debug("Redirect --> login.jsp");
+		response.sendRedirect("login.jsp");
 	}
 }

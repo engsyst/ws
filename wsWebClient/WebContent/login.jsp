@@ -23,7 +23,20 @@
 							<header>
 								<h1 class="center-text">Login</h1>
 							</header>
-							<form method="post" action="${context }/login">
+							<form method="post" action="login">
+								<c:if test="${!empty sessionScope.errors }">
+								<div class="row">
+									<div class="alert alert-danger">
+									  <!-- Кнопка для закрытия сообщения, созданная с помощью элемента a -->
+										<a href="#" class="close" data-dismiss="alert">×</a>
+										<c:forEach var="e" items="${sessionScope.errors }">
+											<p>${e.value }</p>
+										</c:forEach>
+										<% request.getSession().removeAttribute("errors"); %>
+									</div>
+								</div>
+														
+								</c:if>
 								<div class="form-group ">
 									<label class="control-label requiredField" for="login">
 										Имя <span class="asteriskField"> * </span>

@@ -49,6 +49,6 @@ public class OrderDetal extends HttpServlet {
 		} catch (NumberFormatException | DAOException e) {
 			request.setAttribute("error", "Order not found. Id: " + request.getParameter("id"));
 		}
-		request.getRequestDispatcher("/orderdetal.jsp").forward(request, response);
+		request.getRequestDispatcher("orderdetal.jsp").forward(request, response);
 	}
 }

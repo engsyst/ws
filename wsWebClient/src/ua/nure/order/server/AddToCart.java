@@ -50,12 +50,13 @@ public class AddToCart extends HttpServlet {
 			throws ServletException, IOException {
 		log.trace("doPost start");
 		Map<String, String> err = new CountValidator().validate(request.getParameter("count"));
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		String sid = request.getParameter("tocart");
 		Cart<Book> cart = (Cart<Book>) session.getAttribute("cart");
-		if (cart == null)
+		if (cart == null) {
 			log.debug("Cart not found. Create new.");
 			cart = new Cart<Book>();
+		}
 		try {
 			int count;
 			try {
