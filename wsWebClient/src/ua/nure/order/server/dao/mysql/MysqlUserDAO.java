@@ -47,9 +47,7 @@ public class MysqlUserDAO implements UserDAO {
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
 				user = unmapUser(rs);
-			} else {
-				throw new SQLException("User not found. Login: " + login);
-			}
+			} 
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
@@ -60,4 +58,57 @@ public class MysqlUserDAO implements UserDAO {
 		return new User(rs.getInt("id"), rs.getString("login"), rs.getString("password"), rs.getString("role"));
 	}
 
+	@Override
+	public int addUser(User user) throws DAOException {
+		Connection con = null;
+		int id = 0;
+		try {
+			con = MysqlDAOFactory.getConnection();
+			id = addUser(con, user);
+		} catch (SQLException e) {
+			MysqlDAOFactory.roolback(con);
+			log.error("getUser: Can to get user. ", e);
+			throw new DAOException("Can to get user. " + e.getMessage(), e);
+		} finally {
+			MysqlDAOFactory.close(con);
+		}
+		return id;
+		
+	}
+
+	public int addUser(Connection con, User user) throws SQLException {
+		log.trace("Start");
+		PreparedStatement st = null;
+		int id = 0;
+		try {
+			// (`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description`)
+			st = con.prepareStatement(Querys.SQL_ADD_USER, PreparedStatement.RETURN_GENERATED_KEYS);
+			int k = 0;
+			st.setString(++k, user.getLogin());
+			st.setString(++k, user.getPass());
+			st.setString(++k, user.getRole().toString());
+			st.setString(++k, user.getEmail());
+			st.setString(++k, user.getPhone());
+			st.setString(++k, user.getName());
+			st.setString(++k, user.getAddress());
+			st.setString(++k, user.getAvatar());
+			st.setString(++k, user.getDescription());
+			log.debug("Query --> " + st);
+			st.executeUpdate();
+			ResultSet rs = st.getGeneratedKeys();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			} else {
+				log.error("Can not add user");
+				throw new SQLException("Can not add user");
+			}
+			con.commit();
+		} finally {
+			MysqlDAOFactory.closeStatement(st);
+		}
+		log.debug("Result --> " + id);
+		log.trace("Finish");
+		return id;
+	}
+	
 }

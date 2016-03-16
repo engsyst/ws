@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hash {
 	public static String encode(String msg) throws NoSuchAlgorithmException {
+		msg = msg == null ? "" : msg;
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
         digest.update(msg.getBytes());
         return hash2str(digest.digest());

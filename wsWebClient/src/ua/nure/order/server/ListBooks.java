@@ -27,7 +27,7 @@ public class ListBooks extends HttpServlet {
 		bookService = (BookDAO) getServletContext().getAttribute("BookDao");
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+/*	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Collection<Book> books = null;
 		HttpSession session = request.getSession();
@@ -57,4 +57,4 @@ public class ListBooks extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 		rd.forward(request, response);
 	}
-}
+*/}

@@ -38,7 +38,7 @@
 					<img alt="" src="">
 				</div>
 				<div class="col-md-9">
-					<form action="addtocart" method="post">
+					<form action="${context }/addtocart" method="post">
 						<input type="hidden" name="id" value="${book.id}"/>
 						<input type="number" min="1" max="${book.count}" name="count" value="1"/>
 						<button type="submit" name="tocart" id="${book.id }" title="Добавить в корзину"

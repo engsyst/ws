@@ -3,6 +3,9 @@
 	margin-top: 80px;'
 }
 
+.row-warning {
+	background-color: #f9e4e3 !important;
+}
 .status-completed {
     color: #FFF;
     background-color: #5CB85C;

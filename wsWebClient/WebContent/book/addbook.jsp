@@ -9,10 +9,10 @@
 <html>
 <head>
 <title>Add book</title>
-<%@ include file="../../jspf/headtag.jspf" %>
+<%@ include file="../jspf/headtag.jspf" %>
 </head>
 <body>
-	<%@ include file="../../jspf/menu.jspf"%>
+	<%@ include file="../jspf/menu.jspf" %>
 	<jsp:useBean id="book" class="ua.nure.order.entity.book.Book" scope="session"/>
 	<jsp:setProperty property="*" name="book"/>
 	<div>
@@ -72,6 +72,6 @@
 		</div>
 	</div>
 
-<%@ include file="../../jspf/bootstrap.jspf" %>
+<%@ include file="../jspf/bootstrap.jspf" %>
 </body>
 </html>

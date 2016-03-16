@@ -14,11 +14,11 @@ public class UserValidator<T extends User> implements Validator<T> {
 
 	public Map<String, String> validate(T obj) {
 		Map<String, String> errors = new HashMap<>();
-		if (obj == null || obj.getLogin() == null || obj.getLogin().trim().length() < 4 || !obj.getLogin().matches(loginPattern)) {
+		if (obj == null || obj.getLogin() == null || !obj.getLogin().matches(loginPattern)) {
 			errors.put("login", errLoginMsg);
 		}
-		if (obj.getPass() == null || obj.getPass().matches(loginPattern)) {
-			errors.put("pass", errPassMsg);
+		if (obj.getPass() == null || !obj.getPass().matches(loginPattern)) {
+			errors.put("password", errPassMsg);
 		}
 		return errors;
 	}

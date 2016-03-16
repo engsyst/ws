@@ -1,4 +1,4 @@
-package ua.nure.order.filter;
+package ua.nure.order.server.filter;
 
 import java.io.IOException;
 

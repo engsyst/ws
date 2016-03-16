@@ -11,6 +11,7 @@ import ua.nure.order.entity.order.OrderStatus;
 public interface OrderDAO extends Paginable<Order> {
 	int makeOrder(Map<Product, Integer> items, int userId) throws DAOException;
 	List<Order> getOrders() throws DAOException;
-	Order getOrder(int id) throws DAOException;
+	Order getOrderDetal(int id) throws DAOException;
+	Order getOrderStatus(int id) throws DAOException;
 	void updateStatus(int id, OrderStatus status) throws DAOException;
 }

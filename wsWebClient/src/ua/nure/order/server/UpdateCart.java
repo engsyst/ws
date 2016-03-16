@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.order.client.Cart;
 import ua.nure.order.entity.book.Book;
 
@@ -18,6 +20,7 @@ import ua.nure.order.entity.book.Book;
 @WebServlet("/updatecart")
 public class UpdateCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger log = Logger.getLogger(UpdateCart.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -31,12 +34,15 @@ public class UpdateCart extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.trace("doPost start");
 		HttpSession session = request.getSession(false);
 		Cart<Book> cart = (Cart<Book>) session.getAttribute("cart");
+		log.debug("Get cart from session --> " + cart);
 		if (cart == null) {
 			cart = new Cart<>();
 			session.setAttribute("cart", cart);
 			response.sendRedirect("listcart.jsp");
+			log.debug("New Cart created. Redirect to listcart.jsp");
 		}
 		int id = 0;
 		String uId = request.getParameter("update");
@@ -52,7 +58,9 @@ public class UpdateCart extends HttpServlet {
 					cart.put(cart.getItem(id), count);
 					session.setAttribute("info", "Корзина обновлена");
 				}
+				log.debug("Cart updated --> " + cart);
 			} catch (Exception e) {
+				log.error("Unknown product. Operation update. Id: " + uId);
 				throw new ServletException("Unknown product. Operation update. Id: " + uId);
 			}
 		}
@@ -62,12 +70,17 @@ public class UpdateCart extends HttpServlet {
 				count = Integer.parseInt(request.getParameter("count"));
 				cart.remove(cart.getItem(id));
 				session.setAttribute("info", "Книга удалена из корзины");
+				log.debug("Cart updated. Removed book --> " + rId);
 			} catch (Exception e) {
+				log.error("Unknown product. Operation remove. Id: " + uId);
 				throw new ServletException("Unknown product. Operation remove. Id: " + rId);
 			}
 		}
 		session.setAttribute("cart", cart);
+		log.debug("Cart to session --> " + cart);
 		response.sendRedirect("listcart.jsp");
+		log.debug("Redirect to listcart.jsp");
+		log.trace("doPost finish");
 	}
 
 }

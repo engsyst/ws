@@ -22,13 +22,12 @@ public class ListCard extends HttpServlet {
      */
     public ListCard() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+/*	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("/listcard.jsp");
 		HttpSession session = request.getSession(false);
 		if (session == null) 
@@ -38,5 +37,5 @@ public class ListCard extends HttpServlet {
 			throw new ServletException("No card");
 		rd.forward(request, response);
 	}
-
+*/
 }

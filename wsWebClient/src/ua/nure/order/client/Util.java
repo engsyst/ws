@@ -1,6 +1,7 @@
 package ua.nure.order.client;
 
 import ua.nure.order.entity.order.OrderStatus;
+import ua.nure.order.entity.user.Role;
 
 public class Util {
 	public boolean equals(OrderStatus o1, OrderStatus o2) {
@@ -36,5 +37,7 @@ public class Util {
 		return "";
 	}
 	
-	
+	public Role getRole(String name) {
+		return Role.valueOf(name);
+	}
 }

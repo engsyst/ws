@@ -16,7 +16,7 @@ import ua.nure.order.server.dao.OrderDAO;
 /**
  * Servlet implementation class OrderDetal
  */
-@WebServlet("/order/detal")
+@WebServlet("/order/orderdetal")
 public class OrderDetal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private OrderDAO orderService = null;
@@ -44,11 +44,11 @@ public class OrderDetal extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			Order order = orderService.getOrder(Integer.parseInt(request.getParameter("id")));
+			Order order = orderService.getOrderDetal(Integer.parseInt(request.getParameter("id")));
 			request.setAttribute("order", order);
 		} catch (NumberFormatException | DAOException e) {
 			request.setAttribute("error", "Order not found. Id: " + request.getParameter("id"));
 		}
-		request.getRequestDispatcher("oderdetal.jsp");
+		request.getRequestDispatcher("/orderdetal.jsp").forward(request, response);
 	}
 }

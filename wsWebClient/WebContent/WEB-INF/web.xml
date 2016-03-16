@@ -8,7 +8,7 @@
   <filter>
     <display-name>EncodingFilter</display-name>
     <filter-name>EncodingFilter</filter-name>
-    <filter-class>ua.nure.order.filter.EncodingFilter</filter-class>
+    <filter-class>ua.nure.order.server.filter.EncodingFilter</filter-class>
     <init-param>
       <description></description>
       <param-name>encoding</param-name>

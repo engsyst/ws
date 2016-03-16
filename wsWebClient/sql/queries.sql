@@ -73,9 +73,16 @@ SELECT
             AND `order`.`id` = `sum_by_order`.`oid`
     ORDER BY `user`.`id` , `order`.`id` , `book`.`id`;
 
-SELECT `user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum` FROM orders ORDER BY login ASC,`order_id` DESC LIMIT 0,10;
+SELECT `user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum` FROM orders ORDER BY login ASC,`order_id` DESC;
+
+SELECT distinct order_id FROM `orders`;
 
 SELECT `id`,`status` FROM `order` WHERE `id` = 20;
 
 UPDATE `order` SET `status` = 'newed' WHERE `id` = 20;
+
+SELECT `id`,`no`,`user_id`,`date`,`status` FROM `order`;
+
+INSERT INTO `user` (`id`,`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description`)
+	VALUES (<{id: }>,<{login: }>,<{password: }>,<{role: client}>,<{e-mail: }>,<{phone: }>,<{name: }>,<{address: }>,<{avatar: }>,<{description: }>);
 

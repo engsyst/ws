@@ -13,7 +13,7 @@
 <body>
 <%@ include file="jspf/menu.jspf" %>
 
-	<div class="container">
+	<div class="container main-content">
 		<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-4"></div>
 			<div class="col-lg-4 col-md-4 col-sm-4">
@@ -23,7 +23,7 @@
 							<header>
 								<h1 class="center-text">Login</h1>
 							</header>
-							<form method="post" action="login">
+							<form method="post" action="${context }/login">
 								<div class="form-group ">
 									<label class="control-label requiredField" for="login">
 										Имя <span class="asteriskField"> * </span>
@@ -33,7 +33,7 @@
 								<div class="form-group ">
 									<label class="control-label requiredField" for="password">
 										Пароль <span class="asteriskField"> * </span>
-									</label> <input type="password" class="form-control" id="password" name="pass"
+									</label> <input type="password" class="form-control" id="password" name="password"
 										placeholder="пароль" type="text" />
 								</div>
 <!-- 								<div class="form-group ">
@@ -58,7 +58,7 @@
 		</div>
 	</div>
 
-
+	<% session.removeAttribute("error"); %>
 	<%@ include file="jspf/bootstrap.jspf" %>
 </body>
 </html>

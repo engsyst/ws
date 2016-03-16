@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
 	
 <jsp:useBean id="util" class="ua.nure.order.client.Util" scope="page" />
 
@@ -42,11 +43,11 @@
 						'<div class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></div>' : '' }
 					
 				</td>
-				<td colspan="2"><p><big>${order.title}</big></p></td>
-				<td><p class="text-right"><big>${order.price}</big></p></td>
+				<td colspan="2"><p class="lead">${order.title}</p></td>
+				<td><p class="text-right lead">${order.price}</p></td>
 				<td>
 				<c:if test="${order.status != util.get('rejected') && (order.status != util.get('completed')) }">
-					<form action="updateorderstatus" method="post">
+					<form action="${context }/order/updateorderstatus" method="post">
 					<span>
 						<button type="submit" name="${util.nextStatus(order.status) }" id="${order.id }" 
 							title="Принять" class="btn status-${util.nextStatus(order.status) }" 
@@ -55,7 +56,7 @@
 						</button>
 					</span>
 					<span>
-						<a href="/order/detail&id=${order.id }" 
+						<a href="${context }/order/orderdetal?id=${order.id }" 
 							class="btn status-rejected" data-toggle="modal" data-target="#myModal" >
 							<i class="glyphicon ${util.statusIconName(util.get('rejected')) }"></i>
 						</a>
@@ -88,5 +89,8 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
- 
+ 	<div class="modal-dialog">
+		<div class="modal-content">
+		</div>
+	</div>
 </div><!-- /.modal -->

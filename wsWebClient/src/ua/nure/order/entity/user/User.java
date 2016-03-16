@@ -3,9 +3,17 @@ package ua.nure.order.entity.user;
 import ua.nure.order.entity.Entity;
 
 public class User extends Entity {
+	
+	private String name;
 	private String login;
 	private String pass;
 	private Role role;
+	private String email;
+	private String phone;
+	private String address;
+	private String avatar;
+	private String description;
+	
 	
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -52,6 +60,54 @@ public class User extends Entity {
 		this.role = Role.valueOf(role);
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -70,7 +126,6 @@ public class User extends Entity {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result + ((pass == null) ? 0 : pass.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		return result;
 	}
@@ -88,11 +143,6 @@ public class User extends Entity {
 			if (other.login != null)
 				return false;
 		} else if (!login.equals(other.login))
-			return false;
-		if (pass == null) {
-			if (other.pass != null)
-				return false;
-		} else if (!pass.equals(other.pass))
 			return false;
 		if (role != other.role)
 			return false;

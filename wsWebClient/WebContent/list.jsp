@@ -36,7 +36,6 @@
 	</c:if>
 
 	<c:set var="books" value="${lbp.items }" scope="page" />
-	<%-- <jsp:useBean id="books" type="java.util.List<ua.nure.order.entity.book.Book>"></jsp:useBean> --%>
 
 <%-- CONTENT --%>
 

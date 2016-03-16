@@ -13,7 +13,7 @@ public interface Querys {
 	static final String SQL_UPDATE_BOOKS_COUNT = "SELECT count(*) FROM `books` ";
 	
 	/**
-	 *  use makeAuthorsValues(List<String> authors, int bookId)
+	 *  use makeAuthorsValues(List? authors, int bookId)
 	 *  to generate values string in format: (name1,n),(name2,n) ... ;
 	 */
 	static final String SQL_ADD_AUTHOR = "INSERT INTO `ws`.`author` "
@@ -33,6 +33,9 @@ public interface Querys {
 	
 	static final String SQL_GET_USER = "SELECT id, login, password, role FROM user WHERE login = ?";
 
+	static final String SQL_ADD_USER = "INSERT INTO `user` (`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description`) "
+			+ "VALUES (?,?,?,?,?,?,?,?,?)";
+	
 	static final String SQL_INSERT_ORDER = "INSERT INTO `order` (`no`, `user_id`) VALUES (?, ?);";
 
 	static final String SQL_INSERT_BOOK_HAS_ORDER = "INSERT INTO `book_has_order` "
@@ -42,7 +45,11 @@ public interface Querys {
 	
 	static final String SQL_GET_FULL_ORDERS = "SELECT `user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum` FROM orders ";
 	
-	static final String SQL_GET_ORDER_BY_ID = "SELECT `id`,`status` FROM `order` WHERE `id` = ?";
+	static final String SQL_GET_ORDER_BY_ID = "SELECT `id`,`no`,`user_id`,`date`,`status` FROM `order` WHERE `id` = ?";
+
+	static final String SQL_GET_ORDER_STATUS = "SELECT `id`,`status` FROM `order` WHERE `id` = ?";
+
+	static final String SQL_GET_ORDER_DETAL = "SELECT `user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum` FROM orders WHERE `order_id` = ?";
 
 	static final String SQL_UPDATE_ORDER_STATUS = "UPDATE `order` SET `status` = ? WHERE `id` = ?";
 

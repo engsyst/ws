@@ -194,12 +194,12 @@ public class MysqlOrderDAO implements OrderDAO {
 	}
 
 	@Override
-	public Order getOrder(int id) throws DAOException {
+	public Order getOrderStatus(int id) throws DAOException {
 		Connection con = null;
 		Order order = null;
 		try {
 			con = getConnection();
-			order = getOrder(con, id);
+			order = getOrderStatus(con, id);
 		} catch (SQLException e) {
 			MysqlDAOFactory.roolback(con);
 			log.error("Can not add order", e);
@@ -210,11 +210,11 @@ public class MysqlOrderDAO implements OrderDAO {
 		return order;
 	}
 
-	Order getOrder(Connection con, int id) throws SQLException {
+	Order getOrderStatus(Connection con, int id) throws SQLException {
 		PreparedStatement st = null;
 		Order order = new Order();
 		try {
-			st = con.prepareStatement(Querys.SQL_GET_ORDER_BY_ID);
+			st = con.prepareStatement(Querys.SQL_GET_ORDER_STATUS);
 			st.setInt(1, id);
 			st.executeQuery();
 			ResultSet rs = st.getResultSet();
@@ -254,4 +254,38 @@ public class MysqlOrderDAO implements OrderDAO {
 			MysqlDAOFactory.closeStatement(st);
 		}
 	}
+
+	@Override
+	public Order getOrderDetal(int id) throws DAOException {
+		Connection con = null;
+		Order order = null;
+		try {
+			con = getConnection();
+			order = getOrderDetal(con, id);
+		} catch (SQLException e) {
+			log.error("Can not add order", e);
+			throw new DAOException("Can not get order | " + e.getMessage(), e);
+		} finally {
+			MysqlDAOFactory.close(con);
+		}
+		return order;
+	}
+
+	Order getOrderDetal(Connection con, int id) throws SQLException {
+		Order order = new Order();
+		PreparedStatement st = null;
+		try {
+			String query = Querys.SQL_GET_ORDER_DETAL;
+			st = con.prepareStatement(query);
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				order = unmapOrder(rs);
+			}
+		} finally {
+			MysqlDAOFactory.closeStatement(st);
+		}
+		return order;
+	}
+	
 }

@@ -94,10 +94,10 @@
 							<c:set var="k" value="0" />
 							<c:forEach var="book" items="${books }">
 								<%-- <tr ${cart.get(book) > book.count ? "class='row-warning' title='Не достаточно книг.'" :'' }> --%>
-								<tr class="${cart.get(book) > book.count ? 'row-warning' : '' }" title="В наличии: ${book.count }">
+								<tr class="${cart.get(book) > book.count ? 'alert-danger' : '' }" title="В наличии: ${book.count }">
 									<c:set var="k" value="${k + 1}" />
 									<td><c:out value="${k}" /></td>
-									<td><a href="ViewBook?id=${book.id}">${book.title}</a></td>
+									<td><a href="${context }/ViewBook?id=${book.id}">${book.title}</a></td>
 									<td>
 										<c:forEach var="a" items="${book.author}">
 											${a.title}<br/>
@@ -140,7 +140,7 @@
 
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-					<form action="makeorder" method="post">
+					<form action="${context }/makeorder" method="post">
                    <div class="form-group">
                         <button type="submit" name="buy" class="btn btn-primary btn-block">Оформить заказ</button>
                     </div>

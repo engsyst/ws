@@ -44,13 +44,14 @@ public class MysqlDAOFactory extends DAOFactory {
 	}
 
 	/**
-	 * method to create MSSQL connections
+	 * method to create MSSQL pooled connections using application context
 	 * 
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
 	static Connection getConnection() throws SQLException {
+		log.trace("Start");			
 		Connection con = null;
 		try {
 			Context initContext = new InitialContext();
@@ -64,11 +65,20 @@ public class MysqlDAOFactory extends DAOFactory {
 			log.error("Cannot obtain a connection from the pool", ex);			
 			throw new SQLException("Cannot obtain a connection from the pool", ex);
 		}
+		log.trace("Finish");			
 		return con;
 	}
 
+	/**
+	 * method to create MSSQL connections using DriverManager
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException 
+	 */
 	protected static Connection getDBConnection()
 			throws SQLException {
+		log.trace("Start");			
 		Connection con = null;
 		try {
 			con = DriverManager.getConnection(DB_URL);
@@ -78,12 +88,14 @@ public class MysqlDAOFactory extends DAOFactory {
 			log.error("Can not get connection.", e);
 			throw e;
 		}
+		log.trace("Finish");			
 		return con;
 	}
 
 	public static void roolback(Connection con) throws DAOException {
 		if (con != null) {
 			try {
+				log.debug("Try rollback.");
 				con.rollback();
 			} catch (SQLException e) {
 				log.error("Can not rollback transaction.", e);
@@ -97,35 +109,34 @@ public class MysqlDAOFactory extends DAOFactory {
 			log.debug("Try commit transaction");
 			con.commit();
 		} catch (SQLException e) {
+			log.error("Can not commit transaction." + e);
 			try {
-				log.error("Try rollback transaction");
+				log.debug("Try rollback transaction.");
 				con.rollback();
 			} catch (SQLException e1) {
-				log.error("Can not rollback transaction # " + e1.getMessage());
+				log.error("Can not rollback transaction." + e1);
 			}
-			log.error("Can not commit transaction # " + e.getMessage());
 		}
 	}
 
 	protected static void close(Connection con) {
 		try {
-			log.debug("Try close connection");
+			log.debug("Try close connection.");
 			if (con != null) {
 				con.close();
-				con = null;
 			}
 		} catch (SQLException e) {
-			log.error("Can not close connection # " + e.getMessage());
+			log.error("Can not close connection." + e.getMessage());
 		}
 	}
 
-	static void closeStatement(Statement stmt) throws SQLException {
+	static void closeStatement(Statement stmt) {
 		if (stmt != null) {
 			try {
+				log.debug("Try close statement");
 				stmt.close();
 			} catch (SQLException e) {
 				log.error(e.getLocalizedMessage(), e);
-				throw e;
 			}
 		}
 	}
@@ -147,7 +158,6 @@ public class MysqlDAOFactory extends DAOFactory {
 
 	@Override
 	public OrderDAO getOrderDAO() {
-		// TODO Auto-generated method stub
 		return MysqlOrderDAO.getInstance();
 	}
 }

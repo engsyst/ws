@@ -27,16 +27,21 @@ class MysqlBookDAO implements BookDAO {
 	private static MysqlBookDAO dao;
 	
 	public static BookDAO getInstance() {
-		if (dao == null) 
+		log.trace("Try get instance.");
+		if (dao == null) {
+			log.trace("Instance not found. Create new.");
 			dao = new MysqlBookDAO();
+		}
 		return dao;
 	}
 	
 	Connection getConnection() throws SQLException {
 		Connection con = null;
 		try {
+			log.trace("Try get connection from pool.");
 			con = MysqlDAOFactory.getConnection();
 		} catch (SQLException e) {
+			log.error("Cannot get connection from pool. Try use DriverManager.");
 			con = MysqlDAOFactory.getDBConnection();
 		}
 		return con;
@@ -66,6 +71,7 @@ class MysqlBookDAO implements BookDAO {
 	}
 
 	List<Integer> getExistedAuthors(Connection con, List<Author> auth) throws SQLException {
+		log.trace("Start");
 		// Make query string
 		StringBuilder sb = new StringBuilder();
 		for (Author a : auth) {
@@ -76,12 +82,15 @@ class MysqlBookDAO implements BookDAO {
 		sb.delete(sb.lastIndexOf("'")+1, sb.length());
 		sb.append(";");
 		String getQuery = Querys.SQL_GET_AUTHORS + sb.toString();
+		log.debug("Query --> " + getQuery);
 		
 		List<Integer> res = new ArrayList<>();
 		PreparedStatement st = null;
 		try {
+			log.debug("Try execute");
 			st = con.prepareStatement(getQuery);
 			ResultSet rs = st.executeQuery();
+			log.debug("Try get result");
 			while (rs.next()) {
 				res.add(rs.getInt(1));
 				auth.remove(rs.getString(2));
@@ -89,6 +98,8 @@ class MysqlBookDAO implements BookDAO {
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
+		log.debug("Result --> " + res);
+		log.trace("Finish");
 		return res;
 		
 	}
@@ -99,6 +110,7 @@ class MysqlBookDAO implements BookDAO {
 		int bookId = 0;
 		try {
 			con = getConnection();
+			log.debug("Try add book");
 			bookId = addBook(con, item);
 			con.commit();
 		} catch (SQLException e) {
@@ -112,9 +124,12 @@ class MysqlBookDAO implements BookDAO {
 	}
 
 	int addBook(Connection con, Book item) throws SQLException {
+		log.trace("Start");
 		int bookId = 0;
 		PreparedStatement st = null;
 		try {
+			log.debug("Query --> " + Querys.SQL_ADD_BOOK);
+			log.debug("Book --> " + item);
 			st = con.prepareStatement(Querys.SQL_ADD_BOOK, PreparedStatement.RETURN_GENERATED_KEYS);
 			mapBook(st, item);
 			int count = st.executeUpdate();
@@ -124,61 +139,26 @@ class MysqlBookDAO implements BookDAO {
 			ResultSet rs = st.getGeneratedKeys();
 			if (rs.next()) {
 				bookId = rs.getInt(1);
+				log.debug("Inserted book id --> " + bookId);
 			} else {
+				log.error("No data inserted");
 				throw new SQLException("addBook: No data inserted");
 			}
 			
+			log.debug("Try add authors");
 			List<Integer> aIds = addAuthors(con, item.getAuthor());
 			String q = Querys.SQL_ADD_BOOK_AUTHORS + SqlUtil.pairToValues(aIds, bookId);
+			log.debug("Query --> " + q);
 			st = con.prepareStatement(q, PreparedStatement.RETURN_GENERATED_KEYS);
 			count = st.executeUpdate();
 			
 		} finally {
 			st.close();
 		}
+		log.debug("Result --> " + bookId);
+		log.trace("Finish");
 		return bookId;
 		
-	}
-
-	@Override
-	public Book deleteBook(int id) throws DAOException {
-		throw new UnsupportedOperationException();
-//		return null;
-	}
-
-	@Override
-	public boolean updateBookCount(int id, int count) throws DAOException {
-		Connection con = null;
-		try {
-			con = getConnection();
-			boolean res = updateBookCount(con, id, count);
-			MysqlDAOFactory.commit(con);
-			return res;
-		} catch (SQLException e) {
-			log.error("listBooks: Can not listBooks", e);
-			throw new DAOException("Can not listBooks", e);
-		} finally {
-			MysqlDAOFactory.close(con);
-		}
-	}
-
-	public boolean updateBookCount(Connection con, int id, int count) throws SQLException {
-		
-		return false;
-	}
-	
-	@Override
-	public Collection<Book> findByTitle(String pattern) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-//		return null;
-	}
-
-	@Override
-	public Collection<Book> findByAuthor(String pattern) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-//		return null;
 	}
 
 	@Override
@@ -189,22 +169,27 @@ class MysqlBookDAO implements BookDAO {
 	@Override
 	public List<Book> list(String pattern, String orderColumn, boolean ascending, 
 			int start, int count, SQLCountWrapper total) throws DAOException {
+		log.trace("Start");
 		List<Book> books = null;
 		Connection con = null;
 		try {
 			con = getConnection();
+			log.debug("Try list book with pattern --> " + pattern + "; orderColumn --> " + orderColumn 
+					+ "; ascending --> " + ascending + "; start --> " + start + "; count --> " + count);
 			books = listBooks(con, pattern, orderColumn, ascending, start, count, total);
 		} catch (SQLException e) {
-			log.error("listBooks: Can not listBooks", e);
+			log.error("Can not listBooks", e);
 			throw new DAOException("Can not listBooks", e);
 		} finally {
 			MysqlDAOFactory.close(con);
 		}
+		log.trace("Finish");
 		return books;
 	}
 
 	List<Book> listBooks(Connection con, String pattern, String orderColumn, boolean ascending, 
 			int start, int count, SQLCountWrapper total) throws SQLException {
+		log.trace("Start");
 		List<Book> books = new ArrayList<>();
 		PreparedStatement st = null;
 		try {
@@ -214,6 +199,7 @@ class MysqlBookDAO implements BookDAO {
 					+ orderColumn + (ascending ? " ASC" : " DESC");
 			String limit = (count == 0 ? "" : " LIMIT " + start + "," + count);
 			String query = Querys.SQL_FIND_BOOKS + where + order + limit;
+			log.debug("Query --> " + query);
 			st = con.prepareStatement(query);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
@@ -221,31 +207,32 @@ class MysqlBookDAO implements BookDAO {
 			}
 			st.close();
 			if (total != null) {
+				log.debug("Try get total books.");
 				query = Querys.SQL_FIND_BOOKS_COUNT + where;
+				log.debug("Query --> " + query);
 				st = con.prepareStatement(query);
 				rs = st.executeQuery();
 				while (rs.next()) {
 					total.setCount(rs.getInt(1));
+					log.debug("Total --> " + total);
 				}
 			}
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
+		log.debug("Result -- >" + books);
+		log.trace("Finish");
 		return books;
 	}
 	
 	@Override
-	public Book findById(Integer id) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Map<Integer, String> listAuthors() throws DAOException {
+		log.trace("Start");
 		Map<Integer, String> authors = null;
 		Connection con = null;
 		try {
 			con = getConnection();
+			log.debug("Try list authors.");
 			authors = listAuthors(con);
 		} catch (SQLException e) {
 			log.error("Can not add book", e);
@@ -253,13 +240,16 @@ class MysqlBookDAO implements BookDAO {
 		} finally {
 			MysqlDAOFactory.close(con);
 		}
+		log.trace("Finish");
 		return authors;
 	}
 
 	public Map<Integer, String> listAuthors(Connection con) throws SQLException {
+		log.trace("Start");
 		Map<Integer, String> authors = new TreeMap<>();
 		PreparedStatement st = null;
 		try {
+			log.debug("Query --> " + Querys.SQL_LIST_AUTHORS);
 			st = con.prepareStatement(Querys.SQL_LIST_AUTHORS);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
@@ -269,14 +259,21 @@ class MysqlBookDAO implements BookDAO {
 			MysqlDAOFactory.closeStatement(st);
 		}
 		
+		log.debug("Result -- >" + authors);
+		log.trace("Finish");
 		return authors;
 	}
 	
 	List<Integer> addAuthors(Connection con, List<Author> list) throws SQLException {
+		log.trace("Start");
 		assert list.isEmpty() : "Empty authors";
 		List<Author> auth = new ArrayList<>(list);
+		log.debug("Make copy of book authors --> " + auth);
+		log.debug("Try get Existed Authors and remove it from insert -- >");
 		List<Integer> res = getExistedAuthors(con, auth);
 		if (auth.isEmpty()) {
+			log.debug("Nothing to add.");
+			log.trace("Finish");
 			return res;
 		}
 		List<String> toAdd = new ArrayList<>();
@@ -286,9 +283,11 @@ class MysqlBookDAO implements BookDAO {
 		String addQuery = Querys.SQL_ADD_AUTHOR + SqlUtil.listToValues(toAdd);
 		PreparedStatement st = null;
 		try {
+			log.debug("Query -- >" + addQuery);
 			st = con.prepareStatement(addQuery, PreparedStatement.RETURN_GENERATED_KEYS);
 			int count = st.executeUpdate();
 			if (count == 0) {
+				log.error("No data inserted");
 				throw new SQLException("addAuthors: No data inserted");
 			}
 			ResultSet rs = st.getGeneratedKeys();
@@ -298,14 +297,18 @@ class MysqlBookDAO implements BookDAO {
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
+		log.debug("Result -- >" + res);
+		log.trace("Finish");
 		return res;
 	}
 
 	@Override
 	public Book getBook(int id) throws DAOException {
+		log.trace("Start");
 		Connection con = null;
 		try {
 			con = getConnection();
+			log.debug("Try get book --> " + id);
 			return getBook(con, id);
 		} catch (SQLException e) {
 			log.error("listBooks: Can not listBooks", e);
@@ -316,9 +319,11 @@ class MysqlBookDAO implements BookDAO {
 	}
 
 	public Book getBook(Connection con, int id) throws SQLException {
+		log.trace("Start");
 		Book book = null;
 		PreparedStatement st = null;
 		try {
+			log.debug("Query --> " + Querys.SQL_FIND_BOOK_BY_ID);
 			st = con.prepareStatement(Querys.SQL_FIND_BOOK_BY_ID);
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
@@ -328,31 +333,39 @@ class MysqlBookDAO implements BookDAO {
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
+		log.debug("Result -- >" + book);
+		log.trace("Finish");
 		return book;
 	}
 
 	@Override
 	public boolean getBooksCount(Set<Book> books) throws DAOException {
+		log.trace("Start");
 		Connection con = null;
 		try {
 			con = getConnection();
+			log.debug("Try get books count.");
 			return getBooksCount(con, books);
 		} catch (SQLException e) {
-			log.error("listBooks: Can not listBooks", e);
-			throw new DAOException("Can not listBooks", e);
+			log.error("Can not get book count", e);
+			throw new DAOException("Can not get book count", e);
 		} finally {
 			MysqlDAOFactory.close(con);
 		}
 	}
 
 	boolean getBooksCount(Connection con, Set<Book> books) throws SQLException {
+		log.trace("Start");
 		PreparedStatement st = null;
 		List<Integer> ids = new ArrayList<>();
 		for (Book b : books) {
 			ids.add(b.getId());
 		}
+		log.debug("Initial -- >" + books);
 		try {
-			st = con.prepareStatement(Querys.SQL_GET_BOOKS_COUNT + SqlUtil.listToIN(ids));
+			String query = Querys.SQL_GET_BOOKS_COUNT + SqlUtil.listToIN(ids);
+			log.debug("Query --> " + query);
+			st = con.prepareStatement(query);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt(1);
@@ -364,6 +377,8 @@ class MysqlBookDAO implements BookDAO {
 					}
 				}
 			}
+			log.debug("Result -- >" + books);
+			log.trace("Finish");
 			return true;
 		} finally {
 			MysqlDAOFactory.closeStatement(st);

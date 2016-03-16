@@ -10,5 +10,14 @@ public class SQLCountWrapper {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SQLCountWrapper [count=");
+		builder.append(count);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 }
