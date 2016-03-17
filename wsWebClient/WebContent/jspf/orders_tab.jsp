@@ -61,7 +61,7 @@
 							<i class="glyphicon ${util.statusIconName(util.get('rejected')) }"></i>
 						</a>
 					</span>
-<%-- 					<span>
+					<%-- <span>
 						<button type="submit" name="rejected" id="${order.id }" 
 							title="Отклонить" class="btn status-rejected" 
 							value="${order.id }">

@@ -75,6 +75,8 @@ public class Book extends Product {
     protected Category category;
     @XmlElement(defaultValue = "0")
     protected int count;
+    protected String description;
+    protected String cover;
 
     public Book() {
 		super();
@@ -154,7 +156,29 @@ public class Book extends Product {
         return this.author;
     }
 
-    /**
+    public String authors() {
+    	if (author == null) {
+    		author = new ArrayList<Author>();
+    	}
+    	StringBuilder res = new StringBuilder();
+    	for (Author a : author) {
+			res.append(a.getTitle());
+			res.append(",");
+		}
+    	res.setLength(res.length() - 1);
+    	return res.toString();
+    }
+    
+    public void setAuthor(String author) {
+		String[] authors = author.split("\\s*,\\s*");
+		ArrayList<Author> items = new ArrayList<>();
+		for (String a : authors) {
+			items.add(new Author(a));
+		}
+		this.author = new ArrayList<Author>();
+	}
+
+	/**
      * Gets the value of the isbn property.
      * 
      * @return
@@ -233,6 +257,22 @@ public class Book extends Product {
     public void setCount(int value) {
         this.count = value;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 
 	@Override
 	public String toString() {

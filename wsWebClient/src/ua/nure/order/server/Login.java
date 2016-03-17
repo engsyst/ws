@@ -1,15 +1,11 @@
 package ua.nure.order.server;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +15,7 @@ import org.apache.log4j.Logger;
 
 import ua.nure.order.entity.user.Role;
 import ua.nure.order.entity.user.User;
-import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.UserDAO;
-import ua.nure.order.server.listener.ContextListener;
 import ua.nure.order.shared.Hash;
 import ua.nure.order.shared.UserValidator;
 import ua.nure.order.shared.Util;
@@ -46,7 +40,6 @@ public class Login extends HttpServlet {
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     @Override

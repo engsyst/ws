@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="context" value="${pageContext.request.contextPath}" />
+
+<div class="modal-content">
+
+	<div class="modal-header">
+		<h4 class="modal-title">Подтвердите отмену заказа</h4>
+	</div>
+	<div class="modal-body">
+		<form class="form-vertical" action="updatebook" id="editbook" method="post">
+			<fieldset>
+	
+				<!-- Form Name -->
+				<legend>Книга</legend>
+	
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="title">Название</label>
+					<div class="col-md-12">
+						<input id="textinput" name="title" placeholder="Название"
+							class="form-control input-md" required="required" type="text"
+							value="${book.title }">
+						<span class="help-block">Название книги</span>
+					</div>
+				</div>
+	
+				<!-- Appended Input-->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="author">Автор</label>
+					<div class="col-md-12">
+						<div class="input-group">
+							<input id="author" name="author" class="form-control"
+								placeholder="Автор" required="required" type="text"
+								value="${book.authors() }">
+								<span class="input-group-addon">+</span>
+						</div>
+						<p class="help-block">Введите автора и нажмите +</p>
+					</div>
+				</div>
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="isbn">ISBN</label>
+					<div class="col-md-12">
+						<input id="isbn" name="isbn" placeholder="ISBN-12345-1234"
+							class="form-control input-md" type="text" 
+							value="${book.isbn }">
+							<span class="help-block">Формат: ISBN-12345-1234</span>
+					</div>
+				</div>
+	
+				<div class="col-md-6">
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="price">Цена</label>
+					<div class="col-md-12">
+						<input id="price" name="price" placeholder="цена"
+							class="form-control input-md" type="number"
+							min="0" value="${book.price }">
+							<span class="help-block">Цена за книгу</span>
+					</div>
+				</div>
+				</div>
+	
+				<div class="col-md-6">
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="count">Количество</label>
+					<div class="col-md-12">
+						<input id="count" name="count" placeholder="Количество"
+							class="form-control input-md" required="required" 
+							type="number" min="0" value="${book.count }">
+						<span class="help-block">На складе</span>
+					</div>
+				</div>
+				</div>
+	
+				<!-- Textarea -->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="description">Описание</label>
+					<div class="col-md-12">
+						<textarea class="form-control" id="description"
+							name="description">${book.description }</textarea>
+					</div>
+				</div>
+	
+				<!-- File Button -->
+				<div class="form-group">
+					<label class="col-md-12 control-label" for="cover">Обложка</label>
+					<div class="col-md-12">
+						<input id="cover" name="cover" class="input-file" type="file">
+					</div>
+				</div>
+	
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" type="submit" form="editbook" name="id" value="${book.id }">Подтвердить</button>
+		<button class="btn btn-danger" type="button" data-dismiss="modal">Отмена</button>
+	</div>
+</div>

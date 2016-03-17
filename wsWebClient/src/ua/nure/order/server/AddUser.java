@@ -45,7 +45,6 @@ public class AddUser extends HttpServlet {
      */
     public AddUser() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -91,7 +90,7 @@ public class AddUser extends HttpServlet {
 		
 		String pass2 = request.getParameter("password2");
 		// TODO remove in PRODUCTION
-		log.debug("password2 --> " + pass);
+		log.debug("password2 --> " + pass2);
 		
 		User user = new User(login, pass);
 		user.setName(name);

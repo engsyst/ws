@@ -94,12 +94,11 @@
 									<td><p class="text-right">${book.price}</p></td>
 									<td><p class="text-right">${book.count}</p></td>
 									<td><span class="text-center">
-										<form action="addtocart" method="post">
-											<button type="submit" name="tocart" id="${book.id }" title="Изменить"
-												class="btn btn-success" value="${book.id }">
+											<a href="editbook?id=${book.id }" 
+												class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
 												<i class="glyphicon glyphicon-edit"></i>
-											</button>
- 										</form></span>
+											</a>
+										</span>
 									</td>
 								</tr>
 							</c:forEach>			
@@ -107,7 +106,13 @@
 					</table>
 				</div>
 			</div>
-			
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			 	<div class="modal-dialog">
+					<div class="modal-content">
+					</div>
+				</div>
+			</div><!-- /.modal -->			
 			<c:set value="${lbp }" var="paging" scope="request" />
 			<jsp:include page="../jspf/pagination.jsp" />
 
