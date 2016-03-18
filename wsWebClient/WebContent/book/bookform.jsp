@@ -9,7 +9,7 @@
 		<h4 class="modal-title">Подтвердите отмену заказа</h4>
 	</div>
 	<div class="modal-body">
-		<form class="form-vertical" action="updatebook" id="editbook" method="post">
+		<form class="form-vertical" action="update" id="editbook" method="post">
 			<fieldset>
 	
 				<!-- Form Name -->
@@ -39,6 +39,7 @@
 						<p class="help-block">Введите автора и нажмите +</p>
 					</div>
 				</div>
+				
 				<!-- Text input-->
 				<div class="form-group">
 					<label class="col-md-12 control-label" for="isbn">ISBN</label>
@@ -75,7 +76,21 @@
 					</div>
 				</div>
 				</div>
-	
+
+				<!-- Select Basic -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="category">Категория</label>
+					<div class="col-md-4">
+						<select id="category" name="category" class="form-control">
+							<c:forEach var="cat" items="${categories }">
+								<c:set var="c" value="${book.category.ordinal() }" ></c:set>
+								<option ${cat.key == c ? 'selected="selected"' : '' } 
+									value="${cat.value }" >${cat.value }</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+
 				<!-- Textarea -->
 				<div class="form-group">
 					<label class="col-md-12 control-label" for="description">Описание</label>

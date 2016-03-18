@@ -2,6 +2,8 @@ package ua.nure.order.server.dao;
 
 public class DAOException extends Exception {
 
+	private static final long serialVersionUID = -4274628437242443277L;
+
 	public DAOException() {
 		super();
 	}

@@ -1,23 +1,27 @@
 package ua.nure.order.server;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import ua.nure.order.entity.book.Book;
+import ua.nure.order.entity.book.Category;
 import ua.nure.order.server.dao.BookDAO;
+import ua.nure.order.server.dao.DAOException;
+import ua.nure.order.server.dao.InsertException;
+import ua.nure.order.server.dao.UpdateException;
 import ua.nure.order.shared.Util;
 
 /**
  * Servlet implementation class UpdateBook
  */
-@WebServlet("/book/updatebook")
+@WebServlet("/book/update")
 public class UpdateBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(UpdateBook.class);
@@ -28,7 +32,6 @@ public class UpdateBook extends HttpServlet {
      */
     public UpdateBook() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -52,8 +55,15 @@ public class UpdateBook extends HttpServlet {
 			} else {
 				bookService.updateBook(book);
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (InsertException e) {
+			log.error(e.getMessage(), e.getCause());
+			request.setAttribute("error", "Невозможно добавить книгу. Повторите запрос позже.");
+		} catch (UpdateException e) {
+			log.error(e.getMessage(), e.getCause());
+			request.setAttribute("error", "Невозможно обновить книгу. Повторите запрос позже.");
+		} catch (DAOException e) {
+			log.error(e.getMessage(), e.getCause());
+			request.setAttribute("error", "Ошибка доступа базе данных. Повторите запрос позже.");
 		}
 		request.setAttribute("book", book);
 		response.sendRedirect("list.jsp");
@@ -62,13 +72,32 @@ public class UpdateBook extends HttpServlet {
 	private Book createBook(HttpServletRequest request) {
 		Book book = new Book();
 		try {
-			book.setId(Util.getIntOrElse(request.getParameter("id"), null));
-			book.setTitle(request.getParameter("title"));
-			book.setAuthor(request.getParameter("author"));
-			book.setIsbn(request.getParameter("isbn"));
-			book.setPrice(Util.getDoubleOrElse(request.getParameter("price"), null));
-			book.setCount(Util.getIntOrElse(request.getParameter("count"), null));
-			book.setDescription(request.getParameter("description"));
+			String param = request.getParameter("id");
+			log.trace("param id --> " + param);
+			book.setId(Util.getIntOrElse(param, null));
+			param = request.getParameter("title");
+			log.trace("param title --> " + param);
+			book.setTitle(param);
+			param = request.getParameter("author");
+			log.trace("param author --> " + param);
+			book.setAuthor(param);
+			param = request.getParameter("isbn");
+			log.trace("param isbn --> " + param);
+			book.setIsbn(param);
+			param = request.getParameter("category");
+			log.trace("param category --> " + param);
+			book.setCategory(Category.fromValue(param));
+			param = request.getParameter("price");
+			log.trace("param price --> " + param);
+			book.setPrice(Util.getDoubleOrElse(param, null));
+			param = request.getParameter("count");
+			log.trace("param count --> " + param);
+			book.setCount(Util.getIntOrElse(param, null));
+			param = request.getParameter("description");
+			log.trace("param description --> " + param);
+			book.setDescription(param);
+			param = request.getParameter("cover");
+			log.trace("param cover --> " + param);
 			book.setCover(request.getParameter("cover"));
 		} catch (Exception e) {
 			// do nothing

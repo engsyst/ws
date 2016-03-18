@@ -92,14 +92,13 @@ public class MysqlDAOFactory extends DAOFactory {
 		return con;
 	}
 
-	public static void roolback(Connection con) throws DAOException {
+	public static void roolback(Connection con) {
 		if (con != null) {
 			try {
 				log.debug("Try rollback.");
 				con.rollback();
 			} catch (SQLException e) {
 				log.error("Can not rollback transaction.", e);
-				throw new DAOException("Can not rollback transaction", e);
 			}
 		}
 	}

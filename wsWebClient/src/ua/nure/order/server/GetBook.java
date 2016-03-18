@@ -1,6 +1,7 @@
 package ua.nure.order.server;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -19,16 +20,16 @@ import ua.nure.order.server.dao.DAOException;
 /**
  * Servlet implementation class EditBook
  */
-@WebServlet("/book/editbook")
-public class EditBook extends HttpServlet {
+@WebServlet("/book/get")
+public class GetBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger(EditBook.class);
+	private static final Logger log = Logger.getLogger(GetBook.class);
 	private BookDAO bookService = null;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditBook() {
+    public GetBook() {
         super();
     }
 
@@ -51,12 +52,16 @@ public class EditBook extends HttpServlet {
 		bookService = (BookDAO) getServletContext().getAttribute("BookDao");
 		String sId = request.getParameter("id");
 		Book book = null;
+		Map<Integer, String> categories = null;
 		try {
 			book = bookService.getBook(Integer.parseInt(sId));
 			log.debug("Found Book -- > " + book);
 			request.setAttribute("book", book);
+			categories = bookService.getCategories();
+			log.debug("Found categories -- > " + categories);
+			request.setAttribute("categories", categories);
 		} catch (DAOException e) {
-			log.error("Unknown id --> " + sId, e);
+			log.error("DB access error --> ", e.getCause());
 			request.setAttribute("error", e.getMessage());
 		} catch (NumberFormatException e) {
 			log.error("Unknown id --> " + sId);

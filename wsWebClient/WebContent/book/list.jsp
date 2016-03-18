@@ -94,7 +94,7 @@
 									<td><p class="text-right">${book.price}</p></td>
 									<td><p class="text-right">${book.count}</p></td>
 									<td><span class="text-center">
-											<a href="editbook?id=${book.id }" 
+											<a href="get?id=${book.id }" 
 												class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
 												<i class="glyphicon glyphicon-edit"></i>
 											</a>

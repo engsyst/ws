@@ -7,10 +7,19 @@ public interface Querys {
 	
 	static final String SQL_FIND_BOOKS = "SELECT `id`, `title`, `authors`, "
 			+ "`isbn`, `price`, `count`, `category` FROM `books` ";
+	
 	static final String SQL_FIND_BOOK_BY_ID = "SELECT `id`, `title`, `authors`, "
 			+ "`isbn`, `price`, `count`, `category` FROM `books` WHERE ID = ?";
+	
 	static final String SQL_FIND_BOOKS_COUNT = "SELECT count(*) FROM `books` ";
+
 	static final String SQL_UPDATE_BOOKS_COUNT = "SELECT count(*) FROM `books` ";
+
+	static final String SQL_DELETE_AUTHOR_HAS_BOOK = "DELETE FROM `author_has_book` WHERE `book_id`=?";
+	
+	static final String SQL_UPDATE_BOOK = "UPDATE `book` SET `title` = ?,`isbn` = ?,`price` = ?,`count` = ?,`category_id`= ?,`cover` = ?,`description`= ? WHERE `id` = ?";
+
+	static final String SQL_GET_CATEGORIES = "SELECT `id`,`title` FROM `category`";
 	
 	/**
 	 *  use makeAuthorsValues(List? authors, int bookId)

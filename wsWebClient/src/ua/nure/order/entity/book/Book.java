@@ -175,7 +175,7 @@ public class Book extends Product {
 		for (String a : authors) {
 			items.add(new Author(a));
 		}
-		this.author = new ArrayList<Author>();
+		this.author = items;
 	}
 
 	/**
