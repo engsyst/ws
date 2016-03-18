@@ -384,5 +384,18 @@ class MysqlBookDAO implements BookDAO {
 			MysqlDAOFactory.closeStatement(st);
 		}
 	}
+
+	@Override
+	public void updateBook(Book book) throws DAOException {
+		// TODO Auto-generated method stub
+		// 1. ?????????
+		// getBook with id
+		// replace changed fields
+		// updateBook
+		// OR
+		// 2. ????????????
+		// simply updateBook
+		
+	}
 	
 }
