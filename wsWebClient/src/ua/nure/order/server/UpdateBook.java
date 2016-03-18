@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -41,9 +42,20 @@ public class UpdateBook extends HttpServlet {
     /**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		Book book = createBook(request);
 		log.debug("Book --> " + book);
+		try {
+			if (book.getId() == null) {
+				book.setId(bookService.addBook(book));
+			} else {
+				bookService.updateBook(book);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		request.setAttribute("book", book);
 		response.sendRedirect("list.jsp");
 	}
 
@@ -65,45 +77,51 @@ public class UpdateBook extends HttpServlet {
 	}
 
 	private Book updateBook(Book book, HttpServletRequest request) {
-		if (book == null) {
-			return createBook(request);
+		String param = Util.getOrElse(request.getParameter("id"), "");
+//		if (param.isEmpty())
+//			crea
+//		if (book.getId() == null) {
+//			book.setId(Util.getIntOrElse(param, null));
+//		}
+		param = request.getParameter("title");
+		if (book.getTitle() == null) {
+			book.setTitle(param);
+		} else if (param != null) {
+			book.setTitle(param);
 		}
-		try {
-			String param = Util.getOrElse(request.getParameter("id"), "");
-			if (book.getId() == null ) {
-				book.setId(Util.getIntOrElse(param, null));
-			}
-			param = request.getParameter("title");
-			if (book.getTitle() == null ) {
-				book.setTitle(param);
-			} else if (param != null) {
-				book.setTitle(param);
-			}
-			param = request.getParameter("author");
-			if (book.getAuthor() == null ) {
-				book.setAuthor(param);
-			} else if (param != null) {
-				book.setAuthor(param);
-			}
-			param = request.getParameter("author");
-			if (book.getIsbn() == null ) {
-				book.setIsbn(param);
-			} else if (param != null) {
-				book.setIsbn(param);
-			}
-			book.setPrice(Util.getDoubleOrElse(request.getParameter("price"), null));
-			param = request.getParameter("author");
-			if (book.getPrice() > 0.) {
-				book.setIsbn(param);
-			} else if (param != null) {
-				book.setIsbn(param);
-			}
-			book.setCount(Util.getIntOrElse(request.getParameter("count"), null));
-			book.setDescription(request.getParameter("description"));
-			book.setCover(request.getParameter("cover"));
-		} catch (Exception e) {
-			// do nothing
+		param = request.getParameter("author");
+		if (book.getAuthor() == null) {
+			book.setAuthor(param);
+		} else if (param != null) {
+			book.setAuthor(param);
 		}
+		param = request.getParameter("isbn");
+		if (book.getIsbn() == null) {
+			book.setIsbn(param);
+		} else if (param != null) {
+			book.setIsbn(param);
+		}
+		param = request.getParameter("price");
+		Double p = Util.getDoubleOrElse(request.getParameter("price"), null);
+		if (book.getPrice() == 0.) {
+			book.setPrice(p);
+		} else if (p != null) {
+			book.setPrice(p);
+		}
+		param = request.getParameter("price");
+		Integer c = Util.getIntOrElse(request.getParameter("count"), null);
+		if (book.getCount() == 0) {
+			book.setPrice(c);
+		} else if (c != null) {
+			book.setPrice(c);
+		}
+		param = request.getParameter("description");
+		if (book.getDescription() == null) {
+			book.setDescription(param);
+		} else if (param != null) {
+			book.setDescription(param);
+		}
+		// book.setCover(request.getParameter("cover"));
 		return book;
 	}
 	

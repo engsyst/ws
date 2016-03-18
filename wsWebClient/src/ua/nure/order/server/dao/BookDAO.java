@@ -42,4 +42,6 @@ public interface BookDAO extends Paginable<Book> {
 
 	public Book getBook(int id) throws DAOException;
 
+	public void updateBook(Book book) throws DAOException;
+
 }
