@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -51,20 +52,21 @@ public class AddUser extends HttpServlet {
 	public void init() {
     	log.trace("Login init start");
     	ServletContext ctx = getServletContext();
+    	ServletConfig cfg = getServletConfig();
     	dao = (UserDAO) getServletContext().getAttribute("UserDao");
-    	String param = ctx.getInitParameter("loginPattern");
+    	String param = cfg.getInitParameter("loginPattern");
     	log.trace("loginPattern --> " + param);
     	if (param != null)
     		validator.loginPattern = param;
-    	param = ctx.getInitParameter("passPattern");
+    	param = cfg.getInitParameter("passPattern");
     	log.trace("passPattern --> " + param);
     	if (param != null)
     		validator.passPattern = param;
-    	param = ctx.getInitParameter("errLoginMsg");
+    	param = cfg.getInitParameter("errLoginMsg");
     	log.trace("errLoginMsg --> " + param);
     	if (param != null)
     		validator.errLoginMsg = param;
-    	param = ctx.getInitParameter("errPassMsg");
+    	param = cfg.getInitParameter("errPassMsg");
     	log.trace("errPassMsg --> " + param);
     	if (param != null)
     		validator.errPassMsg = param;
