@@ -63,7 +63,7 @@
 						<colgroup class="col-title"/>
 						<colgroup class="col-count"/>
 						<colgroup class="col-price"/>
-						<colgroup class="col-action"/>
+						<colgroup class="col-action" align="center"/>
 						<thead class="text-center">
 							<tr>
 								<th>#</th>
@@ -76,7 +76,12 @@
 								<th><p class="text-center">Авторы</p></th>
 								<th><p class="text-center">Цена</p></th>
 								<th><p class="text-center">Кол-во</p></th>
-								<th><p class="text-center">В корзину</p></th>
+								<th>
+									<a href="get" 
+										class="btn btn-success" data-toggle="modal" data-target="#myModal" >
+										<i class="glyphicon glyphicon-new-window"></i>
+									</a>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -122,5 +127,7 @@
 	</div>
 
 <%@ include file="../jspf/bootstrap.jspf" %>
+    <script src="${context }/js/confirm.js"></script>
+
 </body>
 </html>

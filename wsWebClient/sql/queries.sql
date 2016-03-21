@@ -83,6 +83,31 @@ UPDATE `order` SET `status` = 'newed' WHERE `id` = 20;
 
 SELECT `id`,`no`,`user_id`,`date`,`status` FROM `order`;
 
-INSERT INTO `user` (`id`,`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description`)
-	VALUES (<{id: }>,<{login: }>,<{password: }>,<{role: client}>,<{e-mail: }>,<{phone: }>,<{name: }>,<{address: }>,<{avatar: }>,<{description: }>);
+SELECT 
+        `order`.`user_id` `user_id`,
+        (SELECT `login` FROM `user` WHERE `user`.`id` = `order`.`user_id`) `login`,
+        `order`.`id` `order_id`,
+        `order`.`status` `status`,
+        `book`.`id` `book_id`,
+        `book`.`title` `title`,
+        `book_has_order`.`count` `count`,
+        `book_has_order`.`price` `price`,
+        `sum_by_order`.`osum` `osum`,
+        `delivery_id` `delivery_id`
+    FROM
+        `order`,
+        `book`,
+        `book_has_order`,
+        `sum_by_order`,
+        `delivery`
+    WHERE
+        `order`.`id` = `book_has_order`.`order_id`
+            AND `book_has_order`.`book_id` = `book`.`id`
+            AND `order`.`id` = `sum_by_order`.`oid`
+    ORDER BY `order`.`user_id` , `order`.`id` , `book`.`id`;
+    
+SELECT DISTINCT `order_id` FROM `orders`  WHERE `status` = 'newed' ORDER BY login ASC,`order_id` DESC LIMIT 0,10;
 
+SELECT DISTINCT `orders`.`user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum`,`name`, `phone`,`email`,`address`,`description`
+FROM `orders`,`delivery` 
+WHERE `order_id` = 35 AND `delivery_id` = `delivery`.`id`;

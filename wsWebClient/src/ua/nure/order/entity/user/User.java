@@ -65,7 +65,7 @@ public class User extends Entity {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name == null ? null : name.trim();
 	}
 
 	public String getEmail() {
@@ -73,7 +73,7 @@ public class User extends Entity {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email == null ? null : email.trim();
 	}
 
 	public String getPhone() {
@@ -81,7 +81,7 @@ public class User extends Entity {
 	}
 
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.phone = phone == null ? null : phone.trim();
 	}
 
 	public String getAddress() {
@@ -89,7 +89,7 @@ public class User extends Entity {
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		this.address = address == null ? null : address.trim();
 	}
 
 	public String getAvatar() {

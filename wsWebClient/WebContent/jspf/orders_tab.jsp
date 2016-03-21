@@ -13,16 +13,17 @@
 		<colgroup class="col-title"/>
 		<colgroup class="col-count"/>
 		<colgroup class="col-price"/>
-		<colgroup class="col-action"/>
+		<colgroup class="col-action" align="center"/>
 		<thead class="text-center">
 			<tr>
 				<th>#</th>
 				<th>Состояние</th>
-				<th colspan="2">
+				<th>
 					<div class="btn-group drop${ascending ? 'down' : 'up' }">
 						<a href="?ascending=${ascending ? false : true }&amp;field=title">Клиент<b class="caret"></b></a>
 					</div>
 				</th>
+				<th>Кол-во</th>
 				<th>Цена</th>
 				<th>Действия</th>
 			</tr>
@@ -33,8 +34,11 @@
 				<c:set var="k" value="${order.id}" />
 				<td><c:out value="${k}" /></td>
 				<td class="text-center">
-					${order.status == util.get("newed") ? 
-						'<span class="btn btn-warning"><i class="glyphicon glyphicon-flash"></i></span>' : 
+					<a href="orderdetal?action=view&id=${order.id }" 
+						class="btn status-${order.status }" data-toggle="modal" data-target="#myModal" >
+						<i class="glyphicon ${util.statusIconName(util.get(order.status)) }"></i>
+					</a>
+					<%-- ${order.status == util.get("newed") ? 
 					order.status == util.get("inprogress") ? 
 						'<div class="btn btn-primary"><i class="glyphicon glyphicon-forward"></i></div>' : 
 					order.status == util.get("completed") ? 
@@ -42,8 +46,8 @@
 					order.status == util.get("rejected") ? 
 						'<div class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></div>' : '' }
 					
-				</td>
-				<td colspan="2"><p class="lead">${order.title}</p></td>
+				</td> --%>
+				<td colspan="2"><p class="lead">${empty order.title ? "unregistered" : order.title }</p></td>
 				<td><p class="text-right lead">${order.price}</p></td>
 				<td>
 				<c:if test="${order.status != util.get('rejected') && (order.status != util.get('completed')) }">
@@ -56,18 +60,11 @@
 						</button>
 					</span>
 					<span>
-						<a href="orderdetal?id=${order.id }" 
+						<a href="orderdetal?action=confirm&id=${order.id }" 
 							class="btn status-rejected" data-toggle="modal" data-target="#myModal" >
 							<i class="glyphicon ${util.statusIconName(util.get('rejected')) }"></i>
 						</a>
 					</span>
-					<%-- <span>
-						<button type="submit" name="rejected" id="${order.id }" 
-							title="Отклонить" class="btn status-rejected" 
-							value="${order.id }">
-							<i class="glyphicon ${util.statusIconName(util.get('rejected')) }"></i>
-						</button>
-					</span> --%>
 					</form>
 				</c:if>
 				</td>

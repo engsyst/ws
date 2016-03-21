@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.order.client.Delivery;
 import ua.nure.order.client.SQLCountWrapper;
 import ua.nure.order.entity.Product;
 import ua.nure.order.entity.book.Book;
@@ -44,13 +45,19 @@ public class MysqlOrderDAO implements OrderDAO {
 	}
 
 	@Override
-	public int makeOrder(Map<Product, Integer> items, int userId) throws DAOException {
+	public int makeOrder(Map<Product, Integer> items, Delivery delivery, Integer userId) throws DAOException {
+		log.trace("Start");
 		Connection con = null;
 		int orderId = 0;
+		int dId = 0;
 		try {
 			con = getConnection();
-			orderId = addOrder(con, items, userId);
+			log.debug("Try add delivery.");
+			dId = addDelivery(con, delivery, userId);
+			log.debug("Try add order.");
+			orderId = addOrder(con, items, dId, userId);
 			for (Entry<Product, Integer> e : items.entrySet()) {
+				log.debug("Try add book to the order." + e);
 				addBookHasOrder(con, e.getKey().getId(), orderId, e.getValue());
 			}
 			con.commit();
@@ -61,11 +68,42 @@ public class MysqlOrderDAO implements OrderDAO {
 		} finally {
 			MysqlDAOFactory.close(con);
 		}
+		log.debug("Result --> " + orderId);
+		log.trace("Start");
 		return orderId;
+	}
+
+	int addDelivery(Connection con, Delivery delivery, Integer userId) throws SQLException {
+		log.trace("Start");
+		
+		PreparedStatement st = null;
+		try {
+			// "INSERT INTO `delivery` (`name`, `phone`, `email`, `address`,  `description`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)"
+			st = con.prepareStatement(Querys.SQL_INSERT_DELIVERY, PreparedStatement.RETURN_GENERATED_KEYS);
+			int k = 0;
+			st.setString(++k, delivery.getName());
+			st.setString(++k, delivery.getPhone());
+			st.setString(++k, delivery.getEmail());
+			st.setString(++k, delivery.getAddress());
+			st.setString(++k, delivery.getDescription());
+			SqlUtil.setIntOrNull(st, ++k, userId, 0);
+			log.debug("Query --> " + st);
+			st.executeUpdate();
+			ResultSet rs = st.getGeneratedKeys();
+			rs.next();
+			int newId =  rs.getInt(1);
+			rs.close();
+			log.debug("Result --> " + newId);
+			log.trace("Finish");
+			return newId;
+		} finally {
+			MysqlDAOFactory.closeStatement(st);
+		}
 	}
 
 	private void addBookHasOrder(Connection con, Integer bookId, int orderId, Integer count) 
 			throws SQLException {
+		log.trace("Start");
 		
 		PreparedStatement st = null;
 		try {
@@ -73,23 +111,31 @@ public class MysqlOrderDAO implements OrderDAO {
 			st.setInt(1, bookId);
 			st.setInt(2, orderId);
 			st.setInt(3, count);
+			log.debug("Query --> " + st);
 			st.executeUpdate();
+			log.trace("Finish");
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
 	}
 
-	public int addOrder(Connection con, Map<Product, Integer> items, int userId) throws SQLException {
+	public int addOrder(Connection con, Map<Product, Integer> items, int deliveryId, Integer userId) throws SQLException {
+		log.trace("Start");
 		
 		PreparedStatement st = null;
 		try {
 			st = con.prepareStatement(Querys.SQL_INSERT_ORDER, PreparedStatement.RETURN_GENERATED_KEYS);
 			st.setInt(1, 0);
-			st.setInt(2, userId);
+			st.setInt(2, deliveryId);
+			SqlUtil.setIntOrNull(st, 3, userId, 0);
+			log.debug("Query --> " + st);
 			st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
 			rs.next();
-			return rs.getInt(1);
+			int newId = rs.getInt(1);
+			log.debug("Result --> " + newId);
+			log.trace("Finish");
+			return newId;
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
@@ -115,6 +161,7 @@ public class MysqlOrderDAO implements OrderDAO {
 	private List<Order> listOrders(Connection con, String pattern, String orderColumn,
 			boolean ascending, int start, int count, SQLCountWrapper total) 
 					throws SQLException {
+		log.trace("Start");
 		List<Order> orders = new ArrayList<>();
 		List<Integer> list = new ArrayList<>();
 		PreparedStatement st = null;
@@ -122,20 +169,25 @@ public class MysqlOrderDAO implements OrderDAO {
 			String where = pattern == null || pattern.length() == 0 ? "" : 
 				" WHERE `status` = '" + pattern + "' ";
 			String order = orderColumn == null || orderColumn.length() == 0 
-					? "ORDER BY `order_id` DESC" 
-					: "ORDER BY " + orderColumn + (ascending ? " ASC" : " DESC")
+					? " ORDER BY `order_id` DESC" 
+					: " ORDER BY " + orderColumn + (ascending ? " ASC" : " DESC")
 					+ ",`order_id` DESC";
 			String limit = (count == 0 ? "" : " LIMIT " + start + "," + count);
 			String query = Querys.SQL_GET_ORDERS_ID + where + order + limit;
 			st = con.prepareStatement(query);
+			log.debug("Query --> " + query);
 			ResultSet rs = st.executeQuery();
 			list = SqlUtil.unmapIdList(rs);
 			rs.close();
+			// return if no orders with given status found
+			if (list.isEmpty())
+				return orders;
 			st.close();
 			
 			String whereBooks = " WHERE `order_id` IN " + SqlUtil.listToIN(list);
 			query = Querys.SQL_GET_FULL_ORDERS + whereBooks + order;
 			st = con.prepareStatement(query);
+			log.debug("Query --> " + query);
 			rs = st.executeQuery();
 			while (rs.next()) {
 				orders.add(unmapOrder(rs));
@@ -145,6 +197,7 @@ public class MysqlOrderDAO implements OrderDAO {
 			
 			if (total != null) {
 				query = Querys.SQL_FIND_ORDERS_COUNT + where;
+				log.debug("Query --> " + query);
 				st = con.prepareStatement(query);
 				rs = st.executeQuery();
 				while (rs.next()) {
@@ -164,6 +217,11 @@ public class MysqlOrderDAO implements OrderDAO {
 		order.setTitle(rs.getString("login"));
 		order.setStatus(OrderStatus.valueOf(rs.getString("status")));
 		order.setPrice(rs.getInt("price"));
+		try {
+			order.setDelivery(unmapDelivery(rs));
+		} catch (SQLException e) {
+			// DO: nothing
+		}
 		order.setItems(new Hashtable<Product, Integer>());
 		Product item = unmapProductForOrder(rs);
 		order.getItems().put(item, Integer.valueOf(rs.getInt("count")));
@@ -175,10 +233,19 @@ public class MysqlOrderDAO implements OrderDAO {
 			item = unmapProductForOrder(rs);
 			order.getItems().put(item, Integer.valueOf(rs.getInt("count")));
 		}
-		
 		return order;
 	}
 
+	Delivery unmapDelivery(ResultSet rs) throws SQLException {
+		Delivery delivery = new Delivery();
+		delivery.setName(rs.getString("name"));
+		delivery.setPhone(rs.getString("phone"));
+		delivery.setEmail(rs.getString("email"));
+		delivery.setAddress(rs.getString("address"));
+		delivery.setDescription(rs.getString("description"));
+		return delivery;
+
+	}
 	Product unmapProductForOrder(ResultSet rs) throws SQLException {
 		Product item = new Book();
 		item.setId(rs.getInt("book_id"));

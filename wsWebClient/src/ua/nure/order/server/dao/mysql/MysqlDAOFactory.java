@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 
 import ua.nure.order.server.dao.BookDAO;
-import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.DAOFactory;
 import ua.nure.order.server.dao.OrderDAO;
 import ua.nure.order.server.dao.UserDAO;

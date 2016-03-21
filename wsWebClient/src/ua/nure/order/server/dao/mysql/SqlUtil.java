@@ -1,7 +1,9 @@
 package ua.nure.order.server.dao.mysql;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +33,10 @@ public class SqlUtil {
 			sb.append(a);
 			sb.append(end);
 		}
-		sb.replace(sb.length() - 1, sb.length(), ")");
+		sb.append(")");
+		int i = sb.lastIndexOf(",");
+		if (i != -1)
+			sb.replace(i, i+1, "");
 		return sb.toString();
 	}
 	
@@ -77,5 +82,12 @@ public class SqlUtil {
 			list.add(rs.getInt(column));
 		}
 		return list;
+	}
+
+	public static void setIntOrNull(PreparedStatement st, int index, Integer value, int nullValue) throws SQLException {
+		if (value == null || value.intValue() == nullValue)
+			st.setNull(index, Types.INTEGER);
+		else	
+			st.setInt(index, value);
 	}
 }

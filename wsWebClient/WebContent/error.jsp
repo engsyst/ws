@@ -2,6 +2,7 @@
 <%@ page isErrorPage="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.io.PrintWriter" %>
+	<c:set var="context" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
 			<td class="content">
 			<%-- CONTENT --%>
 				
-				<h2 class="error"><img alt="" src="WEB-INF/img/error.gif">
+				<h2 class="error"><img alt="" src="${context }/img/error.gif">
 					The following error occurred
 				</h2>
 				<hr/>

@@ -23,12 +23,6 @@ import ua.nure.order.shared.Util;
 /**
  * Servlet implementation class Login
  */
-/*@WebServlet(
-		urlPatterns = { "/login" }, 
-		initParams = { 
-				@WebInitParam(name = "loginPattern", value = ".{1,20}"), 
-				@WebInitParam(name = "errLoginMsg", value = "Login or password incorrect"), 
-		})*/
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(Login.class);
@@ -98,6 +92,7 @@ public class Login extends HttpServlet {
 			if (!hash.equals(u.getPass())) {
 				log.debug("password incorrect --> " + hash + " | " + u.getPass());
 				u.setPass(null);
+				errors.put("login", "Login or password incorrect");
 				goBack(request, response, user, errors);
 				return;
 			}
@@ -114,7 +109,7 @@ public class Login extends HttpServlet {
 			response.sendRedirect("list.jsp");
 		} else {
 			log.debug("Redirect to --> orders.jsp");
-			response.sendRedirect("order/orders.jsp");
+			response.sendRedirect("order/orders.jsp?search=newed");
 		}
 	}
 	

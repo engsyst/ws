@@ -4,6 +4,11 @@ public class Util {
 	public static <T> T getOrElse(T obj, T result) {
 		return obj == null ? result : obj;
 	}
+	
+	public static String getOrElse(String obj, String result) {
+		return obj == null || obj.isEmpty() ? result : obj;
+	}
+	
 	public static boolean isEmpty(String value) {
 		return value == null || value.isEmpty() ? true : false;
 	}

@@ -58,12 +58,12 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 
 					<table class="table table-bordered table-striped">
-						<col/>
-						<col class="tab-title-col" />
-						<col class="tab-author-col" />
-						<col class="tab-price-col" />
-						<col class="tab-count-col" />
-						<col class="tab-form-col" />
+						<col class="col-position" />
+						<col class="col-title" />
+						<col class="col-author" />
+						<col class="col-price" />
+						<col class="col-count" />
+						<col class="col-form-action" />
 						<thead class="text-center">
 							<tr>
 								<th>#</th>
@@ -140,13 +140,24 @@
 
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                <a href="filldelivery.jsp" class="btn btn-primary btn-block">Оформить заказ</a>
+				<!-- <form action="filldelivery.jsp" method="get">
+	                 <div class="form-group">
+	                      <button type="submit" name="buy" class="btn btn-primary btn-block">Оформить заказ</button>
+	                 </div>
+				</form> -->
+				</div>
+			</div>
+
+			<%-- <div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 					<form action="${context }/makeorder" method="post">
                    <div class="form-group">
                         <button type="submit" name="buy" class="btn btn-primary btn-block">Оформить заказ</button>
                     </div>
 					</form>
 				</div>
-			</div>
+			</div> --%>
 
 			
 			

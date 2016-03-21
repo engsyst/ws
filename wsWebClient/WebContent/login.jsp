@@ -35,7 +35,6 @@
 										<% request.getSession().removeAttribute("errors"); %>
 									</div>
 								</div>
-														
 								</c:if>
 								<div class="form-group ">
 									<label class="control-label requiredField" for="login">

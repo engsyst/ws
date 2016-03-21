@@ -11,6 +11,7 @@ package ua.nure.order.entity.order;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import ua.nure.order.client.Delivery;
 import ua.nure.order.entity.Product;
 
 
@@ -19,6 +20,7 @@ public class Order extends Product {
 	private static final long serialVersionUID = -2130624107521935696L;
 	protected Map<Product, Integer> items;
 	protected OrderStatus status;
+	protected Delivery delivery;
     
 	public Order() {
 		super();
@@ -32,6 +34,12 @@ public class Order extends Product {
 	public Order(Integer id, Map<Product, Integer> items) {
 		super(id);
 		this.items = items;
+	}
+	
+	public Order(Integer id, Map<Product, Integer> items, Delivery delivery) {
+		super(id);
+		this.items = items;
+		this.delivery = delivery;
 	}
 	
 	public Map<Product, Integer> getItems() {
@@ -54,6 +62,14 @@ public class Order extends Product {
 		}
 //		if (this.status == OrderStatus.completed && status == OrderStatus.rejected)
 //			throw new IllegalStateException("Can not perform rejected after completed");
+	}
+
+	public Delivery getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
 	}
 
 	@Override

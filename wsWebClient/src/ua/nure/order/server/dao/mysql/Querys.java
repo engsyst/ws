@@ -45,10 +45,12 @@ public interface Querys {
 	static final String SQL_ADD_USER = "INSERT INTO `user` (`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description`) "
 			+ "VALUES (?,?,?,?,?,?,?,?,?)";
 	
-	static final String SQL_INSERT_ORDER = "INSERT INTO `order` (`no`, `user_id`) VALUES (?, ?);";
-
+	static final String SQL_INSERT_ORDER = "INSERT INTO `order` (`no`, `delivery_id`, `user_id`) VALUES (?, ?, ?);";
+	
 	static final String SQL_INSERT_BOOK_HAS_ORDER = "INSERT INTO `book_has_order` "
 			+ "(`book_id`, `order_id`, `count`) VALUES (?, ?, ?);";
+	
+	static final String SQL_INSERT_DELIVERY = "INSERT INTO `delivery` (`name`, `phone`, `email`, `address`,  `description`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)";
 
 	static final String SQL_GET_BOOKS_COUNT = "SELECT `id`, `count` FROM `book` WHERE `id` IN ";
 	
@@ -58,7 +60,9 @@ public interface Querys {
 
 	static final String SQL_GET_ORDER_STATUS = "SELECT `id`,`status` FROM `order` WHERE `id` = ?";
 
-	static final String SQL_GET_ORDER_DETAL = "SELECT `user_id`,`login`,`order_id`,`status`,`book_id`,`title`,`count`,`price`,`osum` FROM orders WHERE `order_id` = ?";
+	static final String SQL_GET_ORDER_DETAL = "SELECT DISTINCT `orders`.`user_id`,`login`,`order_id`,`status`,"
+			+ "`book_id`,`title`,`count`,`price`,`osum`,`name`,`phone`,`email`,`address`,`description` "
+			+ "FROM `orders`,`delivery` WHERE `order_id` = ? AND `delivery_id` = `delivery`.`id`;";
 
 	static final String SQL_UPDATE_ORDER_STATUS = "UPDATE `order` SET `status` = ? WHERE `id` = ?";
 

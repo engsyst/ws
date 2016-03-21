@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="ua.nure.order.entity.book.Book"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% response.setHeader("Cache-Control","max-age=0"); %>
 
 <!DOCTYPE html>
 <html lang="ru">

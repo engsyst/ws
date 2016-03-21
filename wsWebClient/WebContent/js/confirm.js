@@ -22,3 +22,9 @@ $("#confirm").submit(function(e)
 });
  
 $("#confirm").submit(); //Submit  the FORM
+
+//Fill modal with content from link href
+$("#myModal").on("show.bs.modal", function(e) {
+    var link = $(e.relatedTarget);
+    $(this).find(".modal-content").load(link.attr("href"));
+});

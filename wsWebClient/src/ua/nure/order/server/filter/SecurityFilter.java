@@ -33,7 +33,7 @@ import ua.nure.order.entity.user.User;
 		urlPatterns = { "/*" }, 
 		initParams = { 
 				@WebInitParam(name = "client", value = "/profile"),
-				@WebInitParam(name = "admin", value = "/order/*,/profile*"),
+				@WebInitParam(name = "admin", value = "/order/*,/profile,/book/*"),
 				@WebInitParam(name = "userAttribute", value = "user"),
 		})
 public class SecurityFilter implements Filter {
@@ -156,8 +156,10 @@ public class SecurityFilter implements Filter {
 		Enumeration<String> roles = fConfig.getInitParameterNames();
 		while (roles.hasMoreElements()) {
 			String role = (String) roles.nextElement();
+			log.debug("Init param -->" + role);
 			if (role.equals("userAttribute")) {
 				ua = fConfig.getInitParameter(role);
+				log.debug("User session attribute name -->" + ua);
 				continue;
 			}
 			String[] path = fConfig.getInitParameter(role).split(",");

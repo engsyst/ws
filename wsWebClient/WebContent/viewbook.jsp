@@ -33,6 +33,7 @@
 					</ul>
 				</div>
 			</div>
+			<c:if test="${user.role == null || user.role != util.getRole('admin') }">
 			<div class="row">
 				<div class="col-md-3">
 					<img alt="" src="">
@@ -48,6 +49,7 @@
 					</form>					
 				</div>
 			</div>
+			</c:if>
 		</div>
 	</div>
 

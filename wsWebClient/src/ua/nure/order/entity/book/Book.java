@@ -159,6 +159,7 @@ public class Book extends Product {
     public String authors() {
     	if (author == null) {
     		author = new ArrayList<Author>();
+    		return "";
     	}
     	StringBuilder res = new StringBuilder();
     	for (Author a : author) {

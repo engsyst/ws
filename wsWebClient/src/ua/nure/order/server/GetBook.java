@@ -49,17 +49,22 @@ public class GetBook extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.trace("Start");
-		bookService = (BookDAO) getServletContext().getAttribute("BookDao");
 		String sId = request.getParameter("id");
+		
 		Book book = null;
 		Map<Integer, String> categories = null;
 		try {
-			book = bookService.getBook(Integer.parseInt(sId));
-			log.debug("Found Book -- > " + book);
-			request.setAttribute("book", book);
 			categories = bookService.getCategories();
 			log.debug("Found categories -- > " + categories);
 			request.setAttribute("categories", categories);
+			if (sId == null || sId.isEmpty()) {
+				book = new Book();
+				log.debug("Create new Book -- > ");
+			} else {
+				book = bookService.getBook(Integer.parseInt(sId));
+				log.debug("Found Book -- > " + book);
+			}
+			request.setAttribute("book", book);
 		} catch (DAOException e) {
 			log.error("DB access error --> ", e.getCause());
 			request.setAttribute("error", e.getMessage());

@@ -31,7 +31,7 @@
 								</div>
 								</c:if>
 								<div class="form-group ">
-									<label class="control-label requiredField" for="name">Имя</label> 
+									<label class="control-label" for="name">Имя</label> 
 									<input type="text" class="form-control" id="name" name="name"
 										placeholder="Имя" value="${user.name }" />
 								</div>

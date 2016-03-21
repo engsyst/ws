@@ -19,7 +19,7 @@
                 <c:set var="action" value="${logedin ? context.concat('/logout') : context.concat('/login.jsp') }"></c:set>
                 <c:set var="title" value="${logedin ? 'Выход '.concat(user.login) : 'Вход' }"></c:set>
                 <c:if test="${!logedin }">
-                <form action="register.jsp" class="navbar-form navbar-right">
+                <form action="${context }/register.jsp" class="navbar-form navbar-right">
                     <div class="form-group">
                         <button type="submit" class="btn btn-success" title="Регистрация" ><i class="glyphicon glyphicon-signal"></i></button>
                     </div>
@@ -31,7 +31,7 @@
                         	<i class="glyphicon ${icon }"></i></button>
                     </div>
                 </form>
-                <form action="${context }/list.jsp" class="navbar-form navbar-right">
+                <form action="" class="navbar-form navbar-right">
                     <div class="form-group has-feedback">
                         <input type="search" name="search" class="form-control" placeholder="Искать книгу..." value="${requestScope.search }">
                         <input type="hidden" name="page" value="0">
@@ -41,11 +41,16 @@
                         <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                     </div> -->
                 </form>
-                <form action="login.jsp" class="navbar-form navbar-right">
+                <div class="navbar-form navbar-right">
                     <div class="form-group">
-		                <label class="form-control-static">${user.login }</label>
+		                <label class="form-control-static" name="id" value="${user.id }">
+		                	<%-- <a href="${context }/profile?id=${user.id }"> --%>${user.login }<!-- </a> -->
+		                	<!-- 
+		                		// TODO Profile servlet with redirect to client or admin role profile
+	                		-->
+	                	</label>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

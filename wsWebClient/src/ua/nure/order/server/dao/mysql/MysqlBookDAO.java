@@ -396,6 +396,7 @@ class MysqlBookDAO implements BookDAO {
 		// OR
 		// 2. ????????????
 		// simply updateBook
+		log.trace("Start");
 		Connection con = null;
 		try {
 			con = getConnection();
@@ -409,6 +410,7 @@ class MysqlBookDAO implements BookDAO {
 		} finally {
 			MysqlDAOFactory.close(con);
 		}
+		log.trace("Finish");
 	}
 
 	void updateBook(Connection con, Book item) throws SQLException {
@@ -486,5 +488,5 @@ class MysqlBookDAO implements BookDAO {
 		log.trace("Finish");
 		return cats;
 	}
-	
+
 }

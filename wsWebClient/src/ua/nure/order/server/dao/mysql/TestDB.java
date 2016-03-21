@@ -1,7 +1,6 @@
 package ua.nure.order.server.dao.mysql;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ua.nure.order.entity.book.Author;

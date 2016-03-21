@@ -68,7 +68,7 @@
 								<tr>
 									<c:set var="k" value="${k + 1}" />
 									<td><c:out value="${k}" /></td>
-									<td><a href="${context }/ViewBook?id=${book.key.id}">${book.key.title}</a></td>
+									<td>${book.key.title}</td>
 									<td>
 										<c:forEach var="a" items="${book.key.author}">
 											${a.title}<br/>

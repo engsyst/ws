@@ -1,0 +1,71 @@
+<%@ page pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<c:set var="u" value="${sessionScope.user }" />
+	<jsp:useBean id="delivery" class="ua.nure.order.client.Delivery" scope="session">
+		<jsp:setProperty name="delivery" property="name" value="${u.name }"/>
+		<jsp:setProperty name="delivery" property="phone" value="${u.phone }"/>
+		<jsp:setProperty name="delivery" property="email" value="${u.email }"/>
+		<jsp:setProperty name="delivery" property="address" value="${u.address }"/>
+	</jsp:useBean>
+	<c:set var="context" value="${pageContext.request.contextPath}" />
+
+<form class="form-horizontal" id="delivery" method="post">
+	<fieldset>
+
+		<!-- Form Name -->
+		<legend>Доставка</legend>
+
+		<!-- Text input-->
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="name">Имя</label>
+			<div class="col-md-8">
+				<input id="name" name="name" placeholder="Имя..."
+					class="form-control input-md" type="text"
+					value="${delivery.name }"> 
+				<span class="help-block">Как к Вам обращаться?</span>
+			</div>
+		</div>
+
+		<!-- Text input-->
+		<div class="form-group required">
+			<label class="col-md-4 control-label" for="phone">Телефон</label>
+			<div class="col-md-8">
+				<input id="phone" name="phone" placeholder="телефон..."
+					class="form-control input-md" type="tel"
+					value="${delivery.phone }"> 
+				<span class="help-block">Как с Вами связаться?</span>
+			</div>
+		</div>
+
+		<!-- Text input-->
+		<div class="form-group required">
+			<label class="col-md-4 control-label" for="email">E-mail</label>
+			<div class="col-md-8">
+				<input id="email" name="email" placeholder="e-mail..."
+					class="form-control input-md" type="email"
+					value="${delivery.email }"> 
+				<span class="help-block">Как с Вами связаться?</span>
+			</div>
+		</div>
+
+		<!-- Textarea -->
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="address">Адрес доставки</label>
+			<div class="col-md-8">
+				<textarea class="form-control" id="address" name="address" 
+					placeholder="Ваш адрес..." >${delivery.address }</textarea>
+				<span class="help-block">Введите адрес доставки</span>
+			</div>
+		</div>
+
+		<!-- Button (Double) -->
+		<!-- <div class="form-group">
+			<label class="col-md-8 control-label" for="confirm">Оформить</label>
+			<div class="col-md-8">
+				<button id="confirm" name="confirm" class="btn btn-success">Оформить</button>
+				<button id="cancel" name="cancel" class="btn btn-danger">Отменить</button>
+			</div>
+		</div> -->
+
+	</fieldset>
+</form>

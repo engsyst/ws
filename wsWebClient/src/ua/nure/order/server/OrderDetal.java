@@ -43,6 +43,7 @@ public class OrderDetal extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setHeader("Cache-control", "no-cache");
 		try {
 			Order order = orderService.getOrderDetal(Integer.parseInt(request.getParameter("id")));
 			request.setAttribute("order", order);

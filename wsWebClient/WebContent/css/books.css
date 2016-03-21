@@ -6,6 +6,28 @@
 .row-warning {
 	background-color: #f9e4e3 !important;
 }
+
+/*
+	Add asterisk to label for input field. 
+	Simply add required class to div tag with form-group class
+	<div class="form-group required">
+		<label class="col-md-12 control-label" for="title">Название</label>
+		<div class="col-md-12">
+			<input id="textinput" name="title" placeholder="Название"
+				class="form-control input-md" required="required" type="text">
+			<span class="help-block">Название книги</span>
+		</div>
+	</div>
+*/
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+
+/* 
+	classes to format Order statuses
+	it's simply copy of btn-* classes from bootstrap.css with different names
+*/
 .status-completed {
     color: #FFF;
     background-color: #5CB85C;
@@ -66,12 +88,12 @@
 }
 
 .col-count {
-	width: 50px;
+	width: 80px;
 	text-align: center !important;
 }
 
 .col-price {
-	width: 60px;
+	width: 65px;
 	text-align: right;
 	padding-right: 10px;
 }
@@ -81,37 +103,7 @@
 	text-align: center;
 }
 
-.glyph-color-maroon {
-	color: maroon;
-}
-
-.glyph-color-maroon {
-	color: maroon;
-}
-
-.tab-title-col .tab-author-col {
-	text-align: left;
-}
-
-.tab-price-col .count-col {
-	width: 50px;
-}
-
-.tab-form-col {
+.col-form-action {
 	width: 200px;
-}
-
-.row-normal {
-	background-color: #c0f0ff;
-}
-
-.topMenu {
-	top: 0;
-	width: 100%;
-}
-
-.menu {
-	font-family: sans-serif;
-	font-size: large;
-	text-align: left;
+	text-align: center;
 }
