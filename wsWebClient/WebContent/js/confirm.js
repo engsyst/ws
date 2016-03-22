@@ -21,8 +21,8 @@ $("#confirm").submit(function(e)
     e.unbind(); //unbind. to stop multiple form submit.
 });
  
-$("#confirm").submit(); //Submit  the FORM
-
+/*$("#confirm").submit(); //Submit  the FORM
+*/
 //Fill modal with content from link href
 $("#myModal").on("show.bs.modal", function(e) {
     var link = $(e.relatedTarget);

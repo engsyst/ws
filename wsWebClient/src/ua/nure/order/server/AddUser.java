@@ -98,10 +98,12 @@ public class AddUser extends HttpServlet {
 		user.setName(name);
 		Map<String, String> errors = validator.validate(user);
 		if (!errors.isEmpty()) {
+			log.debug("Invalid user");
 			goBack(request, response, user, errors);
 			return;
 		}
 		if (!pass.equals(pass2)) {
+			log.debug("Passwords not equals");
 			errors.put("password2", "Пароли не совпадают");
 			goBack(request, response, user, errors);
 			return;
@@ -110,13 +112,16 @@ public class AddUser extends HttpServlet {
 		try {
 			user = dao.getUser(login);
 			if (user != null) {
+				log.debug("User already exist");
 				errors.put("login", "Такой пользователь уже существует");
 				goBack(request, response, user, errors);
 				return;
 			}
 			user = new User(login, Hash.encode(pass), "client");
 			user.setName(name);
+			log.debug("Try add User to db");
 			user.setId(dao.addUser(user));
+			log.debug("User added to db");
 		} catch (DAOException e) {
 			log.debug("DAOException", e);
 			errors.put("dao", "Ошибка при добавлении пользователя");
@@ -137,6 +142,7 @@ public class AddUser extends HttpServlet {
 			User user, Map<String, String> errors) throws IOException {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
+		log.debug("Set user to the session");
 		session.setAttribute("errors", errors);
 		log.debug("Redirect to --> register.jsp");
 		response.sendRedirect("register.jsp");

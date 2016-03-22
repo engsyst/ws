@@ -19,12 +19,25 @@ public class ReqParam {
 		return params.get(key);
 	}
 	
-	public String setParam(String key, String... value) {
+	public ReqParam setParam(String key, String... value) {
 		if (value[0] == null || value[0].equals("")) 
 			this.params.remove(key);
 		else 
 			this.params.put(key, value);
-		return toString();
+		return this;
+	}
+	
+	public ReqParam addParam(String key, String... value) {
+		if (value[0] == null || value[0].equals("")) 
+			this.params.remove(key);
+		else 
+			this.params.put(key, value);
+		return this;
+	}
+	
+	public ReqParam removeParam(String key) {
+		this.params.remove(key);
+		return this;
 	}
 	
 	public String toString() {

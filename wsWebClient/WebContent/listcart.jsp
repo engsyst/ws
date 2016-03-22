@@ -10,31 +10,24 @@
 <body>
 <%@ include file="jspf/menu.jspf" %>
 
-	<%-- <jsp:useBean id="cart" 
-		class="ua.nure.order.client.Cart<ua.nure.order.entity.book.Book>" 
-		type="ua.nure.order.client.Cart<ua.nure.order.entity.book.Book>" scope="session" /> --%>
+<%-- PAGE VARIABLES --%>
+	<jsp:useBean id="params" class="ua.nure.order.client.ReqParam" scope="page">
+		<jsp:setProperty property="params" name="params" value="${paramValues }"/>
+	</jsp:useBean>
+	
 	<jsp:useBean id="cartDao" class="ua.nure.order.client.CartBookDAO" scope="page">
 		<jsp:setProperty property="cart" name="cartDao" value="${sessionScope.cart }"/>
 	</jsp:useBean>
-	<jsp:useBean id="lcp" class="ua.nure.order.shared.Pagination" scope="session" >
-		<jsp:setProperty property="ascending" name="lcp" value="true"/>
-		<jsp:setProperty property="sortField" name="lcp" value="title"/>
+	<jsp:useBean id="pag" class="ua.nure.order.shared.Pagination" scope="request" >
+		<jsp:setProperty property="ascending" name="pag" value="true"/>
+		<jsp:setProperty property="sortField" name="pag" value="title"/>
 	</jsp:useBean>
-	<jsp:setProperty property="dao" name="lcp" value="${cartDao }"/>
-	<c:if test="${!empty param.search }">
-		<jsp:setProperty property="ascending" name="lcp" param="ascending" />
-	</c:if>
-	<c:if test="${!empty param.search }">
-		<jsp:setProperty property="sortField" name="lcp" param="field"/>
-	</c:if>
-	<c:if test="${!empty param.search }">
-		<jsp:setProperty property="search" name="lcp" param="search" />
-	</c:if>
-	<c:if test="${!empty param.page }">
-		<jsp:setProperty property="page" name="lcp" param="page" />
-	</c:if>
+	<jsp:setProperty property="dao" name="pag" value="${cartDao }"/>
+	<jsp:setProperty property="*" name="pag" />
 
-	<c:set var="books" value="${lcp.items }" scope="page" />
+	<c:set var="books" value="${pag.items }" scope="page" />
+
+<%-- CONTENT --%>
 
 	<div class="section main-content" >
 		<%@ include file="jspf/showmsg.jspf" %>
@@ -55,7 +48,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 					<table class="table table-bordered table-striped">
 						<col class="col-position" />
@@ -63,31 +56,19 @@
 						<col class="col-author" />
 						<col class="col-price" />
 						<col class="col-count" />
-						<col class="col-form-action" />
-						<thead class="text-center">
-							<tr>
-								<th>#</th>
-								<th>
-									<div class="btn-group drop${lcp.ascending ? 'down' : 'up' }">
-										<a href="?ascending=${lcp.ascending ? false : true }&field=title">Название<b class="caret"></b></a>
+						<col class="col-action" />
+						<thead>
+							<tr class="text-center">
+								<th class="text-center">#</th>
+								<th class="text-center">
+									<div class="btn-group drop${pag.ascending ? 'down' : 'up' }">
+										<a href="?${params.setParam('ascending', !pag.ascending).setParam('field', 'title') }">Название<b class="caret"></b></a>
 									</div>
 								</th>
-								<th>
-									<div class="btn-group drop${lcp.ascending ? 'down' : 'up' }">
-										<a href="?ascending=${lcp.ascending ? false : true }&field=author">Авторы<b class="caret"></b></a>
-									</div>
-								</th>
-								<th>
-									<div class="btn-group drop${lcp.ascending ? 'down' : 'up' }">
-										<a href="?ascending=${lcp.ascending ? false : true }&field=price">Цена<b class="caret"></b></a>
-									</div>
-								</th>
-								<th>
-									<div class="btn-group drop${lcp.ascending ? 'down' : 'up' }">
-										<a href="?ascending=${lcp.ascending ? false : true }&field=count">Кол-во<b class="caret"></b></a>
-									</div>
-								</th>
-								<th>В корзину</th>
+								<th class="text-center">Авторы</th>
+								<th class="text-center">Цена</th>
+								<th class="text-center">Кол-во</th>
+								<th class="text-center">В корзину</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -103,27 +84,26 @@
 											${a.title}<br/>
 										</c:forEach>
 									</td>
-									<td>${book.price }</td>
-									<td>${cart.get(book) }</td>
+									<td class="text-right">${book.price }</td>
 									<td>
-										<form action="updatecart" method="post">
-										<div class="form-group">
-											<span class="col-xs-6">
-												<input type="number" name="count" value="${cart.get(book) }" 
-													class="form-control" min="0" max="${book.count }">
-											</span>
-											<button type="submit" name="update" 
-												title="Обновить корзину"
-												class="btn btn-success" value="${book.id }">
-												<i class="glyphicon glyphicon-shopping-cart"></i>
-											</button>
-											<button type="submit" name="remove" 
-												title="Удалить из корзины"
-												class="btn btn-danger" value="${book.id }">
-												<i class="glyphicon glyphicon-remove"></i>
-											</button>
-										</div>
+										<form id="update-${book.id }" action="updatecart?${params.setParam('ascending', pag.ascending) }" method="post">
+											<c:set value="${cart.get(book) }" var="c"></c:set>
+											<input type="number" name="count" 
+												value="${c > book.count ? book.count : c }" 
+												class="form-control" min="0" max="${book.count }">
  										</form>
+									</td>
+									<td>
+										<button type="submit" name="update" form="update-${book.id }"
+											title="Обновить корзину"
+											class="btn btn-success" value="${book.id }">
+											<i class="glyphicon glyphicon-shopping-cart"></i>
+										</button>
+										<button type="submit" name="remove" form="update-${book.id }"
+											title="Удалить из корзины"
+											class="btn btn-danger" value="${book.id }">
+											<i class="glyphicon glyphicon-remove"></i>
+										</button>
 									</td>
 								</tr>
 							</c:forEach>			
@@ -134,35 +114,18 @@
 			
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
-					<p><span>Всего: </span><span>${sessionScope.cart.getPrice() }</span></p>
+					<p class="text-right lead">Всего: ${sessionScope.cart.getPrice() }</p>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
                 <a href="filldelivery.jsp" class="btn btn-primary btn-block">Оформить заказ</a>
-				<!-- <form action="filldelivery.jsp" method="get">
-	                 <div class="form-group">
-	                      <button type="submit" name="buy" class="btn btn-primary btn-block">Оформить заказ</button>
-	                 </div>
-				</form> -->
 				</div>
 			</div>
-
-			<%-- <div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-					<form action="${context }/makeorder" method="post">
-                   <div class="form-group">
-                        <button type="submit" name="buy" class="btn btn-primary btn-block">Оформить заказ</button>
-                    </div>
-					</form>
-				</div>
-			</div> --%>
-
 			
-			
-			<c:set value="${lcp }" var="paging" scope="request" />
-			<jsp:include page="jspf/pagination.jsp" />
+			<%-- <c:set value="${pag }" var="paging" scope="request" />
+			<jsp:include page="jspf/pagination.jsp" /> --%>
 
 	</c:otherwise>
 	</c:choose>

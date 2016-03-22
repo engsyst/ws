@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import ua.nure.order.client.Cart;
+import ua.nure.order.client.ReqParam;
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.Card;
@@ -49,9 +50,11 @@ public class AddToCart extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		log.trace("doPost start");
-		Map<String, String> err = new CountValidator().validate(request.getParameter("count"));
 		HttpSession session = request.getSession(false);
+		log.debug("Params --> " + request.getParameterMap());
+		
 		String sid = request.getParameter("tocart");
+		@SuppressWarnings("unchecked")
 		Cart<Book> cart = (Cart<Book>) session.getAttribute("cart");
 		if (cart == null) {
 			log.debug("Cart not found. Create new.");
@@ -78,7 +81,11 @@ public class AddToCart extends HttpServlet {
 			request.setAttribute("error", "Не достаточно книг в наличии");
 		}
 		session.setAttribute("cart", cart);
-		response.sendRedirect("list.jsp");
+		ReqParam params = new ReqParam();
+		params.setParams(request.getParameterMap());
+		params.removeParam("tocart");
+		response.sendRedirect("list.jsp?" + params);
+		log.debug("Params --> " + params);
 		log.debug("Redirect to list.jsp");
 		log.trace("doPost finish");
 	}

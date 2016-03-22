@@ -16,26 +16,18 @@
 <%@ include file="jspf/menu.jspf" %>
 
 <%-- PAGE VARIABLES --%>
-
-	<jsp:useBean id="lbp" class="ua.nure.order.shared.Pagination" scope="session" >
-		<jsp:setProperty property="dao" name="lbp" value="${applicationScope.BookDao }"/>
-		<jsp:setProperty property="ascending" name="lbp" value="true"/>
-		<jsp:setProperty property="sortField" name="lbp" value="title"/>
+	<jsp:useBean id="params" class="ua.nure.order.client.ReqParam" scope="page">
+		<jsp:setProperty property="params" name="params" value="${paramValues }"/>
 	</jsp:useBean>
-		<jsp:setProperty property="ascending" name="lbp" param="ascending" />
-		<jsp:setProperty property="sortField" name="lbp" param="field"/>
-	<c:if test="${!empty param.search }">
-	</c:if>
-	<c:if test="${!empty param.search }">
-	</c:if>
-	<c:if test="${!empty param.search }">
-		<jsp:setProperty property="search" name="lbp" param="search" />
-	</c:if>
-	<c:if test="${!empty param.page }">
-		<jsp:setProperty property="page" name="lbp" param="page" />
-	</c:if>
+	
+	<jsp:useBean id="pag" class="ua.nure.order.shared.Pagination" scope="request" >
+		<jsp:setProperty property="dao" name="pag" value="${applicationScope.BookDao }"/>
+		<jsp:setProperty property="ascending" name="pag" value="true"/>
+		<jsp:setProperty property="sortField" name="pag" value="title"/>
+	</jsp:useBean>
+	<jsp:setProperty property="*" name="pag" />
+	<c:set var="books" value="${pag.items }" scope="page" />
 
-	<c:set var="books" value="${lbp.items }" scope="page" />
 
 <%-- CONTENT --%>
 
@@ -52,7 +44,7 @@
 		 	</c:when>
 			<c:otherwise>
 			<div class="row">
-				<h3>Книги ${empty lbp.search ? '' : 'по запросу \"'.concat(lbp.search).concat('\"') }</h3>
+				<h3>Книги ${empty pag.search ? '' : 'по запросу \"'.concat(pag.search).concat('\"') }</h3>
 			</div>
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -61,17 +53,19 @@
 						<colgroup class="col-position"/>
 						<colgroup class="col-title"/>
 						<colgroup class="col-title"/>
-						<colgroup class="col-count"/>
 						<colgroup class="col-price"/>
+						<colgroup class="col-count"/>
 						<colgroup class="col-action"/>
 						<thead class="text-center">
-							<tr>
-								<th>#</th>
-								<th><div class="block-inline">
-									<div class="block-inline text-center btn-group drop${lbp.ascending ? 'up' : 'down' }">
-										<a href="?ascending=${lbp.ascending ? false : true }&field=title">Название<b class="caret"></b></a>
+							<tr class="text-center">
+								<th class="text-center">#</th>
+								<th>
+									<div class="center-block btn-group drop${pag.ascending ? 'up' : 'down' }">
+										<p class="text-center">
+										<a href="?${params.setParam('ascending', !pag.ascending).setParam('field', 'title').toString() }">Название<b class="caret"></b></a>
+										<%-- <a href="?ascending=${!pag.ascending }&field=title">Название<b class="caret"></b></a> --%>
+										</p>
 									</div>
-								</div>
 								</th>
 								<th><p class="text-center">Авторы</p></th>
 								<th><p class="text-center">Цена</p></th>
@@ -93,13 +87,13 @@
 									</td>
 									<td><p class="text-right">${book.price}</p></td>
 									<td><p class="text-right">${book.count}</p></td>
-									<td><span class="text-center">
-										<form action="addtocart" method="post">
+									<td class="text-center">
+										<form id="confirm" action="addtocart?${params.setParam('ascending', pag.ascending) }" method="post">
 											<button type="submit" name="tocart" id="${book.id }" title="Добавить в корзину"
 												class="btn btn-success" value="${book.id }">
 												<i class="glyphicon glyphicon-shopping-cart"></i>
 											</button>
- 										</form></span>
+ 										</form>
 									</td>
 								</tr>
 							</c:forEach>			
@@ -108,7 +102,7 @@
 				</div>
 			</div>
 			
-			<c:set value="${lbp }" var="paging" scope="request" />
+			<c:set value="${pag }" var="paging" scope="request" />
 			<jsp:include page="jspf/pagination.jsp" />
 
 	</c:otherwise>
@@ -117,5 +111,6 @@
 	</div>
 
 <%@ include file="jspf/bootstrap.jspf" %>
+    <%-- <script src="${context }/js/confirm.js"></script> --%>
 </body>
 </html>

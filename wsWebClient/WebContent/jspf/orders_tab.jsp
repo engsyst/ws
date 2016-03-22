@@ -18,11 +18,7 @@
 			<tr>
 				<th>#</th>
 				<th>Состояние</th>
-				<th>
-					<div class="btn-group drop${ascending ? 'down' : 'up' }">
-						<a href="?ascending=${ascending ? false : true }&amp;field=title">Клиент<b class="caret"></b></a>
-					</div>
-				</th>
+				<th>Клиент</th>
 				<th>Кол-во</th>
 				<th>Цена</th>
 				<th>Действия</th>

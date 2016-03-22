@@ -36,8 +36,10 @@ public class MysqlOrderDAO implements OrderDAO {
 	Connection getConnection() throws SQLException {
 		Connection con = null;
 		try {
+			log.debug("Try get pooled conection.");
 			con = MysqlDAOFactory.getConnection();
 		} catch (SQLException e) {
+			log.error("Failure. Try get conection using DriverManager.");
 			con = MysqlDAOFactory.getDBConnection();
 		}
 		return con;
@@ -45,7 +47,8 @@ public class MysqlOrderDAO implements OrderDAO {
 	}
 
 	@Override
-	public int makeOrder(Map<Product, Integer> items, Delivery delivery, Integer userId) throws DAOException {
+	public int makeOrder(Map<Product, Integer> items, Delivery delivery, Integer userId) 
+			throws DAOException {
 		log.trace("Start");
 		Connection con = null;
 		int orderId = 0;
@@ -144,10 +147,14 @@ public class MysqlOrderDAO implements OrderDAO {
 	@Override
 	public List<Order> list(String pattern, String orderColumn, boolean ascending, int start, int count,
 			SQLCountWrapper total) throws DAOException {
+		log.trace("Start");
 		List<Order> orders = null;
 		Connection con = null;
 		try {
 			con = getConnection();
+			log.debug("Try list orders with params --> " + "pattern" + pattern + ", orderColumn " 
+					+ orderColumn + ", ascending " + ascending + ", start" + start 
+					+ ", count" + count + ", total" + total);
 			orders = listOrders(con, pattern, orderColumn, ascending, start, count, total);
 		} catch (SQLException e) {
 			log.error("listBooks: Can not listBooks", e);
@@ -155,6 +162,7 @@ public class MysqlOrderDAO implements OrderDAO {
 		} finally {
 			MysqlDAOFactory.close(con);
 		}
+		log.trace("Finish");
 		return orders;
 	}
 
@@ -166,6 +174,7 @@ public class MysqlOrderDAO implements OrderDAO {
 		List<Integer> list = new ArrayList<>();
 		PreparedStatement st = null;
 		try {
+			log.debug("Get orders ID with given pattern.");
 			String where = pattern == null || pattern.length() == 0 ? "" : 
 				" WHERE `status` = '" + pattern + "' ";
 			String order = orderColumn == null || orderColumn.length() == 0 
@@ -184,6 +193,7 @@ public class MysqlOrderDAO implements OrderDAO {
 				return orders;
 			st.close();
 			
+			log.debug("Get orders with given IDs.");
 			String whereBooks = " WHERE `order_id` IN " + SqlUtil.listToIN(list);
 			query = Querys.SQL_GET_FULL_ORDERS + whereBooks + order;
 			st = con.prepareStatement(query);
@@ -196,18 +206,21 @@ public class MysqlOrderDAO implements OrderDAO {
 			st.close();
 			
 			if (total != null) {
+				log.debug("Get count of founded orders.");
 				query = Querys.SQL_FIND_ORDERS_COUNT + where;
 				log.debug("Query --> " + query);
 				st = con.prepareStatement(query);
 				rs = st.executeQuery();
 				while (rs.next()) {
 					total.setCount(rs.getInt(1));
+					log.debug("Count of orders --> " + total.getCount());
 				}
 				rs.close();
 			}
 		} finally {
 			MysqlDAOFactory.closeStatement(st);
 		}
+		log.trace("Finish");
 		return orders;
 	}
 

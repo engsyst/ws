@@ -2,6 +2,7 @@ package ua.nure.order.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +25,7 @@ public class CartBookDAO implements Paginable<Book> {
 		this.cart = cart;
 	}
 
-	Comparator<Book> title  = new Comparator<Book>() {
+	Comparator<Book> titleAsc  = new Comparator<Book>() {
 
 		@Override
 		public int compare(Book o1, Book o2) {
@@ -32,6 +33,14 @@ public class CartBookDAO implements Paginable<Book> {
 		}
 	};
 
+	Comparator<Book> titleDesc  = new Comparator<Book>() {
+		
+		@Override
+		public int compare(Book o1, Book o2) {
+			return o2.getTitle().compareTo(o1.getTitle());
+		}
+	};
+	
 	Comparator<Book> price  = new Comparator<Book>() {
 		
 		@Override
@@ -70,7 +79,7 @@ public class CartBookDAO implements Paginable<Book> {
 		Comparator<Book> comparator = null;
 		switch (orderColumn) {
 		case "title":
-			comparator = title;
+			comparator = ascending ? titleAsc : titleDesc;
 			break;
 		case "author":
 			comparator = author;
@@ -82,7 +91,7 @@ public class CartBookDAO implements Paginable<Book> {
 			comparator = price;
 			break;
 		default:
-			comparator = title;
+			comparator = titleAsc;
 			break;
 		}
 		if (cart == null) {
@@ -96,6 +105,7 @@ public class CartBookDAO implements Paginable<Book> {
 		for (Book book : b) {
 			a.add(book);
 		}
+		Collections.sort(a, comparator);
 		total.setCount(a.size());
 //		Book[] books = (Book[]) cart.keySet().toArray();
 //		Arrays.sort(books, comparator);

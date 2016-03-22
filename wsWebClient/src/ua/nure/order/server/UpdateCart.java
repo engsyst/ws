@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import ua.nure.order.client.Cart;
+import ua.nure.order.client.ReqParam;
 import ua.nure.order.entity.book.Book;
 
 /**
@@ -36,6 +37,7 @@ public class UpdateCart extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.trace("doPost start");
 		HttpSession session = request.getSession(false);
+		@SuppressWarnings("unchecked")
 		Cart<Book> cart = (Cart<Book>) session.getAttribute("cart");
 		log.debug("Get cart from session --> " + cart);
 		if (cart == null) {
@@ -46,12 +48,16 @@ public class UpdateCart extends HttpServlet {
 		}
 		int id = 0;
 		String uId = request.getParameter("update");
+		log.debug("Update id --> " + uId);
 		String rId = request.getParameter("remove");
+		log.debug("Remove id --> " + uId);
 		int count = 0;
 		if (uId != null && !uId.trim().equals("")) {
 			try {
 				id = Integer.parseInt(uId);
-				count = Integer.parseInt(request.getParameter("count"));
+				String sCount = request.getParameter("count");
+				log.debug("Count of books --> " + sCount);
+				count = Integer.parseInt(sCount);
 				if (count <= 0) {
 					session.setAttribute("error", "Не допустимое количество товара");
 				} else {
@@ -78,7 +84,11 @@ public class UpdateCart extends HttpServlet {
 		}
 		session.setAttribute("cart", cart);
 		log.debug("Cart to session --> " + cart);
-		response.sendRedirect("listcart.jsp");
+		ReqParam params = new ReqParam();
+		params.setParams(request.getParameterMap());
+		params.removeParam("update").removeParam("remove").removeParam("count");
+		log.debug("Params --> " + params);
+		response.sendRedirect("listcart.jsp?" + params);
 		log.debug("Redirect to listcart.jsp");
 		log.trace("doPost finish");
 	}
