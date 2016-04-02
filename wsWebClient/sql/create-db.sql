@@ -315,6 +315,33 @@ begin
     UPDATE book SET book.count = @newcount where id = NEW.`book_id`;
 end$$
 
+DELIMITER ;
+
+DELIMITER $$
+
+USE `books`$$
+DROP TRIGGER IF EXISTS `books`.`order_AFTER_UPDATE` $$
+
+USE `books`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `books`.`order_AFTER_UPDATE` AFTER UPDATE ON `order` FOR EACH ROW
+BEGIN
+	DECLARE done INT DEFAULT 0;
+	DECLARE ocount INT DEFAULT 0;
+	DECLARE bookid INT DEFAULT 0;
+	DECLARE cur CURSOR FOR 
+		SELECT `book_has_order`.`count` oc, `book_id` bid FROM `book_has_order`
+		WHERE  `order_id` = NEW.`id`;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;	
+    IF NEW.`status` = 'rejected' AND OLD.`status` != 'rejected' AND OLD.`status` != 'completed' THEN
+		OPEN cur;
+		FETCH cur INTO ocount, bookid;
+		WHILE done = 0 DO
+			UPDATE `book` SET `count` = (ocount + `count`) WHERE `id` = bookid; 
+			FETCH cur INTO ocount, bookid;
+		END WHILE; 
+	END IF;
+END;
+$$
 
 DELIMITER ;
 
