@@ -82,7 +82,7 @@ public class Login extends HttpServlet {
 			return;
 		}
 		try {
-			User u = dao.getUser(login.trim());
+			User u = dao.getUser(login);
 			if (u == null) {
 				errors.put("login", "Login or password incorrect");
 				goBack(request, response, user, errors);

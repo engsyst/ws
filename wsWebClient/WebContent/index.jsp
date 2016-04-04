@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<title>Книги</title>
+<title>Добро пожаловать</title>
 <%@ include file="jspf/headtag.jspf" %>
 </head>
 <body>

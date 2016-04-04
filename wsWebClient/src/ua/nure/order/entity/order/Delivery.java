@@ -1,8 +1,10 @@
-package ua.nure.order.client;
+package ua.nure.order.entity.order;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class Delivery {
+import ua.nure.order.entity.Entity;
+
+public class Delivery extends Entity {
 	protected String name;
 	protected String phone;
 	protected String email;
@@ -13,15 +15,19 @@ public class Delivery {
 		super();
 	}
 
+	/**
+	 * Makes object from {@link HttpServletRequest}.
+	 * @param request
+	 */
 	public Delivery(HttpServletRequest request) {
 		super();
-		setName(request.getParameter("name"));
-		setPhone(request.getParameter("phone"));
-		setEmail(request.getParameter("email"));
-		setAddress(request.getParameter("address"));
-		setDescription(request.getParameter("description"));
+		setDelivery(request);
 	}
 	
+	/**
+	 * Makes object from {@link HttpServletRequest}.
+	 * @param request
+	 */
 	public void setDelivery(HttpServletRequest request) {
 		setName(request.getParameter("name"));
 		setPhone(request.getParameter("phone"));

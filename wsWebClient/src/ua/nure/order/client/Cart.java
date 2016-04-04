@@ -1,11 +1,19 @@
 package ua.nure.order.client;
 
 import java.util.Hashtable;
-import java.util.Set;
 
 import ua.nure.order.entity.Product;
 
+/**
+ * <p>Client cart. Store product as {@code key}, and count of product as {@code value}.</p>
+ * <p>{@code null} key not allowed. To get total price of products in this cart it implements {@link Priceable}</p>
+ * @author engsyst
+ *
+ * @param <T extends Product>
+ */
 public class Cart<T extends Product> extends Hashtable<T, Integer> implements Priceable {
+
+	private static final long serialVersionUID = 1528960148557350187L;
 
 	/**
 	 * Adds one more product to the cart. If there are items in the cart, it

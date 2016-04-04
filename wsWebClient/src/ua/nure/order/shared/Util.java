@@ -1,5 +1,11 @@
 package ua.nure.order.shared;
 
+/**
+ * Utility
+ * 
+ * @author engsyst
+ *
+ */
 public class Util {
 	public static <T> T getOrElse(T obj, T result) {
 		return obj == null ? result : obj;

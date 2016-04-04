@@ -62,11 +62,13 @@ import ua.nure.order.entity.Product;
     "isbn",
     "price",
     "category",
-    "count"
+    "count",
+    "description",
+    "cover",
 })
 public class Book extends Product {
 
-    @XmlElement(required = true)
+	@XmlElement(required = true)
     protected String title;
     @XmlElement(required = true)
     protected List<Author> author;

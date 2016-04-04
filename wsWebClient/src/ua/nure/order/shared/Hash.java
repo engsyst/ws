@@ -3,6 +3,12 @@ package ua.nure.order.shared;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Utility class to encode password. By default use SHA-256.
+ * 
+ * @author engsyst
+ *
+ */
 public class Hash {
 	public static String encode(String msg) throws NoSuchAlgorithmException {
 		msg = msg == null ? "" : msg;

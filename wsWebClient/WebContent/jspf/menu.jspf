@@ -43,11 +43,11 @@
                 </form>
                 <div class="navbar-form navbar-right">
                     <div class="form-group">
-		                <label class="form-control-static" name="id" value="${user.id }">
-		                	<%-- <a href="${context }/profile?id=${user.id }"> --%>${user.login }<!-- </a> -->
-		                	<!-- 
+		                <label class="form-control-static">
+		                	<%-- <a href="${context }/profile?id=${user.id }"> --%>${user.login }<%-- </a> --%>
+		                	<%-- 
 		                		// TODO Profile servlet with redirect to client or admin role profile
-	                		-->
+	                		--%>
 	                	</label>
                     </div>
                 </div>

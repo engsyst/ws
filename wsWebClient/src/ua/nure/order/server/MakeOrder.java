@@ -12,15 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import ua.nure.order.client.Cart;
-import ua.nure.order.client.Delivery;
 import ua.nure.order.entity.Product;
-import ua.nure.order.entity.book.Book;
+import ua.nure.order.entity.order.Delivery;
 import ua.nure.order.entity.order.Order;
 import ua.nure.order.entity.user.User;
 import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.OrderDAO;
-import ua.nure.order.server.dao.UserDAO;
-import ua.nure.order.server.filter.SecurityFilter;
 import ua.nure.order.shared.Util;
 
 /**
@@ -30,16 +27,13 @@ import ua.nure.order.shared.Util;
 public class MakeOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(MakeOrder.class);
-	private static Integer unregUserId;
 	private static OrderDAO orderService = null;
-	private static UserDAO userService = null;
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
     public MakeOrder() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	
@@ -47,7 +41,6 @@ public class MakeOrder extends HttpServlet {
 	public void init() {
 		log.trace("Init start");
 		orderService = (OrderDAO) getServletContext().getAttribute("OrderDao");
-		userService = (UserDAO) getServletContext().getAttribute("UserDao");
 		log.debug("Get order service --> " + orderService);
 		log.trace("Init finish");
 	}
@@ -71,25 +64,17 @@ public class MakeOrder extends HttpServlet {
 			log.debug("Cart is empty. Redirect to listcart.jsp");
 			return;
 		} 
-		Delivery delivery = new Delivery(request);
-		log.debug("Get Delivery from request --> " + delivery);
-		session.setAttribute("delivery", delivery);
-		log.debug("Set Delivery to the session.");
-		String updateProfile = request.getParameter("updateprofile");
-		if (updateProfile != null && updateProfile.equals("1")) {
-			log.debug("Update profile");
-			User user = (User) session.getAttribute("user");
-			log.debug("User from session --> " + user);
-			user.setName(Util.getOrElse(delivery.getName(), user.getName()));
-			user.setPhone(Util.getOrElse(delivery.getPhone(), user.getPhone()));
-			user.setEmail(Util.getOrElse(delivery.getEmail(), user.getEmail()));
-			user.setAddress(Util.getOrElse(delivery.getAddress(), user.getAddress()));
-			log.debug("User filled from delivery --> " + user);
-			session.setAttribute("user", user);
+		Delivery delivery = (Delivery) session.getAttribute("delivery");
+		log.debug("Get Delivery from session --> " + delivery);
+		if (delivery == null) {
+			response.sendRedirect("filldelivery.jsp");
+			log.debug("Delivery is empty. Redirect to filldelivery.jsp");
+			return;
 		}
 		if (!delivery.validate()) {
+			session.setAttribute("error", "Некорректно заполнены поля формы.");
 			response.sendRedirect("filldelivery.jsp");
-			log.debug("Delivery not valid. Redirect to filldelivery.jsp");
+			log.debug("Delivery invalid. Redirect to filldelivery.jsp");
 			return;
 		}
 		User user = (User) session.getAttribute("user");
@@ -99,7 +84,7 @@ public class MakeOrder extends HttpServlet {
 			userId = user.getId();
 		try {
 			log.debug("Try make order.");
-			int orderId = orderService.makeOrder(cart, delivery, userId);
+			int orderId = orderService.makeOrder(userId, cart, delivery);
 			Order order = new Order(orderId, cart, delivery);
 			session.setAttribute("order", order);
 			log.debug("Order created --> " + order);

@@ -40,10 +40,14 @@ public interface Querys {
 	
 	static final String SQL_LIST_AUTHORS = "SELECT id, title FROM author";
 	
-	static final String SQL_GET_USER = "SELECT id, login, password, role FROM user WHERE login = ?";
+	static final String SQL_GET_USER = "SELECT `id`,`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description` FROM `user` WHERE login = ?";
 
 	static final String SQL_ADD_USER = "INSERT INTO `user` (`login`,`password`,`role`,`e-mail`,`phone`,`name`,`address`,`avatar`,`description`) "
 			+ "VALUES (?,?,?,?,?,?,?,?,?)";
+
+	static final String SQL_UPDATE_USER = "UPDATE `user` "
+			+ "SET `login` = ?,`password` = ?,`role` = ?,`e-mail` = ?,`phone` = ?,"
+			+ "`name` = ?,`address` = ?,`avatar` = ?,`description` = ? WHERE `id` = ?;";
 	
 	static final String SQL_INSERT_ORDER = "INSERT INTO `order` (`no`, `delivery_id`, `user_id`) VALUES (?, ?, ?);";
 	
@@ -69,4 +73,5 @@ public interface Querys {
 	static final String SQL_FIND_ORDERS_COUNT = "SELECT count(*) FROM `order` ";
 
 	static final String SQL_GET_ORDERS_ID = "SELECT DISTINCT `order_id` FROM `orders` ";
+
 }

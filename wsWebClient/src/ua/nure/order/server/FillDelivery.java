@@ -11,8 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.order.client.Delivery;
+import ua.nure.order.entity.order.Delivery;
 import ua.nure.order.entity.user.User;
+import ua.nure.order.server.dao.DAOException;
+import ua.nure.order.server.dao.UserDAO;
 import ua.nure.order.shared.Util;
 
 /**
@@ -22,10 +24,14 @@ import ua.nure.order.shared.Util;
 public class FillDelivery extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(FillDelivery.class);
+	private UserDAO userService = null;
        
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		userService = (UserDAO) getServletContext().getAttribute("UserDao");
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.trace("Start");
 		HttpSession session = request.getSession(false);
@@ -49,16 +55,30 @@ public class FillDelivery extends HttpServlet {
 			user.setAddress(Util.getOrElse(delivery.getAddress(), user.getAddress()));
 			log.debug("User filled from delivery --> " + user);
 			session.setAttribute("user", user);
+			// Update user profile in database
+			try {
+				userService.updateUser(user);
+				log.debug("User profile updated in database");
+			} catch (DAOException e) {
+				log.debug("User profile can not updated in database");
+			}
 		}
-		String action = request.getParameter("action");
-		if (Util.isEmpty(action)) {
+		String action = request.getParameter("continue");
+		log.debug("Action --> " + action);
+		if (action != null) {
 			response.sendRedirect("list.jsp");
-		}
-		if (action.equals("makeorder")) {
+			log.debug("Redirect to list.jsp");
+			log.trace("Finish");
+			return;
+		} 
+		action = request.getParameter("makeorder");
+		log.debug("Action --> " + action);
+		if (action != null) {
 			request.getRequestDispatcher("makeorder").forward(request, response);
-		} else if (action.equals("continue")) {
-			response.sendRedirect("listcart.jsp");
-		}
-		log.trace("Finish");
+			log.debug("Forvard to makeorder");
+			log.trace("Finish");
+			return;
+		} 
+		response.sendError(404, "Unknown action");
 	}
 }

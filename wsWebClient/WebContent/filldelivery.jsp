@@ -21,6 +21,7 @@
 <%-- CONTENT --%>
 
 	<div class="section main-content" >
+		<%@ include file="jspf/showmsg.jspf" %>
 		<div class="container">
 			<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -48,26 +49,18 @@
 							<div class="col-md-12">
 								<button class="btn btn-success" 
 									id="confirm" 
-									name="action" 
 									name="makeorder" 
-									formaction="makeorder" 
-									form="delivery">
-									Оформить
-								</button>
+									formaction="filldelivery" 
+									form="delivery">Оформить</button>
 								<button class="btn btn-success" 
 									id="continue" 
-									name="action" 
 									name="continue" 
 									formaction="filldelivery" 
-									form="delivery">
-									Запомнить
-								</button>
+									form="delivery">Запомнить</button>
 								<button class="btn btn-danger" 
 									id="cancel" 
 									formaction="listcart.jsp" 
-									form="delivery">
-									Отменить
-								</button>
+									form="delivery">Отменить</button>
 							</div>
 						</div>
 					</div>
@@ -80,6 +73,7 @@
 		</div>
 	</div>
 
+<% session.removeAttribute("error"); %>
 <%@ include file="jspf/bootstrap.jspf" %>
 </body>
 </html>

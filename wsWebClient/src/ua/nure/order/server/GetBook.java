@@ -17,9 +17,6 @@ import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 
-/**
- * Servlet implementation class EditBook
- */
 @WebServlet("/book/get")
 public class GetBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -73,7 +70,7 @@ public class GetBook extends HttpServlet {
 			throw new ServletException("Unknown id -->" + sId);
 		}
 		request.getRequestDispatcher("bookform.jsp").forward(request, response);
-		log.debug("redirect to -- > bookform.jsp");
-		log.trace("init finish");
+		log.debug("Forward to -- > bookform.jsp");
+		log.trace("Finish");
 	}
 }

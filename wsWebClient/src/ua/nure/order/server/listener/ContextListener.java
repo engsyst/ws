@@ -11,7 +11,7 @@ import org.apache.log4j.PropertyConfigurator;
 import ua.nure.order.server.dao.DAOFactory;
 
 /**
- * Application Lifecycle Listener implementation class InitListener
+ * Application Lifecycle Listener implementation class ContextListener
  *
  */
 @WebListener
@@ -37,10 +37,10 @@ public class ContextListener implements ServletContextListener {
     	ServletContext ctx = event.getServletContext();
     	initLog4J(ctx);
     	ctx.setAttribute("UserDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getUserDAO());
-    	ctx.setAttribute("BookDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getBookDAO());
-    	ctx.setAttribute("OrderDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getOrderDAO());
     	log.trace(ctx.getAttribute("UserDao").toString());
+    	ctx.setAttribute("BookDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getBookDAO());
     	log.trace(ctx.getAttribute("BookDao").toString());
+    	ctx.setAttribute("OrderDao", DAOFactory.getDAOFactory(DAOFactory.MYSQL).getOrderDAO());
     	log.trace(ctx.getAttribute("OrderDao").toString());
     	
     }

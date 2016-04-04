@@ -8,8 +8,6 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.order.server.AddToCart;
-
 /**
  * Application Lifecycle Listener implementation class SessionListener
  *
@@ -22,7 +20,6 @@ public class SessionListener implements HttpSessionAttributeListener, HttpSessio
      * Default constructor. 
      */
     public SessionListener() {
-        // TODO Auto-generated constructor stub
     }
 
 	/**

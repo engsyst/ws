@@ -115,7 +115,7 @@ class MysqlBookDAO implements BookDAO {
 			bookId = addBook(con, item);
 			con.commit();
 		} catch (SQLException e) {
-			MysqlDAOFactory.roolback(con);
+			MysqlDAOFactory.rollback(con);
 			log.error("Can not add book", e);
 			throw new InsertException("Can not add book", e);
 		} finally {
@@ -357,12 +357,16 @@ class MysqlBookDAO implements BookDAO {
 
 	boolean getBooksCount(Connection con, Set<Book> books) throws SQLException {
 		log.trace("Start");
+		if (books == null || books.isEmpty()) {
+			log.debug("Initial --> " + books);
+			return false;
+		}
 		PreparedStatement st = null;
 		List<Integer> ids = new ArrayList<>();
 		for (Book b : books) {
 			ids.add(b.getId());
 		}
-		log.debug("Initial -- >" + books);
+		log.debug("Initial --> " + books);
 		try {
 			String query = Querys.SQL_GET_BOOKS_COUNT + SqlUtil.listToIN(ids);
 			log.debug("Query --> " + query);
@@ -404,7 +408,7 @@ class MysqlBookDAO implements BookDAO {
 			updateBook(con, item);
 			con.commit();
 		} catch (SQLException e) {
-			MysqlDAOFactory.roolback(con);
+			MysqlDAOFactory.rollback(con);
 			log.error("Can not update book", e);
 			throw new UpdateException("Can not update book", e);
 		} finally {
@@ -460,7 +464,7 @@ class MysqlBookDAO implements BookDAO {
 			cats = getCategories(con);
 			con.commit();
 		} catch (SQLException e) {
-			MysqlDAOFactory.roolback(con);
+			MysqlDAOFactory.rollback(con);
 			log.error("Can not update book", e);
 			throw new UpdateException("Can not update book", e);
 		} finally {

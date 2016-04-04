@@ -1,10 +1,8 @@
 package ua.nure.order.client;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +11,11 @@ import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.DAOFactory;
 
+/**
+ * Wrapper class used to get data from the {@link Cart} at jsp.
+ * @author engsyst
+ *
+ */
 public class CartBookDAO implements Paginable<Book> {
 	
 	Cart<Book> cart;

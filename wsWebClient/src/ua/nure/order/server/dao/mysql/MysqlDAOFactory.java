@@ -16,7 +16,13 @@ import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOFactory;
 import ua.nure.order.server.dao.OrderDAO;
 import ua.nure.order.server.dao.UserDAO;
-
+/**
+ * <p>Concrete factory for MySQL database.</p>
+ * <p>Contains methods for create each domain DAO and methods to manage database connection.</p>
+ * @see DAOFactory
+ * @author engsyst
+ *
+ */
 public class MysqlDAOFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(MysqlDAOFactory.class);
 
@@ -43,7 +49,7 @@ public class MysqlDAOFactory extends DAOFactory {
 	}
 
 	/**
-	 * method to create MSSQL pooled connections using application context
+	 * Create MSSQL pooled connection using application context
 	 * 
 	 * @return
 	 * @throws SQLException
@@ -69,7 +75,7 @@ public class MysqlDAOFactory extends DAOFactory {
 	}
 
 	/**
-	 * method to create MSSQL connections using DriverManager
+	 * Create MSSQL connection using DriverManager
 	 * 
 	 * @return
 	 * @throws SQLException
@@ -91,7 +97,7 @@ public class MysqlDAOFactory extends DAOFactory {
 		return con;
 	}
 
-	public static void roolback(Connection con) {
+	public static void rollback(Connection con) {
 		if (con != null) {
 			try {
 				log.debug("Try rollback.");

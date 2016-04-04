@@ -11,7 +11,6 @@ package ua.nure.order.entity.order;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import ua.nure.order.client.Delivery;
 import ua.nure.order.entity.Product;
 
 

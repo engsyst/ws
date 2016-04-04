@@ -16,7 +16,11 @@ import ua.nure.order.client.ReqParam;
 import ua.nure.order.entity.book.Book;
 
 /**
- * Servlet implementation class UpdateCart
+ * Updates count of one product in the {@link Cart}. Cart must be in session as
+ * Attribute 'cart'. Perform two actions {@code update} and {@code remove}. Value
+ * of action is {@code id} of product. <p>If action is {@code update} then sets
+ * {@code count} of product in the {@code cart} from request parameter.
+ * If  action is {@code remove} then remove product from the {@code cart}.</p>
  */
 @WebServlet("/updatecart")
 public class UpdateCart extends HttpServlet {

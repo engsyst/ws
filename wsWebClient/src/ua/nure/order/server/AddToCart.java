@@ -1,7 +1,6 @@
 package ua.nure.order.server;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,13 +14,10 @@ import ua.nure.order.client.Cart;
 import ua.nure.order.client.ReqParam;
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
-import ua.nure.order.server.dao.Card;
-import ua.nure.order.server.dao.CardImpl;
 import ua.nure.order.server.dao.DAOException;
-import ua.nure.order.shared.CountValidator;
 
 /**
- * Servlet implementation class BayBook
+ * Add product to the {@link Cart}. Cart must be in session as Attribute 'cart'.
  */
 public class AddToCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -65,6 +61,7 @@ public class AddToCart extends HttpServlet {
 			try {
 				count = Integer.parseInt(request.getParameter("count"));
 				log.debug("Get parameter count --> " + count);
+				if (count < 0) count = 1;
 			} catch (Exception e) {
 				count = 1;
 				log.debug("Set count --> " + count);
@@ -81,9 +78,11 @@ public class AddToCart extends HttpServlet {
 			request.setAttribute("error", "Не достаточно книг в наличии");
 		}
 		session.setAttribute("cart", cart);
+		// For return to the refered page
 		ReqParam params = new ReqParam();
 		params.setParams(request.getParameterMap());
 		params.removeParam("tocart");
+		params.removeParam("count");
 		response.sendRedirect("list.jsp?" + params);
 		log.debug("Params --> " + params);
 		log.debug("Redirect to list.jsp");

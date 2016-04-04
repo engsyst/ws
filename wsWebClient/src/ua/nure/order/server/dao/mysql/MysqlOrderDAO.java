@@ -12,10 +12,10 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.order.client.Delivery;
 import ua.nure.order.client.SQLCountWrapper;
 import ua.nure.order.entity.Product;
 import ua.nure.order.entity.book.Book;
+import ua.nure.order.entity.order.Delivery;
 import ua.nure.order.entity.order.Order;
 import ua.nure.order.entity.order.OrderStatus;
 import ua.nure.order.server.dao.DAOException;
@@ -47,7 +47,7 @@ public class MysqlOrderDAO implements OrderDAO {
 	}
 
 	@Override
-	public int makeOrder(Map<Product, Integer> items, Delivery delivery, Integer userId) 
+	public int makeOrder(Integer userId, Map<Product, Integer> items, Delivery delivery) 
 			throws DAOException {
 		log.trace("Start");
 		Connection con = null;
@@ -65,7 +65,7 @@ public class MysqlOrderDAO implements OrderDAO {
 			}
 			con.commit();
 		} catch (SQLException e) {
-			MysqlDAOFactory.roolback(con);
+			MysqlDAOFactory.rollback(con);
 			log.error("Can not add order", e);
 			throw new DAOException("Can not add order", e);
 		} finally {
@@ -281,7 +281,7 @@ public class MysqlOrderDAO implements OrderDAO {
 			con = getConnection();
 			order = getOrderStatus(con, id);
 		} catch (SQLException e) {
-			MysqlDAOFactory.roolback(con);
+			MysqlDAOFactory.rollback(con);
 			log.error("Can not add order", e);
 			throw new DAOException("Can not add order", e);
 		} finally {
@@ -315,7 +315,7 @@ public class MysqlOrderDAO implements OrderDAO {
 			updateOrder(con, id, status);
 			con.commit();
 		} catch (SQLException e) {
-			MysqlDAOFactory.roolback(con);
+			MysqlDAOFactory.rollback(con);
 			log.error("Can not add order", e);
 			throw new DAOException("Can not update order status | " + e.getMessage(), e);
 		} finally {

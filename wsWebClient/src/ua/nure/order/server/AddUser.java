@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.order.entity.user.Role;
 import ua.nure.order.entity.user.User;
 import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.UserDAO;
@@ -51,7 +49,6 @@ public class AddUser extends HttpServlet {
     @Override
 	public void init() {
     	log.trace("Login init start");
-    	ServletContext ctx = getServletContext();
     	ServletConfig cfg = getServletConfig();
     	dao = (UserDAO) getServletContext().getAttribute("UserDao");
     	String param = cfg.getInitParameter("loginPattern");

@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
-import ua.nure.order.server.dao.UserDAO;
 
 /**
  * Servlet implementation class ViewBook
@@ -27,7 +26,6 @@ public class ViewBook extends HttpServlet {
      */
     public ViewBook() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     @Override
