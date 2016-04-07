@@ -12,7 +12,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 /**
- * Servlet implementation class Login
+ * Invalidate session and redirect to the main page for unregistered user 
+ * 
+ * @author engsyst
+ *
  */
 @WebServlet(urlPatterns = { "/logout" })
 public class Logout extends HttpServlet {
@@ -45,7 +48,7 @@ public class Logout extends HttpServlet {
 		log.trace("doPost start");
 		HttpSession session = request.getSession();
 		session.invalidate();
-		log.trace("session invalidated");
+		log.debug("session invalidated");
 		response.sendRedirect("list.jsp");
 		log.trace("doPost finish");
 	}

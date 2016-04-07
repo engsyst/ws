@@ -14,7 +14,11 @@ import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
 
 /**
- * Servlet implementation class ViewBook
+ * Get book from database by id and forward to view book page
+ * @param id in request
+ * 
+ * @author engsyst
+ *
  */
 public class ViewBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;

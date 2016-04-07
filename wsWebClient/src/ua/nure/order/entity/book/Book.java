@@ -55,6 +55,7 @@ import ua.nure.order.entity.Product;
  * 
  * 
  */
+@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Book", propOrder = {
     "title",

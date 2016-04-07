@@ -13,7 +13,15 @@ import java.util.Map.Entry;
 
 import ua.nure.order.entity.Product;
 
-
+/**
+ * <p>Store {@link Product} as {@code key} and count of payed product as {@code value}
+ * 
+ * <p>Encapsulates order status flow as: newed --> (inprogress || rejected) --> (completed || rejected)
+ * 
+ * @author engsyst
+ * @see OrderStatus
+ *
+ */
 public class Order extends Product {
 
 	private static final long serialVersionUID = -2130624107521935696L;
@@ -59,8 +67,6 @@ public class Order extends Product {
 		if (!in(status,nextStatus())) {
 			throw new IllegalStateException("Can not perform rejected after completed");
 		}
-//		if (this.status == OrderStatus.completed && status == OrderStatus.rejected)
-//			throw new IllegalStateException("Can not perform rejected after completed");
 	}
 
 	public Delivery getDelivery() {
@@ -117,12 +123,5 @@ public class Order extends Product {
 		builder.append(items);
 		builder.append("]");
 		return builder.toString();
-	}
-	public static void main(String[] args) {
-		
-		OrderStatus s = OrderStatus.newed;
-		
-		System.out.println(OrderStatus.newed);
-		System.out.println(s);
 	}
 }

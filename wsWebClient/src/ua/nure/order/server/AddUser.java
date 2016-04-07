@@ -23,7 +23,7 @@ import ua.nure.order.shared.UserValidator;
 import ua.nure.order.shared.Util;
 
 /**
- * Servlet implementation class Register
+ * Add user into database.
  */
 @WebServlet(
 		urlPatterns = { "/adduser" }, 

@@ -19,7 +19,10 @@ import ua.nure.order.server.dao.UpdateException;
 import ua.nure.order.shared.Util;
 
 /**
- * Servlet implementation class UpdateBook
+ * Get book from web-form and updates it in database
+ * 
+ * @author engsyst
+ *
  */
 @WebServlet("/book/update")
 public class UpdateBook extends HttpServlet {
@@ -27,13 +30,6 @@ public class UpdateBook extends HttpServlet {
 	private static final Logger log = Logger.getLogger(UpdateBook.class);
 	private BookDAO bookService = null;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateBook() {
-        super();
-    }
-
     @Override
 	public void init() {
     	log.trace("init start");
@@ -42,9 +38,6 @@ public class UpdateBook extends HttpServlet {
     	log.trace("init finish");
     }
 
-    /**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		Book book = createBook(request);

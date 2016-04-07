@@ -13,10 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import ua.nure.order.entity.book.Book;
 import ua.nure.order.server.dao.BookDAO;
 import ua.nure.order.server.dao.DAOException;
 
+/**
+ * Get book from database by id and forward to edit book form
+ * @param id in request
+ * 
+ * @author engsyst
+ *
+ */
 @WebServlet("/book/get")
 public class GetBook extends HttpServlet {
 	private static final long serialVersionUID = 1L;

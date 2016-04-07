@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import ua.nure.order.entity.Entity;
 
+@SuppressWarnings("serial")
 public class Delivery extends Entity {
 	protected String name;
 	protected String phone;

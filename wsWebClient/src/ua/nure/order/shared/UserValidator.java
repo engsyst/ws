@@ -12,6 +12,9 @@ public class UserValidator<T extends User> implements Validator<T> {
 	public String errLoginMsg = "";
 	public String errPassMsg = "";
 
+	/* (non-Javadoc)
+	 * @see ua.nure.order.shared.Validator#validate(java.lang.Object)
+	 */
 	public Map<String, String> validate(T obj) {
 		Map<String, String> errors = new HashMap<>();
 		if (obj == null || obj.getLogin() == null || !obj.getLogin().matches(loginPattern)) {

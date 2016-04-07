@@ -2,6 +2,13 @@ package ua.nure.order.entity.user;
 
 import ua.nure.order.entity.Entity;
 
+/**
+ * <p>Entity for store user data
+ * 
+ * @author admin
+ *
+ */
+@SuppressWarnings("serial")
 public class User extends Entity {
 	
 	private String name;
