@@ -26,6 +26,7 @@ public class Product extends Entity implements Priceable {
 		this.price = price;
 	}
 
+	@Override
 	public double getPrice() {
 		return price;
 	}
