@@ -14,33 +14,22 @@ import ua.nure.order.server.dao.DAOException;
 import ua.nure.order.server.dao.OrderDAO;
 
 /**
- * Servlet implementation class OrderDetal
+ * Get order from database by id and forward to view order page
+ * @param id in the request
+ * 
+ * @author engsyst
+ *
  */
 @WebServlet("/order/orderdetal")
 public class OrderDetal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private OrderDAO orderService = null;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public OrderDetal() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init() {
 		ServletContext ctx = getServletContext();
 		orderService = (OrderDAO) ctx.getAttribute("OrderDao");
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setHeader("Cache-control", "no-cache");

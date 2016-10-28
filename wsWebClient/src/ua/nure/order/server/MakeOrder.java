@@ -21,21 +21,22 @@ import ua.nure.order.server.dao.OrderDAO;
 import ua.nure.order.shared.Util;
 
 /**
- * Servlet implementation class MakeOrder
+ * Create order from the cart. If cart not valid redirect to main page for
+ * unregistered user. If delivery not valid redirect to fill {@link Delivery}.
+ * 
+ * @param cart
+ *            in the session
+ * @param delivery
+ *            in the session
+ * 
+ * @author engsyst
+ *
  */
 @WebServlet("/makeorder")
 public class MakeOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(MakeOrder.class);
 	private static OrderDAO orderService = null;
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MakeOrder() {
-        super();
-    }
-
 	
 	@Override
 	public void init() {
@@ -45,9 +46,6 @@ public class MakeOrder extends HttpServlet {
 		log.trace("Init finish");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.trace("doPost start");
 		
@@ -57,7 +55,7 @@ public class MakeOrder extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		Cart<Product> cart = (Cart<Product>) session.getAttribute("cart");
 		log.debug("Get attribute cart --> " + cart);
-		if (cart == null) {
+		if (cart == null || cart.isEmpty()) {
 			cart = new Cart<>();
 			session.setAttribute("cart", cart);
 			response.sendRedirect("listcart.jsp");

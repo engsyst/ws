@@ -2,6 +2,7 @@ package ua.nure.order.entity;
 
 import ua.nure.order.client.Priceable;
 
+@SuppressWarnings("serial")
 public class Product extends Entity implements Priceable {
 	protected String title;
 	protected double price;

@@ -18,7 +18,29 @@ import ua.nure.order.server.dao.UserDAO;
 import ua.nure.order.shared.Util;
 
 /**
- * Servlet implementation class FillDelivery
+ * <p>
+ * Request handler for Fill Delivery form. Try set delivery information into
+ * User stored in the session.
+ * 
+ * <p>
+ * Servlet mapping use {@link javax.servlet.annotation.WebServlet} annotation,
+ * according to the Servlet specification 3.0. Also it can be do in web.xml as
+ * below. Definition in web.xml has more priority then annotation.
+ * 
+ * <pre>
+ * &lt;servlet&gt;
+ *     &lt;description&gt;&lt;/description&gt;
+ *     &lt;display-name&gt;FillDelivery&lt;/display-name&gt;
+ *     &lt;servlet-name&gt;FillDelivery&lt;/servlet-name&gt;
+ *     &lt;servlet-class&gt;ua.nure.order.server.FillDelivery&lt;/servlet-class&gt;
+ * &lt;/servlet&gt;
+ * &lt;servlet-mapping&gt;
+ *     &lt;servlet-name&gt;FillDelivery&lt;/servlet-name&gt;
+ *     &lt;url-pattern&gt;/filldelivery&lt;/url-pattern&gt;
+ * &lt;/servlet-mapping&gt;
+ * </pre>
+ * 
+ * @author engsyst
  */
 @WebServlet("/filldelivery")
 public class FillDelivery extends HttpServlet {

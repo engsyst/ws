@@ -35,6 +35,7 @@ import ua.nure.order.entity.Entity;
  * 
  * 
  */
+@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Author", propOrder = {
     "title"

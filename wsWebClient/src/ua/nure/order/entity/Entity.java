@@ -21,6 +21,8 @@ import ua.nure.order.entity.book.Book;
 
 
 /**
+ * <p>Root of any entity hierarchy. Any entity stored in database must have id.
+ * 
  * <p>Java class for Entity complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained 
@@ -38,6 +40,7 @@ import ua.nure.order.entity.book.Book;
  * 
  * 
  */
+@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Entity")
 @XmlSeeAlso({

@@ -21,7 +21,16 @@ import ua.nure.order.shared.UserValidator;
 import ua.nure.order.shared.Util;
 
 /**
- * Servlet implementation class Login
+ * Identify user by login and password. If it valid store user into session and
+ * redirect according user {@link Role}.
+ * 
+ * @param login
+ *            in request
+ * @param password
+ *            in request
+ * 
+ * @author engsyst
+ *
  */
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
