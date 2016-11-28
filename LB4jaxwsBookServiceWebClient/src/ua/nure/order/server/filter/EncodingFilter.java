@@ -19,7 +19,7 @@ import ua.nure.log.Log;
  */
 public class EncodingFilter implements Filter {
 	private String encoding;
-	private boolean debugEnabled = true;
+	private boolean debugEnabled = false;
 	Log log = Log.getInstance(debugEnabled ? Log.TRACE : Log.INFO, EncodingFilter.class);
 
     /**

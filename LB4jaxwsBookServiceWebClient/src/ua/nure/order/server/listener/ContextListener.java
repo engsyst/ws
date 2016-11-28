@@ -36,7 +36,7 @@ public class ContextListener implements ServletContextListener {
     	ServletContext ctx = event.getServletContext();
     	log.trace("Context initialized");
     	String url = ctx.getInitParameter("wsdl");
-    	log.debug("Get Init Parameter: wsdl" + url);
+    	log.debug("Get Init Parameter: wsdl --> " + url);
 		if ("".equals(url)) {
 			ctx.setAttribute("BookService", ServiceProvider.getInstance(null));
 		} else {

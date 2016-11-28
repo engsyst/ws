@@ -24,12 +24,12 @@
 		<colcolgroup class="right"/>
 		<colcolgroup class="left"/>
 		<tr>
-			<td class="brd">Title</td>
-			<td class="brd">Authors</td>
-			<td class="brd">ISBN</td>
-			<td class="brd">Price</td>
-			<td class="brd">Count</td>
-			<td class="brd">Action</td>
+			<th class="brd">Title</th>
+			<th class="brd">Authors</th>
+			<th class="brd">ISBN</th>
+			<th class="brd">Price</th>
+			<th class="brd">Count</th>
+			<th class="brd">Action</th>
 		</tr>
 	</thead>
 	<tbody>
