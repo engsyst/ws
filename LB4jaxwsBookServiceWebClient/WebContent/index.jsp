@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Books Web Client</title>
+<link href="css/default.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="jspf/head.jspf"></jsp:include>

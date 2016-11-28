@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Find by author</title>
 </head>
+<link href="css/default.css" rel="stylesheet">
 <body>
 	<jsp:include page="jspf/head.jspf"></jsp:include>
  	<div>
