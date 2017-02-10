@@ -1,0 +1,109 @@
+@CHARSET "UTF-8";
+.main-content {
+	margin-top: 80px;'
+}
+
+.row-warning {
+	background-color: #f9e4e3 !important;
+}
+
+/*
+	Add asterisk to label for input field. 
+	Simply add required class to div tag with form-group class
+	<div class="form-group required">
+		<label class="col-md-12 control-label" for="title">Название</label>
+		<div class="col-md-12">
+			<input id="textinput" name="title" placeholder="Название"
+				class="form-control input-md" required="required" type="text">
+			<span class="help-block">Название книги</span>
+		</div>
+	</div>
+*/
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+
+/* 
+	classes to format Order statuses
+	it's simply copy of btn-* classes from bootstrap.css with different names
+*/
+.status-completed {
+    color: #FFF;
+    background-color: #5CB85C;
+    border-color: #4CAE4C;
+}
+.status-completed:hover, .status-completed:focus, .status-completed.focus, .status-completed:active, .status-completed.active, .open > .dropdown-toggle.status-completed {
+    color: #FFF;
+    background-color: #449D44;
+    border-color: #398439;
+}
+
+.status-inprogress {
+    color: #FFF;
+    background-color: #428BCA;
+    border-color: #357EBD;
+}
+.status-inprogress:hover, .status-inprogress:focus, .status-inprogress.focus, .status-inprogress:active, .status-inprogress.active, .open > .dropdown-toggle.status-inprogress {
+    color: #FFF;
+    background-color: #3071A9;
+    border-color: #285E8E;
+}
+
+.status-newed {
+    color: #FFF;
+    background-color: #F0AD4E;
+    border-color: #EEA236;
+}
+.status-newed:hover, .status-newed:focus, .status-newed.focus, .status-newed:active, .status-newed.active, .open > .dropdown-toggle.status-newed {
+    color: #FFF;
+    background-color: #EC971F;
+    border-color: #D58512;
+}
+
+.status-rejected {
+    color: #FFF;
+    background-color: #D9534F;
+    border-color: #D43F3A;
+}
+.status-rejected:hover, .status-rejected:focus, .status-rejected.focus, .status-rejected:active, .status-rejected.active, .open > .dropdown-toggle.status-rejected {
+    color: #FFF;
+    background-color: #C9302C;
+    border-color: #AC2925;
+}
+
+.col-position {
+	width: 40px;
+	text-align: center;
+}
+
+.col-status {
+	width: 60px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.col-title {
+	text-align: left;
+}
+
+.col-count {
+	width: 80px;
+	text-align: center !important;
+}
+
+.col-price {
+	width: 65px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.col-action {
+	width: 105px;
+	text-align: center;
+}
+
+.col-form-action {
+	width: 200px;
+	text-align: center;
+}

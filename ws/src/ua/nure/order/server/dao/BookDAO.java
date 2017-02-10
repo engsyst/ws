@@ -1,7 +1,7 @@
 package ua.nure.order.server.dao;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 import ua.nure.order.entity.book.Book;
 
@@ -30,7 +30,7 @@ public interface BookDAO {
 	 * @return
 	 * @throws DAOException 
 	 */
-	public List<String> listAuthors() throws DAOException;
+	public Map<Integer, String> listAuthors() throws DAOException;
 	
 	/**
 	 * Add a book to order

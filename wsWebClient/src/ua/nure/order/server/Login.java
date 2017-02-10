@@ -1,96 +1,133 @@
 package ua.nure.order.server;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import ua.nure.order.entity.user.Role;
 import ua.nure.order.entity.user.User;
-import ua.nure.order.server.dao.DAOException;
-import ua.nure.order.server.dao.UserDao;
+import ua.nure.order.server.dao.UserDAO;
 import ua.nure.order.shared.Hash;
 import ua.nure.order.shared.UserValidator;
+import ua.nure.order.shared.Util;
 
 /**
- * Servlet implementation class Login
+ * Identify user by login and password. If it valid store user into session and
+ * redirect according user {@link Role}.
+ * 
+ * @param login
+ *            in request
+ * @param password
+ *            in request
+ * 
+ * @author engsyst
+ *
  */
-@WebServlet(
-		urlPatterns = { "/login" }, 
-		initParams = { 
-				@WebInitParam(name = "loginPattern", value = "[a-zA-Z0-9\\-_.]{4,20}"), 
-				@WebInitParam(name = "passPattern", value = "[]"),
-				@WebInitParam(name = "errLoginMsg", value = "Login must be more then 4 symbols"), 
-				@WebInitParam(name = "errPassMsg", value = "Pass must be more then 4 symbols"),
-		})
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserDao dao = null;
+	private static final Logger log = Logger.getLogger(Login.class);
+	private static UserValidator<User> validator = new UserValidator<>();
+	private UserDAO dao = null;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     @Override
 	public void init() {
+    	log.trace("Login init start");
     	ServletContext ctx = getServletContext();
-    	dao = (UserDao) getServletContext().getAttribute("UserDao");
-    	String param = ctx.getInitParameter("loginPattern");
+    	dao = (UserDAO) getServletContext().getAttribute("UserDao");
+    	ServletConfig conf = getServletConfig();
+    	String param = conf.getInitParameter("loginPattern");
+    	log.debug("loginPattern --> " + param);
     	if (param != null)
-    		UserValidator.loginPattern = param;
+    		validator.loginPattern = param;
     	param = ctx.getInitParameter("passPattern");
+    	log.debug("passPattern --> " + param);
     	if (param != null)
-    		UserValidator.passPattern = param;
+    		validator.passPattern = param;
     	param = ctx.getInitParameter("errLoginMsg");
+    	log.debug("errLoginMsg --> " + param);
     	if (param != null)
-    		UserValidator.errLoginMsg = param;
+    		validator.errLoginMsg = param;
     	param = ctx.getInitParameter("errPassMsg");
+    	log.debug("errPassMsg --> " + param);
     	if (param != null)
-    		UserValidator.errPassMsg = param;
+    		validator.errPassMsg = param;
+    	log.trace("Login init finish");
     }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		log.trace("doPost start");
 		HttpSession session = request.getSession();
-		String login = request.getParameter("login");
-		if (login == null || login.trim().length() == 0) {
-			response.sendRedirect("login.jsp");
-			return;
-		}
-		String pass = request.getParameter("pass");
+		String login = Util.getOrElse(request.getParameter("login"), "").trim();
+		log.debug("login --> " + login);
+
+		String pass = Util.getOrElse(request.getParameter("password"), "");
+		// TODO remove in PRODUCTION
+		log.debug("password --> " + pass);
+		
 		User user = new User(login, pass);
-		User u;
-		Map<String, String> errors = new UserValidator<User>().validate(user);
-		try {
-			u = dao.getUser(login.trim());
-			if (!u.getPass().equals(Hash.encode(pass))) {
-				u.setPass(null);
-				throw new DAOException("Invalid password");
-			}
-		} catch (DAOException e) {
-			errors = new UserValidator<User>().validate(user);
-			session.setAttribute("user", user);
-			session.setAttribute("errors", errors);
-			response.sendRedirect("login.jsp");
+		Map<String, String> errors = validator.validate(user);
+		if (!errors.isEmpty()) {
+			goBack(request, response, user, errors);
 			return;
-		} catch (NoSuchAlgorithmException e) {
-			throw new ServletException(e.getMessage());
 		}
+		try {
+			User u = dao.getUser(login);
+			if (u == null) {
+				errors.put("login", "Login or password incorrect");
+				goBack(request, response, user, errors);
+				return;
+			}
+			String hash = Hash.encode(pass);
+			if (!hash.equals(u.getPass())) {
+				log.debug("password incorrect --> " + hash + " | " + u.getPass());
+				u.setPass(null);
+				errors.put("login", "Login or password incorrect");
+				goBack(request, response, user, errors);
+				return;
+			}
+			user = u;
+		} catch (Exception e) {
+			log.debug("DAOException", e);
+			throw new ServletException(e.getMessage());
+		} 
 		session.removeAttribute("errors");
-		session.setAttribute("user", u);
-		response.sendRedirect("SearchBook");
+		session.setAttribute("user", user);
+		log.debug("Set session attribute user --> " + user);
+		if (user.getRole().equals(Role.client)) {
+			log.debug("Redirect to --> list.jsp");
+			response.sendRedirect("list.jsp");
+		} else {
+			log.debug("Redirect to --> orders.jsp");
+			response.sendRedirect("order/orders.jsp?search=newed");
+		}
+	}
+	
+	private void goBack(HttpServletRequest request, HttpServletResponse response, User user, Map<String, String> errors)
+			throws IOException {
+		HttpSession session = request.getSession();
+		session.setAttribute("user", user);
+		session.setAttribute("errors", errors);
+		log.debug("Redirect --> login.jsp");
+		response.sendRedirect("login.jsp");
 	}
 }

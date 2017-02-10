@@ -2,7 +2,9 @@
     <wb-module deploy-name="wsWebClient">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="wsWebClient"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
+        <!-- <property name="context-root" value="wsWebClient"/> -->
+        <property name="context-root" value="books"/>
         <property name="java-output-path" value="/wsWebClient/build/classes"/>
     </wb-module>
 </project-modules>

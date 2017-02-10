@@ -1,0 +1,3 @@
+<jsp:useBean id="params" class="ua.nure.order.client.ReqParam" scope="page">
+	<jsp:setProperty property="params" name="params" value="${paramValues }"/>
+</jsp:useBean>

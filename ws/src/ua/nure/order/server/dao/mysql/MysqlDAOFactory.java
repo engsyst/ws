@@ -77,7 +77,6 @@ public class MysqlDAOFactory extends DAOFactory {
 			throw e;
 		}
 		return con;
-
 	}
 
 	public static void roolback(Connection con) throws DAOException {

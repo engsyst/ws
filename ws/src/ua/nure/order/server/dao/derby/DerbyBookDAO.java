@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -84,7 +85,7 @@ public class DerbyBookDAO implements BookDAO {
 
 
 	@Override
-	public List<String> listAuthors() throws DAOException {
+	public Map<Integer, String> listAuthors() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
