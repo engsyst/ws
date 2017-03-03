@@ -4,6 +4,9 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -15,13 +18,19 @@ import javax.xml.ws.ResponseWrapper;
  * @author engsyst
  */
 
+@Path("rest")
 @WebService(portName="hello", serviceName="HelloAnnotated")
 public class HelloAnnotated {
+	@GET
+	@Path("hello/{userName}")
 	@WebMethod(operationName = "hello", action = "urn:HelloAnnotated")
 	@RequestWrapper(className = "ua.nure.itech.jaxws.service.jaxws.HelloAnnotated", localName = "helloAnnotated", targetNamespace = "http://service.jaxws.itech.nure.ua/")
 	@ResponseWrapper(className = "ua.nure.itech.jaxws.service.jaxws.HelloAnnotatedResponse", localName = "helloAnnotatedResponse", targetNamespace = "http://service.jaxws.itech.nure.ua/")
 	@WebResult(name = "return")
-	public String hello(@WebParam(name = "userName") String name) {
+	public String hello(
+			@WebParam(name = "userName") 
+			@PathParam("userName")
+			String name) {
 		return "HelloAnnotated " + name + "!";
 	}
 }
