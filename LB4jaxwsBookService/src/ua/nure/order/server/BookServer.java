@@ -15,8 +15,11 @@ public class BookServer {
 	
 	public static void main(String[] args) throws InterruptedException {
 		new BookServer();
+		
+		
 		System.out.println("Server ready... at " + address);
 
+		System.err.println("Press <enter> to stop service... ");
 		Scanner sc = new Scanner(System.in);
 		sc.nextLine();
 		sc.close();

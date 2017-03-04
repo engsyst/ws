@@ -11,6 +11,7 @@
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
+<<<<<<< HEAD
 	<!-- Axis2 default start page -->
 		<welcome-file>/axis2-web/index.jsp</welcome-file>
 	</welcome-file-list>
@@ -69,6 +70,34 @@
 <!-- end of Apache CXF jax-ws & jax-rs -->
 
 <!-- Metro jaxws-ri -->
+=======
+	</welcome-file-list>
+<!-- Axis2 jax-ws & jax-rs -->
+
+<!-- end of Axis2 jax-ws & jax-rs -->
+	
+
+<!-- Apache CXF jax-ws & jax-rs -->
+	<!-- <servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	    <init-param>
+	      <param-name>config-location</param-name>
+	      <param-value>/WEB-INF/cxf-servlet.xml</param-value>    
+	    </init-param>
+		<load-on-startup>1</load-on-startup>
+
+		Enable asynchronous requests
+		<async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/cxf/*</url-pattern>
+	</servlet-mapping> -->
+<!-- end of Apache CXF jax-ws & jax-rs -->
+
+<!-- Mentro jaxws-ri -->
+>>>>>>> branch 'master' of https://github.com/engsyst/ws.git
 	<!-- <listener>
 		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
 	</listener>

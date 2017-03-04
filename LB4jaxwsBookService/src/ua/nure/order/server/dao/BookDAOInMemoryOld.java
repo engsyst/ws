@@ -12,21 +12,21 @@ import ua.nure.log.Log;
 import ua.nure.order.entity.Book;
 import ua.nure.order.entity.Category;
 
-public class BookDAOInMemory implements BookDAO {
+public class BookDAOInMemoryOld implements BookDAO {
 	private static HashMap<Integer, Book> books = new HashMap<Integer, Book>();
 	private static int bookIndex;
-	private static final Log log = Log.getInstance(Log.DEBUG, BookDAOInMemory.class);
+	private static final Log log = Log.getInstance(Log.DEBUG, BookDAOInMemoryOld.class);
 	
-	private static BookDAOInMemory dao;
+	private static BookDAOInMemoryOld dao;
 	
-	private BookDAOInMemory() {
+	private BookDAOInMemoryOld() {
 		initBooks();
 		log.trace("Initialized");
 	}
 	
-	public static synchronized BookDAOInMemory getInstance() {
+	public static synchronized BookDAOInMemoryOld getInstance() {
 		if (dao == null)
-			dao = new BookDAOInMemory();
+			dao = new BookDAOInMemoryOld();
 		return dao;
 	}
 

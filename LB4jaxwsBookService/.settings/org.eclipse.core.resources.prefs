@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding/<project>=utf-8
+=======
+encoding//src/ua/nure/dbtable/DBTableInMemory.java=UTF-8
+>>>>>>> branch 'master' of https://github.com/engsyst/ws.git

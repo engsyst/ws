@@ -6,7 +6,7 @@ import javax.jws.WebService;
 
 import ua.nure.order.entity.Book;
 import ua.nure.order.server.dao.BookDAO;
-import ua.nure.order.server.dao.BookDAOInMemory;
+import ua.nure.order.server.dao.BookDAOInMemoryImpl;
 import ua.nure.order.server.dao.DAOException;
 
 @WebService(serviceName="Books",
@@ -14,7 +14,7 @@ import ua.nure.order.server.dao.DAOException;
 		endpointInterface="ua.nure.order.server.service.BookService",
 		targetNamespace="http://order.nure.ua/server/service")
 public class BookServiceImpl implements BookService {
-	private static BookDAO bookDao = BookDAOInMemory.getInstance();
+	private static BookDAO bookDao = BookDAOInMemoryImpl.instance();
 
 	@Override
 	public Collection<Book> findByTitle(String pattern) {
