@@ -28,7 +28,7 @@ public interface Querys {
 	static final String SQL_ADD_AUTHOR = "INSERT INTO `ws`.`author` "
 			+ "(`title`) VALUES ";
 
-	static final String SQL_ADD_BOOK_AUTHORS = "INSERT INTO `ws`.`author_has_book` (`author_id`, `book_id`) VALUES ";
+	static final String SQL_ADD_BOOK_AUTHORS = "INSERT INTO `author_has_book` (`author_id`, `book_id`) VALUES ";
 
 	static final String SQL_GET_CATEGORY_ID = "SELECT id FROM category WHERE title = ?";
 	
