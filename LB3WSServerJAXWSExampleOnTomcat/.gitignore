@@ -1,0 +1,7 @@
+/build/
+/WebContent/axis2-web/
+/WebContent/WEB-INF/classes/
+/WebContent/WEB-INF/conf/
+/WebContent/WEB-INF/modules/
+/WebContent/WEB-INF/services/
+/WebContent/WEB-INF/lib/*

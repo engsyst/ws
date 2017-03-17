@@ -11,13 +11,48 @@
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
+	<!-- Axis2 default start page -->
+		<welcome-file>/axis2-web/index.jsp</welcome-file>
 	</welcome-file-list>
 <!-- Axis2 jax-ws & jax-rs -->
-
+	<!-- Add Axis2 facet in project preferences 
+		and copy xmlschema-core-*.jar to WEB-INF/lib 
+		( http://ws.apache.org/xmlschema/ )
+		
+		!!! WARNING! Make copy of this file before add Axis2 facet !!!
+	-->
+	<servlet>
+		<display-name>Apache-Axis Servlet</display-name>
+		<servlet-name>AxisServlet</servlet-name>
+		<servlet-class>org.apache.axis2.transport.http.AxisServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/servlet/AxisServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>*.jws</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Apache-Axis Admin Servlet Web Admin</display-name>
+		<servlet-name>AxisAdminServlet</servlet-name>
+		<servlet-class>org.apache.axis2.webapp.AxisAdminServlet</servlet-class>
+		<load-on-startup>100</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AxisAdminServlet</servlet-name>
+		<url-pattern>/axis2-admin/*</url-pattern>
+	</servlet-mapping>
 <!-- end of Axis2 jax-ws & jax-rs -->
 	
 
 <!-- Apache CXF jax-ws & jax-rs -->
+	<!-- Add CXF facet in project preferences -->
 	<!-- <servlet>
 		<servlet-name>CXFServlet</servlet-name>
 		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
@@ -26,9 +61,6 @@
 	      <param-value>/WEB-INF/cxf-servlet.xml</param-value>    
 	    </init-param>
 		<load-on-startup>1</load-on-startup>
-
-		Enable asynchronous requests
-		<async-supported>true</async-supported>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>CXFServlet</servlet-name>
