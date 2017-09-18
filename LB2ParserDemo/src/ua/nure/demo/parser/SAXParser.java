@@ -134,6 +134,7 @@ public class SAXParser extends DefaultHandler {
 			throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
 		SAXParser parser = new SAXParser();
 		parser.parse(new FileInputStream("orders.xml"));
+		System.out.println("--== SAX Parser ==--");
 		System.out.println(parser.getOrders());
 	}
 }

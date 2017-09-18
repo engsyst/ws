@@ -138,6 +138,7 @@ public class DOMParser {
 	}
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+		System.out.println("--== DOM Parser ==--");
 		DOMParser domParser = new DOMParser();
 		InputStream in = new FileInputStream("orders.xml");
 		List<Order> orders = domParser.parse(in);

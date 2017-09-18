@@ -149,6 +149,7 @@ public class JAXBParser {
 		Orders orders = loadOrders(Const.XML_FILE, Const.XSD_FILE, Const.OBJECT_FACTORY);
 
 		// we have Orders object at this point
+		System.out.println("--== JAXB Parser ==--");
 		System.out.println("====================================");
 		System.out.println("Here is the orders: \n" + orders);
 		System.out.println("====================================");
