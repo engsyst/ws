@@ -1,7 +1,7 @@
 <root>
   <facet id="jst.jaxrs">
     <node name="libprov">
-      <attribute name="provider-id" value="jaxrs-user-library-provider"/>
+      <attribute name="provider-id" value="org.jboss.tools.ws.jaxrs.ui.pureJEE6LibraryProvider"/>
     </node>
   </facet>
 </root>

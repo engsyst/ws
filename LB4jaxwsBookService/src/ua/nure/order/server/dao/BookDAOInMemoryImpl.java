@@ -3,6 +3,7 @@ package ua.nure.order.server.dao;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import ua.nure.dbtable.DBTable;
@@ -82,7 +83,13 @@ public class BookDAOInMemoryImpl implements BookDAO {
 		public boolean accept(Object pattern, Object item) {
 			String p = (String) pattern;
 			Book it = (Book) item;
-			return it.getTitle().toUpperCase().contains(p.toUpperCase());
+			List<String> authors = it.getAuthor();
+			for (Iterator<String> iterator = authors.iterator(); iterator.hasNext();) {
+				String string = iterator.next();
+				if (string.toUpperCase().contains(p.toUpperCase()))
+					return true;
+			}
+			return false;
 		}
 	};
 	
