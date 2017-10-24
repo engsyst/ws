@@ -20,7 +20,7 @@ All artifacts already generated as java files using:
 How to make asynchronouse call to remote Web service
 
 ## LB3WSServerJAXWSExampleWithInheritance
-Show how to be generated WSDL contract with class or interface inheritance
+Show how will be generated WSDL contract with class or interface inheritance
 
 ## [LB3WSServerJAXWSExampleAXIS2OnTomcat](https://github.com/engsyst/ws/tree/master/LB3WSServerJAXWSExampleAXIS2OnTomcat)
 1. You **MUST** add [Axis2](https://github.com/engsyst/ws/tree/master/JARS/jaxws) facet to this project. Eclipse will add all needed libraries onto WebContent directory of project.
