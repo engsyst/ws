@@ -17,7 +17,10 @@ All artifacts already generated as java files using:
 #>wsimport -s src -keep http://localhost:9090/hello?wsdl -b bindings.xml
 ```
 ## LB3WSClientJAXWSExampleWithInheritance
-Documentation in progress
+How to make asynchronouse call to remote Web service
+
+## LB3WSServerJAXWSExampleWithInheritance
+Show how to be generated WSDL contract with class or interface inheritance
 
 ## [LB3WSServerJAXWSExampleAXIS2OnTomcat](https://github.com/engsyst/ws/tree/master/LB3WSServerJAXWSExampleAXIS2OnTomcat)
 1. You **MUST** add [Axis2](https://github.com/engsyst/ws/tree/master/JARS/jaxws) facet to this project. Eclipse will add all needed libraries onto WebContent directory of project.
@@ -37,9 +40,6 @@ See deployment descriptor: WEB-INF/cxf-servlet.xml
 See deployment descriptor: WEB-INF/sun-jaxws.xml
 
 ## LB3WSServerJAXWSExampleOnTomcat
-Documentation in progress
-
-## LB3WSServerJAXWSExampleWithInheritance
 Documentation in progress
 
 ## LB3WSServerJAXWSWithInheritanceExample
