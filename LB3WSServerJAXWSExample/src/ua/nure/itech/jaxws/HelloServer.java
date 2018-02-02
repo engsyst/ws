@@ -13,8 +13,8 @@ public class HelloServer{
     public static void main(String args[]) throws Exception { 
         Endpoint.publish(address, implementor);
         System.out.println("Server ready at " + address + " ..."); 
-        Endpoint.publish(aAddress, aImplementor);
-        System.out.println("Server ready at " + aAddress + " ..."); 
+//        Endpoint.publish(aAddress, aImplementor);
+//        System.out.println("Server ready at " + aAddress + " ..."); 
         
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
