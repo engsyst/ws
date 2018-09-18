@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://nure.ua/it/list"
+	xmlns:tns="http://nure.ua/it/list" elementFormDefault="qualified">
+
+	<simpleType name="Values">
+		<list itemType="string"></list>
+	</simpleType>
+
+	<element name="values" type="tns:Values" />
+<extension id=ID base=QName any attributes>
+
+	(annotation?,((group|all|choice|sequence)?,
+	((attribute|attributeGroup)*,anyAttribute?)))
+
+</extension>
+</schema>

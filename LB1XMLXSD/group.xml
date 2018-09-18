@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:message xmlns:tns="http://nure.ua/it/group"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nure.ua/it/group group.xsd ">
+	<tns:email>x@y.z</tns:email>
+	<tns:body>tns:body</tns:body>
+</tns:message>

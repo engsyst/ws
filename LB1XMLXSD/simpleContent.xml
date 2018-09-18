@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prices>
+	<price currency="UAH">0.0</price>
+	<price> 
+		<currency>UAH</currency>
+		<value>5.0</value>
+	</price>
+	
+</prices>

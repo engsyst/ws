@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href = "books.xsl"  type = "text/xsl"?>
+<tns:books xmlns:tns="http://order.nure.ua/entity"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://order.nure.ua/entity books.xsd ">
+	<tns:book id="0">
+		<tns:title>tns:title</tns:title>
+		<tns:author>tns:author</tns:author>
+		<tns:price>0.0</tns:price>
+		<tns:category>none</tns:category>
+		<tns:count>0</tns:count>
+	</tns:book>
+</tns:books>

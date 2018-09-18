@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://order.nure.ua/entity" 
+  	xmlns:tns="http://order.nure.ua/entity"
+	elementFormDefault="qualified">
+	
+	<complexType name="Entity">
+		<attribute name="id" type="int" use="required"/>
+	</complexType>
+ </schema>

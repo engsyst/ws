@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://nure.ua/it"
+	xmlns:tns="http://nure.ua/it" 
+	elementFormDefault="qualified">
+	<complexType name="IntType">
+		<all>
+			<element name="tInteger" type="integer"/>
+			<element name="tLong" type="long"/>
+			<element name="tInt" type="int"/>
+			<element name="tShort" type="short"/>
+			<element name="tByte" type="byte"/>
+			<element name="tPositiveInteger" type="positiveInteger"/>
+			<element name="tNonPositiveInteger" type="nonPositiveInteger"/>
+			<element name="tNegativeInteger" type="negativeInteger"/>
+			<element name="tNonNegativeInteger" type="nonNegativeInteger"/>
+			<element name="uLong" type="unsignedLong"/>
+			<element name="uInt" type="unsignedInt"/>
+			<element name="uShort" type="unsignedShort"/>
+			<element name="uByte" type="unsignedByte"/>
+		</all>
+	</complexType>
+	
+</schema>

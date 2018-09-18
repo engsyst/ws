@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:msg xmlns:tns="http://nure.ua/it/choce" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nure.ua/it/choce choice.xsd ">
+	<tns:addr>
+		<tns:from>tns:from</tns:from>
+	</tns:addr>
+	<tns:addr>
+		<tns:from>tns:to</tns:from>
+	</tns:addr>
+	<tns:addr>
+		<tns:from>tns:copy</tns:from>
+	</tns:addr>
+	<tns:addr>
+		<tns:from>tns:from</tns:from>
+	</tns:addr>
+</tns:msg>

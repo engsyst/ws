@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://nure.ua/it" 
+	xmlns:tns="http://nure.ua/it"
+	elementFormDefault="qualified">
+	<xsd:complexType name="MyType">
+		<xsd:all>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:element name="MyTag" type="tns:MyType" />
+</xsd:schema>
