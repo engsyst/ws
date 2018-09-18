@@ -19,6 +19,7 @@ public interface Const {
 	String XSD_FILE = "orders.xsd";
 	Class<?> OBJECT_FACTORY = ua.nure.order.entity.order.ObjectFactory.class;
 	
+	String ORDERS_NAMESPACE_URI = "http://order.nure.ua/entity/order/";
 	String SCHEMA_LOCATION__ATTR_NAME = "schemaLocation";
 	String SCHEMA_LOCATION__ATTR_FQN = "xsi:schemaLocation";
 	String XSI_SPACE__PREFIX = "xsi";

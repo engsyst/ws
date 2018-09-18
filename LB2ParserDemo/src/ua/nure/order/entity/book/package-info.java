@@ -5,5 +5,7 @@
 // Generated on: 2016.10.29 at 01:12:45 AM EEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://order.nure.ua/entity/book/", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+		namespace = "http://order.nure.ua/entity/book/", 
+		elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package ua.nure.order.entity.book;

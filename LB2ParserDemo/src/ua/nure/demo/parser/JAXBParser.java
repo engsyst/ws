@@ -80,8 +80,6 @@ public class JAXBParser {
 			});
 		}
 
-		System.out.println("Unmarshaling");
-		
 		// do unmarshal
 		Orders orders = (Orders) unmarshaller.unmarshal(new File(xmlFileName));
 		return orders; // <-- filled container
@@ -144,12 +142,12 @@ public class JAXBParser {
 	}
 	
 	public static void main(String[] args) throws JAXBException, SAXException {
+		System.out.println("--== JAXB Parser ==--");
 		// load Orders object from NOT valid XML (success, just prints validation
 		// warning)
 		Orders orders = loadOrders(Const.XML_FILE, Const.XSD_FILE, Const.OBJECT_FACTORY);
 
 		// we have Orders object at this point
-		System.out.println("--== JAXB Parser ==--");
 		System.out.println("====================================");
 		System.out.println("Here is the orders: \n" + orders);
 		System.out.println("====================================");

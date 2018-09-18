@@ -128,7 +128,7 @@ public class DOMParser {
 		List<Order> orders = new ArrayList<>();
 
 		Element e = root.getDocumentElement();
-		NodeList xmlOrders = e.getElementsByTagName(Const.TAG_ORDER);
+		NodeList xmlOrders = e.getElementsByTagNameNS(Const.ORDERS_NAMESPACE_URI, Const.TAG_ORDER);
 		for (int i = 0; i < xmlOrders.getLength(); i++) {
 			orders.add(parseOrder(xmlOrders.item(i)));
 		}
@@ -142,6 +142,8 @@ public class DOMParser {
 		DOMParser domParser = new DOMParser();
 		InputStream in = new FileInputStream("orders.xml");
 		List<Order> orders = domParser.parse(in);
-		System.out.println(orders);
+		System.out.println("====================================");
+		System.out.println("Here is the orders: \n" + orders);
+		System.out.println("====================================");
 	}
 }

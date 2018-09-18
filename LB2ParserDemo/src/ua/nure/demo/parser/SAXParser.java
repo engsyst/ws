@@ -21,7 +21,7 @@ import ua.nure.order.entity.order.Order;
 import ua.nure.order.entity.order.OrderItem;
 
 public class SAXParser extends DefaultHandler {
-	private static boolean logEnabled = true;
+	private static boolean logEnabled = false;
 
 	public static void log(Object o) {
 		if (logEnabled) {
@@ -132,9 +132,12 @@ public class SAXParser extends DefaultHandler {
 
 	public static void main(String[] args)
 			throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
+		System.out.println("--== SAX Parser ==--");
 		SAXParser parser = new SAXParser();
 		parser.parse(new FileInputStream("orders.xml"));
-		System.out.println("--== SAX Parser ==--");
-		System.out.println(parser.getOrders());
+		List<Order> orders = parser.getOrders();
+		System.out.println("====================================");
+		System.out.println("Here is the orders: \n" + orders);
+		System.out.println("====================================");
 	}
 }
