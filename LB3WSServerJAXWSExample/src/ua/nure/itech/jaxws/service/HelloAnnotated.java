@@ -10,7 +10,7 @@ import javax.xml.ws.ResponseWrapper;
 /**
  * Web-service class ua.nure.itech.jaxws.service.HelloAnnotated
  * 
- * Remove all annotation and it parameters exclude @WebService to restore default wsdl generation
+ * Remove all annotation and it parameters excluding @WebService to restore default wsdl generation
  * 
  * @author engsyst
  */
