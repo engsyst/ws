@@ -15,6 +15,15 @@ public class HelloServer{
         System.out.println("Server ready at " + address + " ..."); 
         Endpoint endpointB = Endpoint.publish(addressB, implementorB);
         System.out.println("Server ready at " + addressB + " ..."); 
+        System.out.println("\n1. Go to the < LB3WSClientJAXWSExampleWithInheritance > project.\n" + 
+        		"2. Press right mouse button and select Show in > Terminal.\n" + 
+        		"3. Type following:\n\n" + 
+        		"  wsimport -clientjar service.jar http://localhost:9090/hello?wsdl -b bindings.xml\n\n" + 
+        		"4. Press enter.\n" + 
+        		"5. Add generated < service.jar > to the ClassPath: Project > Properties > Build Path > Libraries.\n" + 
+        		"6. Extract < META-INF > folder from < service.jar > to the root of project.\n" + 
+        		"7. Refresh project.\n" +
+        		"7. Start project as Java Application."); 
         
         Scanner sc = new Scanner(System.in);
         sc.nextLine();

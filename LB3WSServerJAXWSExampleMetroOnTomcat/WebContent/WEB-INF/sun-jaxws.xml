@@ -7,7 +7,7 @@
       implementation="ua.nure.itech.jaxws.service.Hello"
       url-pattern="/ws/hello"/>
   <endpoint
-      name="HelloPort"
+      name="aHelloPort"
       implementation="ua.nure.itech.jaxws.service.HelloAnnotated"
       url-pattern="/ws/ahello"/>
 </endpoints>
